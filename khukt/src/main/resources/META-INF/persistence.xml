@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+      
+    <persistence-unit name="com.sgis_khukt_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+            
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+            
+        <class>com.sgis.khukt.model.TblQuyhoachPoint</class>
+            
+        <class>com.sgis.khukt.model.TblTiendoXaydunghatangChitiet</class>
+            
+        <class>com.sgis.khukt.model.TblLoaiquyhoach</class>
+            
+        <class>com.sgis.khukt.model.TblQuyhoachPolygon</class>
+            
+        <class>com.sgis.khukt.model.TblStyleIcon</class>
+            
+        <class>com.sgis.khukt.model.LineHuyen3857</class>
+            
+        <class>com.sgis.khukt.model.FillXa4326</class>
+            
+        <class>com.sgis.khukt.model.TblDmLinhvucSanxuatkinhdoanh</class>
+            
+        <class>com.sgis.khukt.model.TblNguonvonDautu</class>
+            
+        <class>com.sgis.khukt.model.TblDmTrangthai</class>
+            
+        <class>com.sgis.khukt.model.LineXa4326</class>
+            
+        <class>com.sgis.khukt.model.TblKhuChuyennganh</class>
+            
+        <class>com.sgis.khukt.model.TblKetquaSanxuatkinhdoanh</class>
+            
+        <class>com.sgis.khukt.model.FillSongsuoi4326</class>
+            
+        <class>com.sgis.khukt.model.TblDmLoaiDoanhnghiep</class>
+            
+        <class>com.sgis.khukt.model.TblDuanDautusanxuat</class>
+            
+        <class>com.sgis.khukt.model.TblDuanXaydunghatang</class>
+            
+        <class>com.sgis.khukt.model.TblNhomdmXdht</class>
+            
+        <class>com.sgis.khukt.model.TblDmVonDautu</class>
+            
+        <class>com.sgis.khukt.model.TblThanhphanXaydunghatang</class>
+            
+        <class>com.sgis.khukt.model.TblTiendoXaydunghatang</class>
+            
+        <class>com.sgis.khukt.model.FillDancu4326</class>
+            
+        <class>com.sgis.khukt.model.LineHuyen4326</class>
+            
+        <class>com.sgis.khukt.model.FillTinh4326</class>
+            
+        <class>com.sgis.khukt.model.TblStyleFill</class>
+            
+        <class>com.sgis.khukt.model.LineDuongbo4326</class>
+            
+        <class>com.sgis.khukt.model.TblKhuKinhte</class>
+            
+        <class>com.sgis.khukt.model.TblQuyhoachLine</class>
+            
+        <class>com.sgis.khukt.model.TblThongkeLaodong</class>
+            
+        <class>com.sgis.khukt.model.FillHuyen4326</class>
+            
+        <class>com.sgis.khukt.model.TblDoanhnghiep</class>
+            
+        <class>com.sgis.khukt.model.TblStyleLine</class>
+            
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+            
+        <properties>
+                  
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.168.1.196:5496/khukt_dongnam"/>
+                  
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+                  
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+                  
+            <property name="javax.persistence.jdbc.password" value="dtq309"/>
+                
+        </properties>
+          
+    </persistence-unit>
+    
+</persistence>

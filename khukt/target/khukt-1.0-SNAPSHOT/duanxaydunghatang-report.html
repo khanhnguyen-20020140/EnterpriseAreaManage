@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Title of the document</title>
+    </head>
+    <body>
+        <div id="duanxaydunghatang-pagereport">
+            <h1>PDF Viewer</h1>
+            <div  class="button-3" onclick = duanxaydunghatangreportback()><i class="fa-solid fa fa-rotate-left"></i></div>
+            <div  class="button-3" onclick = duanxaydunghatangreportreload()><i class="glyphicon glyphicon-refresh"></i></div>
+            <div id="download-duanxaydunghatang-excel"></div>
+            <div id="download-duanxaydunghatang-word"></div>
+            <!--            <div  class="button-3" onclick = dnreportexceldownload()><i class="glyphicon glyphicon-cloud-download"></i></div>-->
+        </div>
+
+
+        <div id="duanxaydunghatang_typereport">
+            <form onsubmit="return false">
+                <p>
+                    <label>Chọn loại báo cáo:
+                        <select id="duanxaydunghatang_typereport_result">
+                            <option value="default">Choose…</option>
+                            <option value="1">Theo khu chuyên ngành</option>
+                            <option value="2">Theo doanh nghiệp</option>
+                        </select>
+                    </label>
+                </p>
+                <div>
+                    <button value="cancel">Cancel</button>
+                    <button  onclick="duanxaydunghatang_getLoaibaocao()" value="default">Confirm</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="type_report" id="duanxaydunghatang_type_report_kcn">
+            <form onsubmit="return false">
+                <p>
+                    <label >Khu chuyên ngành:</label>
+                    <select id="duanxaydunghatang-kcn-report" class="custom-select">
+                        <option value="-1">Chọn khu chuyên ngành</option>
+                    </select>
+                </p>
+                <div>
+                    <button value="cancel" onclick="duanxaydunghatang_backLoaibaocao()">Cancel</button>
+                    <button id="confirmBtn_kcn" onclick="duanxaydunghatang_kcn_selectcolumn()" value="default">Confirm</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="type_report" id="duanxaydunghatang_type_report_dn">
+            <form onsubmit="return false">
+                <p>
+                    <label >Doanh nghiệp:</label>
+                    <select id="duanxaydunghatang-dn-report" class="custom-select">
+                        <option value="-1">Chọn doanh nghiệp</option>
+                    </select>
+                </p>
+                <div>
+                    <button value="cancel" onclick="duanxaydunghatang_backLoaibaocao()">Cancel</button>
+                    <button id="confirmBtn_dn" onclick="duanxaydunghatang_dn_selectcolumn()" value="default">Confirm</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="duanxaydunghatang_column">
+            <form id ="duanxaydunghatang_columnselect" onsubmit="return false">
+                <legend>Chọn cột muốn hiển thị:</legend>
+                <div>
+                    <input type="checkbox" id="tendoanhnghiep" name="tendoanhnghiep" checked>
+                    <label for="tendoanhnghiep">Tên doanh nghiệp</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="soquyetdinhchophep" name="soquyetdinhchophep" checked>
+                    <label for="soquyetdinhchophep">Số quyết định cho phép</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="vondangkydautu" name="vondangkydautu" checked>
+                    <label for="vondangkydautu">Vốn đăng ký đầu tư</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="nguonvon" name="nguonvon" checked>
+                    <label for="nguonvon">Nguồn vốn</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="khuchuyennganh" name="khuchuyennganh" checked>
+                    <label for="khuchuyennganh">Khu chuyên ngành</label>
+                </div>
+                
+                <div>
+                    <input type="checkbox" id="masoduan" name="masoduan" checked>
+                    <label for="masoduan">Mã số dự án</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="ngayquyetdinhcapphep" name="ngayquyetdinhcapphep" checked>
+                    <label for="ngayquyetdinhcapphep">Ngày quyết định cấp phép</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="vontuongduongusd" name="vontuongduongusd" checked>
+                    <label for="vontuongduongusd">Vốn tương đương USD</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="quymocongsuat" name="quymocongsuat" checked>
+                    <label for="quymocongsuat">Quy mô công suất</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="ngayhetphephoatdong" name="ngayhetphephoatdong" checked>
+                    <label for="ngayhetphephoatdong">Ngày hết phép hoạt động</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="trangthaiduan" name="trangthaiduan" checked>
+                    <label for="trangthaiduan">Trạng thái dự án</label>
+                </div>
+
+
+                <div>
+                    <input type="checkbox" id="loaihinhduan" name="loaihinhduan" checked>
+                    <label for="loaihinhduan">Loại hình dự án</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="tongmucdautu" name="tongmucdautu" checked>
+                    <label for="tongmucdautu">Tổng mức đầu tư</label>
+                </div>
+
+
+
+                <div>
+                    <button type="submit" onclick="duanxaydunghatang_renderReport()">Submit form</button>
+                    <button  onclick="duanxaydunghatang_backLoaibaocao()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="getduanxaydunghatangreport" width="100%" height="600px"></div>
+
+
+
+    </body>
+    <script>
+
+
+        var url_select = "";
+        var type_picked = "";
+
+
+
+//        loadCbHtml('duanxaydunghatang-tda-report', 'http://' + hostname + ':' + port + '/duanxaydunghatang/duanxaydunghatangs/', -1);
+        loadCbHtml('duanxaydunghatang-kcn-report', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+        loadCbHtml('duanxaydunghatang-dn-report', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+
+        function duanxaydunghatang_getLoaibaocao() {
+            console.log($("#duanxaydunghatang_typereport_result").val());
+
+
+            if ($("#duanxaydunghatang_typereport_result").val() === '1') {
+                document.getElementById("duanxaydunghatang_type_report_kcn").style.display = 'block';
+                document.getElementById("duanxaydunghatang_typereport").style.display = 'none';
+            }
+            if ($("#duanxaydunghatang_typereport_result").val() === '2') {
+                document.getElementById("duanxaydunghatang_type_report_dn").style.display = 'block';
+                document.getElementById("duanxaydunghatang_typereport").style.display = 'none';
+            }
+
+            
+        }
+
+        function duanxaydunghatang_backLoaibaocao() {
+
+            document.getElementById("duanxaydunghatang_column").style.display = 'none';
+            document.getElementById("duanxaydunghatang_type_report_kcn").style.display = 'none';
+
+            document.getElementById("duanxaydunghatang_type_report_dn").style.display = 'none';
+            document.getElementById("duanxaydunghatang_typereport").style.display = 'block';
+        }
+
+
+
+        function duanxaydunghatang_kcn_selectcolumn() {
+            if ($("#duanxaydunghatang-kcn-report").val() != '-1') {
+                document.getElementById("duanxaydunghatang_type_report_kcn").style.display = 'none';
+                document.getElementById("duanxaydunghatang_column").style.display = 'block';
+            }
+        }
+
+
+
+        function duanxaydunghatang_dn_selectcolumn() {
+            if ($("#duanxaydunghatang-dn-report").val() != '-1') {
+                document.getElementById("duanxaydunghatang_type_report_dn").style.display = 'none';
+                document.getElementById("duanxaydunghatang_column").style.display = 'block';
+            }
+        }
+
+        Number.prototype.padLeft = function (base, chr) {
+            var len = (String(base || 10).length - String(this).length) + 1;
+            return len > 0 ? new Array(len).join(chr || '0') + this : this;
+        }
+
+        function duanxaydunghatang_renderReport() {
+
+            type_picked = "";
+
+
+            if ($("#duanxaydunghatang_typereport_result").val() === '1') {
+                type_picked = "khuchuyennganh/";
+                type_picked = type_picked.concat($("#duanxaydunghatang-kcn-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/duanxaydunghatangreport/render/report/";
+                url_select = url_select.concat('khuchuyennganh/');
+                url_select = url_select.concat($("#duanxaydunghatang-kcn-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+
+            }
+            if ($("#duanxaydunghatang_typereport_result").val() === '2') {
+                type_picked = "doanhnghiep/";
+                type_picked = type_picked.concat($("#duanxaydunghatang-dn-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/duanxaydunghatangreport/render/report/";
+                url_select = url_select.concat('doanhnghiep/');
+
+                url_select = url_select.concat($("#duanxaydunghatang-dn-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+
+
+
+            columnDownloadduanxaydunghatang = '/';
+            $('form#duanxaydunghatang_columnselect').find(':checkbox').each(function () {
+                if (this.checked) {
+                    columnDownloadduanxaydunghatang = columnDownloadduanxaydunghatang.concat(this.name);
+                    columnDownloadduanxaydunghatang = columnDownloadduanxaydunghatang.concat('/');
+                    url_select = url_select.concat(this.name);
+                    url_select = url_select.concat('/');
+                } else {
+                    columnDownloadduanxaydunghatang = columnDownloadduanxaydunghatang.concat('none/');
+                    url_select = url_select.concat('none/');
+
+                }
+
+            });
+
+
+
+            var d = new Date,
+                    dformat = [(d.getMonth() + 1).padLeft(),
+                        d.getDate().padLeft(),
+                        d.getFullYear()].join('-') + '_' +
+                    [d.getHours().padLeft(),
+                        d.getMinutes().padLeft(),
+                        d.getSeconds().padLeft()].join('-');
+            console.log(dformat);
+            url_select = url_select.concat('duanxaydunghatang')
+            url_select = url_select.concat(dformat);
+            url_select = url_select.concat('/');
+            destFileduanxaydunghatang = '';
+            destFileduanxaydunghatang = 'reports/duanxaydunghatang' + dformat + '.pdf';
+
+
+
+            console.log(url_select)
+
+            $.ajax({
+                url: url_select,
+                type: 'GET',
+
+            });
+
+            setTimeout(() => {
+                var input_download = document.getElementById("download-duanxaydunghatang-excel");
+
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/duanxaydunghatangreport/download/xls/' + type_picked + '/' + columnDownloadduanxaydunghatang + '"' + 'class="button-3"><i class="fa fa-file-excel-o" style="font-size:24px"></i></a>';
+                input_download = document.getElementById("download-duanxaydunghatang-word");
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/duanxaydunghatangreport/download/doc/' + type_picked + '/' + columnDownloadduanxaydunghatang + '"' + 'class="button-3"><i class="fa fa-file-word-o" style="font-size:24px"></i></a>';
+
+                $('#getduanxaydunghatangreport').load('duanxaydunghatang-report-pdf.html');
+            }
+            , 4000);
+
+
+        }
+
+
+
+        function duanxaydunghatangreportreload() {
+            console.log("reload ")
+            $('#getduanxaydunghatangreport').load('duanxaydunghatang-report-pdf.html');
+
+        }
+
+        function duanxaydunghatangreportback() {
+            document.getElementById("resultsList").style.display = 'block';
+            document.getElementById("duanxaydunghatang-report").style.display = 'none';
+        }
+    </script>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://unpkg.com/htmlincludejs"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    </head>
+    <body>
+        <div class="doanhnghiep_title">
+            <h4><label id="lbTitle" style="font-weight: bold;"></label></h4>
+            <div class="doanhnghiep_button">
+                <a class="doanhnghiep_close"  href="#"><span class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+            </div> 
+        </div>  
+
+        <div class="chitiet_DAXDHT" id="chitiet_DAXDHT"></div><br> 
+        <div id="hot_hangmuc_htkt"></div>
+        
+        <div class="chitiet_DAXDHT__button">
+            <a href="#"><button onclick=_editDAXDHT()><i class="fa fa-edit"></i> Sửa </button></a>
+            <a href="#"><button onclick=_deleteDAXDHT();><i class="fa fa-trash"></i> Xóa </button></a>
+            <a href="#"><button onclick=quayveDAXDHT()> Quay về </button></a>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('.doanhnghiep_close').click(function () {
+                    var addfont = document.getElementById("radius");
+                    $('.doanhnghiep_close').addClass('active');
+                    if ($('.doanhnghiep_close').hasClass("active")) {
+                        $(".mob-min").css("width", "0%");
+                        $(".mob-max").css("width", "100%");
+                        $(".doanhnghiep_open").css("display", "flex");
+                        addfont.style.display = 'none';
+                    } else {
+                        $(".doanhnghiep_open").css("display", "none");
+                        addfont.style.display = 'block';
+                    }
+                });
+                
+                $(".resultsList__mobile").submit(function (e) {
+                    e.preventDefault();
+                    var name = $("input[name='name']").val();
+                    var email = $("input[name='email']").val();
+                    $(".data-table tbody").append("<tr data-name='" + name + "' data-email='" + email + "'><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+                    $("input[name='']").val("");
+                });                                
+            });            
+            
+            function _deleteDAXDHT() {
+                $('<div></div>').appendTo('body')
+                    .html('<div><h6>Bạn chắc chắn muốn xóa dữ liệu này?</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Xác nhận xóa dữ liệu',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        resizable: false,
+                        buttons: {
+                            Yes: function () {
+                                //bước 1. Xóa các hạng mục xây dựng kỹ thuật có liên quan đến dự án
+                                var arrId_Xoa = [];
+                                try {
+                                    dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpoint/duanhatangkythuat/' + idDuanHTKTSelected);
+                                    if (!jQuery.isEmptyObject(dataResponse)) {
+                                        Object.keys(dataResponse).forEach(function (key) {
+                                            var element = JSON.parse(JSON.stringify(dataResponse[key]));                                                
+                                            arrId_Xoa.push(element.gid);                                                
+                                        });
+                                    }
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                                if(arrId_Xoa.length > 0){
+                                    jQuery.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        type: 'PUT',
+                                        async: false,
+                                        url: "http://" + hostname + ":" + port + "/hatangkythuatpoint/hatangkythuatpoints/-1",
+                                        data: arrId_Xoa.join()
+                                    }).done(function () {});
+                                }
+                                arrId_Xoa = [];
+                                try {
+                                    dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatline/duanhatangkythuat/' + idDuanHTKTSelected);
+                                    if (!jQuery.isEmptyObject(dataResponse)) {
+                                        Object.keys(dataResponse).forEach(function (key) {
+                                            var element = JSON.parse(JSON.stringify(dataResponse[key]));                                                
+                                            arrId_Xoa.push(element.gid);                                                
+                                        });
+                                    }
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                                if(arrId_Xoa.length > 0){
+                                    jQuery.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        type: 'PUT',
+                                        async: false,
+                                        url: "http://" + hostname + ":" + port + "/hatangkythuatline/hatangkythuatlines/-1",
+                                        data: arrId_Xoa.join()
+                                    }).done(function () {});
+                                }
+                                arrId_Xoa = [];
+                                try {
+                                    dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpolygon/duanhatangkythuat/' + idDuanHTKTSelected);
+                                    if (!jQuery.isEmptyObject(dataResponse)) {
+                                        Object.keys(dataResponse).forEach(function (key) {
+                                            var element = JSON.parse(JSON.stringify(dataResponse[key]));                                                
+                                            arrId_Xoa.push(element.gid);                                                
+                                        });
+                                    }
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                                if(arrId_Xoa.length > 0){
+                                    jQuery.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        type: 'PUT',
+                                        async: false,
+                                        url: "http://" + hostname + ":" + port + "/hatangkythuatpolygon/hatangkythuatpolygons/-1",
+                                        data: arrId_Xoa.join()
+                                    }).done(function () {});
+                                }            
+                                //bước 2. Xóa dự án xây dựng hạ tầng kỹ thuật
+                                $.ajax({
+                                    url: "http://" + hostname + ":" + port + "/duanXaydunghatang/duanXaydunghatang/" + idDuanHTKTSelected,
+                                    type: 'DELETE',
+                                    success: function (result) {
+                                        $('#' + activedHtml).hide();
+                                        activedHtml = 'window_duanxaydunghatang_mini';
+                                        reloadHtml('#window_duanxaydunghatang_mini','duanxaydunghatang-mini.html');
+                                        $('#window_duanxaydunghatang_mini').show();
+                                    }
+                                });
+                                $(this).dialog("close");
+                            },
+                            No: function () {
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function (event, ui) {
+                            $(this).remove();
+                        }
+                    });
+            };
+
+            function quayveDAXDHT(){
+                loadHtml('window_duanxaydunghatang_mini','duanxaydunghatang-mini.html');
+            }
+
+            function _editDAXDHT() {
+                if ($('#window_thanhphanxaydunghatang_edit').text().length > 0) {
+                    $('#' + activedHtml).hide();
+                    activedHtml = 'window_thanhphanxaydunghatang_edit';
+                    reloadHtml('window_thanhphanxaydunghatang_edit','duanxaydunghatang-edit.html');
+                    $('#window_thanhphanxaydunghatang_edit').show();
+                }else{
+                    loadHtml('window_thanhphanxaydunghatang_edit','duanxaydunghatang-edit.html');
+                }                
+                //onload_editDAXDHT();
+            }            
+            
+            //function onload_chitietDAXDHT() {
+                try {
+                    dynamicSQL('http://' + hostname + ':' + port + '/duanXaydunghatang/duanXaydunghatang/'+idDuanHTKTSelected);
+                    var element = JSON.parse(JSON.stringify(dataResponse));
+                    $("#lbTitle").html(element.ten);    
+                } catch (e) {
+                    console.log(e);
+                }
+                
+                //console.log('maduan:'+idDuanHTKTSelected);
+                //lấy danh sách hạng mục dự án
+                let data_hangmuc = [];
+                try {
+                    dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpolygon/duanhatangkythuat/'+idDuanHTKTSelected);
+                    if(!jQuery.isEmptyObject(dataResponse)){
+                        Object.keys(dataResponse).forEach(function (key) {
+                            var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                            var res = {};
+                            res.id = element.gid;
+                            if (element.ten === null)
+                                res.ten = "";//ten hang muc
+                            else
+                                res.ten = element.ten + ' ('+element.gid+')';                        
+                            data_hangmuc.push(res);
+                        });
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+                try {
+                    dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatline/duanhatangkythuat/'+idDuanHTKTSelected);
+                    if(!jQuery.isEmptyObject(dataResponse)){
+                        Object.keys(dataResponse).forEach(function (key) {
+                            var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                            var res = {};
+                            res.id = element.gid;
+                            if (element.ten === null)
+                                res.ten = "";//ten hang muc
+                            else
+                                res.ten = element.ten + ' ('+element.gid+')';                        
+                            data_hangmuc.push(res);
+                        });
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+                try {
+                    dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpoint/duanhatangkythuat/'+idDuanHTKTSelected);
+                    if(!jQuery.isEmptyObject(dataResponse)){
+                        Object.keys(dataResponse).forEach(function (key) {
+                            var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                            var res = {};
+                            res.id = element.gid;
+                            if (element.ten === null)
+                                res.ten = "";//ten hang muc
+                            else
+                                res.ten = element.ten + ' ('+element.gid+')';                        
+                            data_hangmuc.push(res);
+                        });
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+
+                //khởi tạo grid
+                var hotElementHTKT = document.querySelector('#hot_hangmuc_htkt');
+                var hotSettingsHTKT = {
+                    data: data_hangmuc,
+                    columns: [
+                        {
+                            data: 'id',
+                            type: 'text',
+                            width: 40
+                        },
+                        {
+                            data: 'ten',
+                            type: 'text'
+                        }
+                    ],
+                    stretchH: 'all',
+                    width: $('#content').width() - 30,
+                    autoWrapRow: true,
+                    height: 400,//data_hangmuc.length * 55,
+                    manualRowResize: true,
+                    manualColumnResize: true,
+                    rowHeaders: true,
+                    colHeaders: [
+                        'ID',
+                        'Hạng mục xây dựng hạ tầng kỹ thuật'
+                    ],
+                    manualRowMove: true,
+                    manualColumnMove: true,
+                    contextMenu: false,
+                    filters: true,
+                    dropdownMenu: false,
+                    hiddenColumns: {
+                        columns: [0],
+                        indicators: true
+                    }
+                };                               
+            
+                var hothtkt = new Handsontable(hotElementHTKT, hotSettingsHTKT);
+            
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/duanXaydunghatang/duanXaydunghatang/"+idDuanHTKTSelected,
+                    type: 'GET',
+                    success: function (response) {
+                        let row;
+                        let fragment = new DocumentFragment();
+                        
+                        let str = JSON.stringify(response);
+                        var jsonData = JSON.parse(str);
+
+                        /*Create new row and class*/
+                        row = document.createElement("div");
+                        /*row.classList.add("chitiet_DAXDHT__row");
+                        var idd = "chitiet_DAXDHT__row__" + jsonData.id;
+                        row.setAttribute("id", idd);*/
+                        //divele = document.createElement("div");
+                        /*Append the row to the fragment*/
+                        fragment.appendChild(row);
+                        //fragment.appendChild(divele);
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div id='ten' class='tendu${jsonData.id}'>Tên dự án:</div></div>`;
+                        if (jsonData.ten === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" id='ten' style="text-indent: 0px;">${jsonData.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='dn${jsonData.id}'>Doanh nghiệp:</div></div>`;
+                        if (jsonData.idDoanhnghiep === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idDoanhnghiep.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='sqdcp${jsonData.id}'>Số quyết định cho phép:</div></div>`;
+                        if (jsonData.soqdCapphep === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.soqdCapphep}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='vdtdk${jsonData.id}'>Vốn đầu tư đăng ký:</div></div>`;
+                        if (jsonData.vondautuDangky === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else {
+                            var x = jsonData.vondautuDangky.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                        }
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='nv${jsonData.id}'>Nguồn vốn:</div></div>`;
+                        if (jsonData.idNguonvon === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idNguonvon.nguonvon}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        //   row.innerHTML += `<div class='nv${user[0]}'>Nguồn vốn: ${user[5]} </div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='kcn${jsonData.id}'>Khu chuyên ngành:</div></div>`;
+                        if (jsonData.idKhuChuyennganh === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idKhuChuyennganh.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='msda${jsonData.id}'>Mã số dự án:</div></div>`;
+                        if (jsonData.masoDuan === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.masoDuan}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='nqdcp${jsonData.id}'>Ngày quyết định cấp phép:</div></div>`;
+                        if (jsonData.ngayQuyetdinhCapphep === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.ngayQuyetdinhCapphep}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='vtdusd${jsonData.id}'>Vốn tương đương USD:</div></div>`;
+                        if (jsonData.vontuongduongUsd === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else {
+                            var x = jsonData.vontuongduongUsd.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                        }
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='qmcs${jsonData.id}'>Quy mô/Công suất:</div></div>`;
+                        if (jsonData.quymoCongsuat === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.quymoCongsuat}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='nhphd${jsonData.id}'>Ngày hết phép hoạt động:</div></div>`;
+                        if (jsonData.ngayHetphepHoatdong === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.ngayHetphepHoatdong}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='ttda${jsonData.id}'>Trạng thái dự án:</div></div>`;
+                        if (jsonData.idTrangthaiDuan === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idTrangthaiDuan.trangthai}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-6"><div class='lhdu${jsonData.id}'>Loại hình dự án:</div></div>`;
+                        if (jsonData.idLoaihinhDuan === null)
+                            row.innerHTML += `<div class="col-xs-6"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idLoaihinhDuan.loaihinhDuan}</div>`;
+                        row.innerHTML += `</div>`; 
+                        row.innerHTML += `<div class="row"></div>`;
+
+                        
+                        document.getElementById("chitiet_DAXDHT").appendChild(fragment);
+                    }
+                });
+            //}
+        </script>
+    </body>
+</html>

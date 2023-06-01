@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset='utf-8'>
+      <title>Handsontable - jQuery grid editor. Excel-like grid editing with HTML &amp; JavaScript</title>
+    
+      <link rel="stylesheet" media="screen" href="../css/handsontable.full.min.css">
+      <link rel="stylesheet" media="screen" href="../css/samples.css">
+      <link href="https://www.jqueryscript.net/css/top.css" rel="stylesheet" type="text/css">
+   </head>
+   <body class="home">
+      <div id="container" style="margin-top:100px;">
+         <div class="centerLayout">
+           
+            <div id="example"></div>
+
+            <script src="https://www.jqueryscript.net/demo/Excel-like-Data-Grid-Editor-For-jQuery-handsontable/lib/jquery.min.js"></script>
+            <script src="../js/handsontable.full.min.js"></script>
+            <script >
+                  const example = document.getElementById('example');
+                  const hot = new Handsontable(example, {
+                  data: [
+                     ['Lorem', 'ipsum', 'dolor', 'sit', '12/1/2015', 23],
+                     ['adipiscing', 'elit', 'Ut', 'imperdiet', '5/12/2015', 6],
+                     ['Pellentesque', 'vulputate', 'leo', 'semper', '10/23/2015', 26],
+                     ['diam', 'et', 'malesuada', 'libero', '12/1/2014', 98],
+                     ['orci', 'et', 'dignissim', 'hendrerit', '12/1/2016', 8.5]
+                  ],
+                  licenseKey: 'non-commercial-and-evaluation',
+                  columns: [
+                     {
+                        type: 'text'
+                     },
+                     {
+                        type: 'text'
+                     },
+                     {
+                        type: 'text'
+                     },
+                     {
+                        type: 'text'
+                     },
+                     {
+                        type: 'date',
+                        dateFormat: 'M/D/YYYY'
+                     },
+                     {
+                        type: 'numeric'
+                     },
+                  ],
+                  colHeaders: true,
+                  rowHeaders: true,
+                  dropdownMenu: true,
+                  filters: true,
+                  contextMenu: true
+                  });
+                  const filtersPlugin = hot.getPlugin('Filters');
+
+                  document.querySelector('.btn').addEventListener('click', function(){
+                     hot.alter('insert_row', hot.getSelectedLast()[0], 1);
+                     hot.setDataAtCell(hot.getSelectedLast()[0] - 1, 0, '-A-');
+                     hot.setDataAtCell(hot.getSelectedLast()[0] - 1, 1, '-B-');
+                     hot.setDataAtCell(hot.getSelectedLast()[0] - 1, 2, '-C-');
+                     hot.setDataAtCell(hot.getSelectedLast()[0] - 1, 2, '-D-');
+                     hot.setDataAtCell(hot.getSelectedLast()[0] - 1, 2, '-F-');
+                  })
+
+
+
+
+            </script>
+            
+         </div>
+      </div>
+   </body>
+</html>

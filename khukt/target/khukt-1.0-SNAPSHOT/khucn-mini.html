@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <div class="doanhnghiep_title">
+            <h1>DANH SÁCH KHU CÔNG NGHIỆP</h1>
+            <div class="doanhnghiep_button">
+                <a class="doanhnghiep_close"  href="#"><span class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+            </div> 
+        </div>                
+        <div class="plus radius" id="radius" onclick="addKhucn()">
+        </div>
+
+        <div class="smallKhucn khuCn" id="smallKhucn">
+        </div>
+        <div class="smallKhucnAdd" id="smallKhucnAdd">
+            <div class="table-responsive resultsList__mobile">
+                <form class="resultsList__form" action=""  id="form_register">
+                    <div class="form-group">
+                        <label  for="ten">Tên khu công nghiệp:</label>
+                        <input type="text" class="form-control" id="tenkhucn" placeholder="Tên khu công nghiệp" name="ten">
+                        <span class="resultsList__error" id="tenkhucn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_khucn_khukt">Thuộc khu kinh tế:</label>
+                        <select name="id_khucn_khukt" id="id_khucn_khukt" class="custom-select">    
+                            <option value="-1">Chọn khu kinh tế (nếu có)</option>
+                        </select>
+                        <span class="resultsList__error" id="id_khucn_khukt_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_loaikhucn">Loại khu công nghiệp:</label>
+                        <select name="id_loaikhucn" id="id_loaikhucn" class="custom-select">    
+                            <option value="-1">Chọn loại khu công nghiệp</option>
+                        </select>
+                        <span class="resultsList__error" id="id_loaikhucn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="dientich">Diện tích (ha):</label>
+                        <input type="text" class="form-control" id="dientich" placeholder="Diện tích" name="dientich">
+                        <span class="resultsList__error" id="dientich_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ghichu">Mô tả:</label>
+                        <input type="text" class="form-control" id="ghichu" placeholder="Mô tả" name="ghichu">
+                        <span class="resultsList__error" id="ghichu_error"></span>
+                    </div>                   
+
+                    <div class="resultsList__twobutton">
+                        <button type="submit" class="btn btn-primary" id="myBtnKhucn" ><i class="fa-floppy-o fa fa-floppy-disk"></i></button>
+                        <button type="submit" class="btn btn-primary khucnback"  onclick="khucnback()">Quay lại</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('.doanhnghiep_close').click(function () {
+                    var addfont = document.getElementById("radius");
+                    $('.doanhnghiep_close').addClass('active');
+                    if ($('.doanhnghiep_close').hasClass("active")) {
+                        $(".mob-min").css("width", "0%");
+                        $(".mob-max").css("width", "100%");
+                        $(".doanhnghiep_open").css("display", "flex");
+                        addfont.style.display = 'none';
+                    } else {
+                        $(".doanhnghiep_open").css("display", "none");
+                        addfont.style.display = 'block';
+                    }
+                });
+                /*
+                 * Cập nhật dữ liệu mới
+                 * @returns {undefined}
+                 */
+                $("#myBtnKhucn").click(function () {
+                    if (idEditData !== -1) {
+                        updateKhucn(idEditData);
+                        idEditData = -1;
+                    } else {
+                        var str_tenkhucn = $("#tenkhucn").val();
+                        var m_id_khukt = $("#id_khucn_khukt").val();
+                        var m_id_loaikhucn = $("#id_loaikhucn").val();
+                        var str_dientich = $("#dientich").val();
+                        var str_ghichu = $("#ghichu").val();
+
+                        // BƯỚC 2: Validate dữ liệu
+                        // Biến cờ hiệu
+                        var flag = true;
+                        if (str_tenkhucn == '') {
+                            $('#tenkhucn_error').text('Chưa nhập tên khu công nghiệp');
+                            flag = false;
+                        } else {
+                            $('#tenkhucn_error').text('');
+                        }
+                        
+                       
+                        var obj = {};
+                        if (str_tenkhucn !== '')
+                            obj["ten"] = str_tenkhucn;
+                        if (m_id_khukt !== -1)
+                            obj["idKhuKinhte"] = m_id_khukt;
+                        if (m_id_loaikhucn !== -1)
+                            obj["loaiKhuChuyennganh"] = m_id_loaikhucn;
+                        if (str_dientich !== '')
+                            obj["dientich"] = str_dientich;
+                        if (str_ghichu !== '')
+                            obj["tomtat"] = str_ghichu;
+                        console.log(obj)
+
+                        if (flag === true) {
+                            jQuery.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'type': 'POST',
+                                'url': "http://" + hostname + ":" + port + "/khuchuyennganh/khuchuyennganh/",
+                                'data': JSON.stringify(obj),
+                                'dataType': 'json',
+                            }).done(function (response) {
+
+                                var postKhuCn = '';
+                                postKhuCn += '<div class="khuCn__row" id="khuCn__row__' + response.id + '">';
+
+
+                                postKhuCn += `<div class="row">`;
+                                postKhuCn += `<div class="col-xs-5"><div id='ten' class='ten${response.id}'>Tên khu công nghiệp:</div></div>`;
+                                if (response.ten === null)
+                                    postKhuCn += `<div class="col-xs-7"></div>`;
+                                else
+                                    postKhuCn += `<div class="col-xs-7" id='ten'>${response.ten}</div>`;
+                                postKhuCn += `</div>`;
+
+                                postKhuCn += `<div class="row">`;
+                                postKhuCn += `<div class="col-xs-5"><div class='iskhukt${response.id}'>Thuộc khu kinh tế:</div></div>`;
+                                if (response.idKhuKinhte === null)
+                                    postKhuCn += `<div class="col-xs-7"></div>`;
+                                else
+                                    postKhuCn += `<div class="col-xs-7" style="text-indent: 0px;">`+$('#id_khucn_khukt option:selected').text()+`</div>`;
+                                postKhuCn += `</div>`;
+
+                                postKhuCn += `<div class="row">`;
+                                postKhuCn += `<div class="col-xs-5"><div class='loaikhucn${response.id}'>Loại khu công nghiệp:</div></div>`;
+                                if (response.loaiKhuChuyennganh === null)
+                                    postKhuCn += `<div class="col-xs-7"></div>`;
+                                else
+                                    postKhuCn += `<div class="col-xs-7" style="text-indent: 0px;">`+$('#id_loaikhucn option:selected').text()+`</div>`;
+                                postKhuCn += `</div>`;
+
+                                postKhuCn += `<div class="row">`;
+                                postKhuCn += `<div class="col-xs-5"><div class='dientich${response.id}'>Diện tích (ha):</div></div>`;
+                                if (response.dientich === null)
+                                    postKhuCn += `<div class="col-xs-7"></div>`;
+                                else
+                                    postKhuCn += `<div class="col-xs-7" style="text-indent: 0px;">${response.dientich}</div>`;
+                                postKhuCn += `</div>`;
+
+                                postKhuCn += `<div class="row">`;
+                                postKhuCn += `<div class="col-xs-5"><div class='tomtat${response.id}'>Mô tả:</div></div>`;
+                                if (response.tomtat === null)
+                                    postKhuCn += `<div class="col-xs-7"></div>`;
+                                else
+                                    postKhuCn += `<div class="col-xs-7" style="text-indent: 0px;">${response.tomtat}</div>`;
+                                postKhuCn += `</div>`;
+
+                                var string1 = '<div class="khuCn__button"><a href="#"><button onclick=edit_khucn(';
+                                string1 += (response.id);
+                                string1 += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=delete_khucn(';
+                                string1 += (response.id);
+                                string1 += ')> <i class="fa fa-trash"></i> Xóa </button></a><a href="#"><button onclick=findKhucn(';
+                                string1 += (response.id);
+                                string1 += ')> <i class="fa fa-map"></i> Chuyển tới </button></a><a href="#"><button onclick=openFileManager(';
+                                string1 += (response.id);
+                                string1 += ')> <i class="fa fa-file"></i> Văn bản pháp lý </button></a></div>';
+
+                                postKhuCn += `<div class="row">`;
+                                postKhuCn +=  string1;
+                                postKhuCn += `</div>`;
+                                postKhuCn += `</div>`;
+                                
+                                
+                                $.ajax({
+                                    url: "http://" + hostname + ":" + port + "/khuchuyennganh/prekhuchuyennganh/" + response.id,
+                                    type: 'GET',
+                                    success: function (preId) {
+                                        console.log(response.ngayThanhlap)
+                                        console.log(preId);
+                                        if (preId === -1) {
+                                            $(postKhuCn).insertAfter("#khuCn__row__0");
+                                            khucnpostback();
+                                            var myElement = document.getElementById('khuCn__row__' + response.id);
+                                            myElement.scrollIntoView();
+
+                                        } else {
+                                            $(postKhuCn).insertAfter("#khuCn__row__" + preId);
+                                            khucnpostback();
+                                            var myElement = document.getElementById('khuCn__row__' + preId);
+                                            myElement.scrollIntoView();
+               
+                                        }
+                                    }
+                                })
+
+
+
+                            });
+                        }
+                    }
+                });
+
+                $(".resultsList__mobile").submit(function (e) {
+                    e.preventDefault();
+                    var name = $("input[name='name']").val();
+                    var email = $("input[name='email']").val();
+                    $(".data-table tbody").append("<tr data-name='" + name + "' data-email='" + email + "'><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+                    $("input[name='']").val("");
+                });
+
+                loadKhucn();
+            });
+
+            let topscroll_khucn = 0; //lưu vị trí của thanh cuộn dọc của div content
+
+            function addKhucn() {
+                var put = document.getElementById("smallKhucn")
+                put.style.display = 'none';
+                var add = document.getElementById("smallKhucnAdd");
+                add.style.display = 'block';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'none';
+                $("#tenkhucn").val("");
+                $("#dientich").val("");
+                $("#ghichu").val("");
+                loadCbHtml('id_khucn_khukt', 'http://' + hostname + ':' + port + '/khukinhte/khukinhtes/', -1);
+                loadCbHtml('id_loaikhucn', 'http://' + hostname + ':' + port + '/dmloaihinhkhucn/dmloaihinhkhucns/', -1);
+                $("#id_khucn_khukt").val(-1);
+                $("#id_loaikhucn").val(-1);
+            }
+
+            function edit_khucn(id) {
+                idEditData = id;
+                topscroll_khucn = $("#content").scrollTop();
+                var put = document.getElementById("smallKhucn")
+                put.style.display = 'none';
+                var add = document.getElementById("smallKhucnAdd");
+                add.style.display = 'block';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'none';
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/khuchuyennganh/khuchuyennganh/" + id,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(response)
+                        if (response.ten !== null)
+                            $("#tenkhucn").val(response.ten);
+                        if (response.idKhuKinhte !== null) {
+                            loadCbHtml('id_khucn_khukt', 'http://' + hostname + ':' + port + '/khukinhte/khukinhtes/', response.idKhuKinhte.id);
+                        } else {
+                            loadCbHtml('id_khucn_khukt', 'http://' + hostname + ':' + port + '/khukinhte/khukinhtes/', -1);
+                        }
+                        if (response.loaiKhuChuyennganh !== null) {
+                            loadCbHtml('id_loaikhucn', 'http://' + hostname + ':' + port + '/dmloaihinhkhucn/dmloaihinhkhucns/', response.loaiKhuChuyennganh.id);
+                        } else {
+                            loadCbHtml('id_loaikhucn', 'http://' + hostname + ':' + port + '/dmloaihinhkhucn/dmloaihinhkhucns/', -1);
+                        }
+                        if (response.dientich !== null)
+                            $("#dientich").val(response.dientich);
+                        if (response.tomtat !== null)
+                            $("#ghichu").val(response.tomtat);
+                    }
+                });
+            }
+
+            function khucnback() {
+                idEditData = -1;
+                var put = document.getElementById("smallKhucn")
+                put.style.display = 'block';
+                var add = document.getElementById("smallKhucnAdd");
+                add.style.display = 'none';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'block';
+                $("#content").scrollTop(topscroll_khucn);
+            }
+
+
+            function khucnpostback() {
+                idEditData = -1;
+                var put = document.getElementById("smallKhucn")
+                put.style.display = 'block';
+                var add = document.getElementById("smallKhucnAdd");
+                add.style.display = 'none';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'block';
+            }
+
+            /*
+             * Cập nhật lại dữ liệu theo mã định danh
+             * @param {type} id
+             * @returns {undefined}
+             */
+            function updateKhucn(id) {
+                var str_ten = $("#tenkhucn").val();
+                var m_id_khukt = $("#id_khucn_khukt").val();
+                var m_id_loaikhucn = $("#id_loaikhucn").val();
+                var str_dientich = $("#dientich").val();
+                var str_ghichu = $("#ghichu").val();
+
+                var obj = {};
+                obj["ten"] = str_ten;
+                obj["dientich"] = str_dientich;
+                obj["tomtat"] = str_ghichu;
+                obj["idKhuKinhte"] = m_id_khukt;
+                obj["loaiKhuChuyennganh"] = m_id_loaikhucn;
+
+                jQuery.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    'type': 'PUT',
+                    'url': "http://" + hostname + ":" + port + "/khuchuyennganh/khuchuyennganh/" + id,
+                    'data': JSON.stringify(obj),
+                    'dataType': 'json'
+                }).done(function () {
+                    //reloadHtml("window_khucn_mini", 'khucn-mini.html');
+//                    loadKhucn();
+                    khucnback();
+                });
+            }
+
+            function findKhucn(id) {
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/khuchuyennganh/khuchuyennganh/" + id,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.lat !== null && response.lon) {
+                            map.flyTo({
+                                center: [response.lon, response.lat],
+                                zoom: 14,
+                                essential: true
+                            });
+                        }
+                    }
+                });
+            }
+
+            function delete_khucn(id) {
+                $('<div></div>').appendTo('body')
+                        .html('<div><h6>Bạn chắc chắn muốn xóa dữ liệu này?</h6></div>')
+                        .dialog({
+                            modal: true,
+                            title: 'Xác nhận xóa dữ liệu',
+                            zIndex: 10000,
+                            autoOpen: true,
+                            width: 'auto',
+                            resizable: false,
+                            buttons: {
+                                Yes: function () {
+                                    $.ajax({
+                                        url: "http://" + hostname + ":" + port + "/khuchuyennganh/khuchuyennganh/" + id,
+                                        type: 'DELETE',
+                                        success: function (result) {
+                                           var khuCn__row_deleted = document.getElementById("khuCn__row__" + id);
+                                            khuCn__row_deleted.remove();
+                                        }
+                                    });
+                                    $(this).dialog("close");
+                                },
+                                No: function () {
+                                    $(this).dialog("close");
+                                }
+                            },
+                            close: function (event, ui) {
+                                $(this).remove();
+                            }
+                        });
+            }
+
+            function cancel(id) {
+                var idmall = "khuCn__row__" + id;
+                divput = document.getElementById(idmall);
+                divput.style.display = "block";
+                idmall = "smallKhucnput__" + id;
+                var divput = document.getElementById(idmall);
+                divput.style.display = "none";
+                var btndelete = "btn-delete" + id;
+                var nutxoa = document.getElementById(btndelete);
+                nutxoa.style.display = 'flex';
+
+                var btnupdate = "myBtnKhucnput_" + id;
+                var btncancel = "myBtnKhucncancel_" + id;
+
+                var nutupdate = document.getElementById(btnupdate);
+                var nuthuy = document.getElementById(btncancel);
+
+                nutupdate.style.display = "none";
+                nuthuy.style.display = "none";
+            }
+
+            function openFileManager(id) {
+                var mapView = document.getElementById("mapView");
+                var content = document.getElementById("content");
+
+                var x = windowWidth - $("#leftSide").width();
+                mapView.style.width = '0%';
+                content.style.width = x + 'px';
+                content.style.display = 'block';
+                /*if (xx === 0) {
+                 loadHtml('window_khucn_files', 'khucn-files.html');
+                 } else {
+                 $('#elfinder').elfinder('destroy').elfinder({
+                 url: 'elfinder-servlet/connector',
+                 lang: 'vi', // language (OPTIONAL)
+                 uploadMaxSize: '50M'
+                 });
+                 }*/
+                loadHtml('window_khucn_files', 'khucn-files.html');
+            }
+
+            function loadKhucn() {
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/khuchuyennganh/khuchuyennganhs/",
+                    type: 'GET',
+                    success: function (response) {
+                        let row;
+                        document.querySelector('#smallKhucn').innerHTML = '<div class="khuCn__row" id="khuCn__row__0" style="display: none">';
+                        let fragment = new DocumentFragment();
+                        Object.keys(response).forEach(function (key) {
+                            //console.log(key, response[key]); 
+                            let str = JSON.stringify(response[key]);
+                            var jsonData = JSON.parse(str);
+                            //console.log('id:' + jsonData.id + ', ten: ' + jsonData.ten);
+
+                            /*Create new row and class*/
+                            row = document.createElement("div");
+                            row.classList.add("khuCn__row");
+                            var idd = "khuCn__row__" + jsonData.id;
+                            row.setAttribute("id", idd);
+                            divele = document.createElement("div");
+                            /*Append the row to the fragment*/
+                            
+//                            fragment.appendChild(divele);
+
+                            var string1 = '<div class="khuCn__button"><a href="#"><button onclick=edit_khucn(';
+                            string1 += (jsonData.id);
+                            string1 += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=delete_khucn(';
+                            string1 += (jsonData.id);
+                            string1 += ')> <i class="fa fa-trash"></i> Xóa </button></a><a href="#"><button onclick=findKhucn(';
+                            string1 += (jsonData.id);
+                            string1 += ')> <i class="fa fa-map"></i> Chuyển tới </button></a><a href="#"><button onclick=openFileManager(';
+                            string1 += (jsonData.id);
+                            string1 += ')> <i class="fa fa-file"></i> Văn bản pháp lý </button></a></div>';
+                            
+                            console.log(row)
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div id='ten' class='ten${jsonData.id}'>Tên khu công nghiệp:</div></div>`;
+                            if (jsonData.ten === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ten}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='iskhukt${jsonData.id}'>Thuộc khu kinh tế:</div></div>`;
+                            if (jsonData.idKhuKinhte === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idKhuKinhte.ten}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='loaikhucn${jsonData.id}'>Loại khu công nghiệp:</div></div>`;
+                            if (jsonData.loaiKhuChuyennganh === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.loaiKhuChuyennganh.ten}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='dientich${jsonData.id}'>Diện tích (ha):</div></div>`;
+                            if (jsonData.dientich === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.dientich}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='tomtat${jsonData.id}'>Mô tả:</div></div>`;
+                            if (jsonData.tomtat === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.tomtat}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += string1;
+                            row.innerHTML += `</div>`;
+                            
+                            console.log(row)
+                            
+                            fragment.appendChild(row);
+                        });
+                        document.getElementById("smallKhucn").appendChild(fragment)
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

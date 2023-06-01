@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            color: black;
+        }
+    </style>
+    <script>
+        var changeinnerWidth_ketquadautusanxuat;
+    </script>
+</head>
+
+<body>
+
+
+
+
+
+
+
+    <div class="filter">
+        <div class="filter__around">
+            <div id="ketquadautusanxuat-header">
+                <!-- <h1>Tình hình sản xuất</h1> -->
+            </div>
+
+            <div class="filter__click">
+                <button onclick="changeinnerWidth_ketquadautusanxuat()"><span
+                        class="glyphicon glyphicon-resize-small"></span></button>
+                <a href="#" class="handleFilter doanhnghiep_closegrid"><span
+                        class="fa fa-angle-right arrowRight"></span><span
+                        class="fa fa-angle-right arrowRight"></span></a>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <form class="filterForm">
+        </form>
+    </div>
+
+
+    <div class="alert alert-success" id="kqdtsx-success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong> <i class="fa fa-check" aria-hidden="true"></i>Bạn đã cập nhật dữ liệu thành công! </strong>
+    </div>
+
+
+
+    <div class="resultsList" id="resultsList_kqdtsx">
+        <div class="row" id="row">
+            <div class="mapView__table col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="resultsList__button">
+                    <button id="button-kqdtsx" class="button-3"></button>
+
+                    <!-- <button id="kqdtsx_showDialog" class="button-3">
+                        <i class="glyphicon glyphicon-folder-open"></i>
+                    </button> -->
+                    
+                    <div id="download-kqdtsx"></div>
+                </div>
+                <div id="example">
+                    <div id="hot_ketquadautusanxuat"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="kqdtsx-report" id="kqdtsx-report" width="100%" height="600px">
+    </div>
+    
+    <script>
+        document.getElementById("ketquadautusanxuat-header").innerHTML = "<h1>Tình hình sản xuất</h1>"
+
+        $("#kqdtsx-success-alert").hide();
+
+        //DIALOG CHỌN CÁC LOẠI BÁO CÁO
+        // var showButton = document.getElementById('kqdtsx_showDialog');
+
+        //
+        var loadedKQDTSX = 0;
+        // showButton.addEventListener('click', () => {
+
+        //     if (loadedKQDTSX === 0) {
+        //         loadedKQDTSX += 1;
+        //         $('#kqdtsx-report').load('ketquaSanxuatkinhdoanh-report.html');
+        //         document.getElementById("resultsList_kqdtsx").style.display = 'none';
+        //         document.getElementById("kqdtsx-report").style.display = 'block';
+        //     } else {
+
+        //         document.getElementById("resultsList_kqdtsx").style.display = 'none';
+        //         document.getElementById("kqdtsx-report").style.display = 'block';
+        //     }
+
+        //     //                favDialog.showModal();
+        // });
+        //
+
+
+       
+
+
+
+
+        button = document.getElementById("button-kqdtsx");
+        button.innerHTML = "<i class='fa-floppy-o fa fa-floppy-disk'></i>";
+
+        var foo = [];
+        var i = 0;
+        var input_download = document.getElementById("download-kqdtsx");
+
+        //            input_download.innerHTML = '<div id="baocao" class="button-3" onclick = getbaocao_ketquaSanxuatkinhdoanh()><i class="glyphicon glyphicon-folder-open"></i></div> '
+
+
+        //bước 1. lấy danh sách lĩnh vực sản xuất kinh doanh
+
+        let str_duandautusanxuats = [];
+        let id_duandautusanxuats = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/duandautusanxuat/duandautusanxuats/');
+            Object.keys(dataResponse).forEach(function (key) {
+                let json = JSON.parse(JSON.stringify(dataResponse[key]));
+                str_duandautusanxuats.push(json.ten);
+                id_duandautusanxuats.push(json.id);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+
+        //bước 3. lấy danh sách doanh nghiệp
+        let data_ketquadautusanxuat = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/ketquaSanxuatkinhdoanh/ketquaSanxuatkinhdoanhs/');
+            Object.keys(dataResponse).forEach(function (key) {
+                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                var res = {};
+                res.id = element.idKetqua;
+                if (element.doanhthuTinhTudaunam === null)
+                    res.doanhthuTinhTudaunam = "";//doanhthuTinhTudaunam doanh nghiep
+                else
+                    res.doanhthuTinhTudaunam = element.doanhthuTinhTudaunam;
+
+                if (element.luongTrungbinh === null)
+                    res.luongTrungbinh = "";//doanhthuTinhTudaunam doanh nghiep
+                else
+                    res.luongTrungbinh = element.luongTrungbinh;
+
+                if (element.nopNgansachTinhTudaunam === null)
+                    res.nopNgansachTinhTudaunam = "";//giam doc
+                else
+                    res.nopNgansachTinhTudaunam = element.nopNgansachTinhTudaunam;
+
+                if (element.tongsoNhancong === null)
+                    res.tongsoNhancong = "";//dia chi                    
+                else
+                    res.tongsoNhancong = element.tongsoNhancong;
+
+                if (element.tongsoNhancongNam === null)
+                    res.tongsoNhancongNam = "";//ma dang ky                    
+                else
+                    res.tongsoNhancongNam = element.tongsoNhancongNam;
+
+                if (element.tongsoNhancongNu === null)
+                    res.tongsoNhancongNu = "";//ma dang ky                    
+                else
+                    res.tongsoNhancongNu = element.tongsoNhancongNu;
+
+                if (element.tuoiTrungbinhNhancong === null)
+                    res.tuoiTrungbinhNhancong = "";//ngay dang ky  
+                else
+                    res.tuoiTrungbinhNhancong = element.tuoiTrungbinhNhancong;
+
+                if (element.nhancongTrungcap === null)
+                    res.nhancongTrungcap = "";//ma so thue    
+                else
+                    res.nhancongTrungcap = element.nhancongTrungcap;
+
+                if (element.nhancongCaodang === null)
+                    res.nhancongCaodang = "";//linh vuc kinh doanh
+                else
+                    res.nhancongCaodang = element.nhancongCaodang;
+
+                if (element.nhancongDaihoc === null)
+                    res.nhancongDaihoc = "";//linh vuc kinh doanh
+                else
+                    res.nhancongDaihoc = element.nhancongDaihoc;
+
+                if (element.nhancongTrendaihoc === null)
+                    res.nhancongTrendaihoc = "";//linh vuc kinh doanh
+                else
+                    res.nhancongTrendaihoc = element.nhancongTrendaihoc;
+
+                if (element.luongTrungbinh === null)
+                    res.luongTrungbinh = "";
+                else
+                    res.luongTrungbinh = element.luongTrungbinh;
+
+                if (element.idDuanSanxuatkinhdoanh === null)
+                    res.tenDuan = "";
+                else
+                    res.tenDuan = element.idDuanSanxuatkinhdoanh.ten;
+
+                if (element.mocBaocao === null)
+                    res.mocBaocao = "";//ngay dang ky  
+                else {
+                    console.log("mocbaocao")
+                    console.log(element.mocBaocao)
+
+                    const myArray = element.mocBaocao.split("-");
+                    var newDate = "";
+                    newDate = newDate.concat(myArray[2]);
+                    newDate = newDate.concat("/");
+                    newDate = newDate.concat(myArray[1]);
+                    newDate = newDate.concat("/");
+
+                    newDate = newDate.concat(myArray[0]);
+
+
+                    res.mocBaocao = newDate;
+                }
+
+                data_ketquadautusanxuat.push(res);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+        //khởi tạo grid
+        var hotElementDN = document.querySelector('#hot_ketquadautusanxuat');
+        var hotSettingsDN = {
+            data: data_ketquadautusanxuat,
+            columns: [
+
+                {
+                    data: 'id',
+                    type: 'text',
+                    width: 40
+                },
+                {
+                    data: 'tenDuan',
+                    type: 'dropdown',
+                    source: str_duandautusanxuats
+                },
+
+                {
+                    data: 'mocBaocao',
+                    type: 'date',
+                    dateFormat: 'DD/MM/YYYY'
+                },
+                {
+                    data: 'doanhthuTinhTudaunam',
+                    type: 'text'
+                },
+                {
+                    data: 'nopNgansachTinhTudaunam',
+                    type: 'text'
+                },
+                {
+                    data: 'tongsoNhancong',
+                    type: 'text'
+                },
+                {
+                    data: 'tongsoNhancongNam',
+                    type: 'text'
+                },
+
+                {
+                    data: 'tongsoNhancongNu',
+                    type: 'text'
+                },
+                {
+                    data: 'tuoiTrungbinhNhancong',
+                    type: 'text'
+                },
+                {
+                    data: 'nhancongTrungcap',
+                    type: 'text'
+                },
+                {
+                    data: 'nhancongCaodang',
+                    type: 'text'
+                },
+                {
+                    data: 'nhancongDaihoc',
+                    type: 'text'
+                },
+                {
+                    data: 'nhancongTrendaihoc',
+                    type: 'text'
+                },
+                {
+                    data: 'luongTrungbinh',
+                    type: 'text'
+                }
+            ],
+            stretchH: 'all',
+            width: $('#content').width() - 20,
+            autoWrapRow: true,
+            height: $('#content').height() - 150,
+            manualRowResize: true,
+            manualColumnResize: true,
+            rowHeaders: true,
+            colHeaders: true,
+
+            //                colWidths: [10, 185, 90, 90, 30, 30, 40, 70, 70, 70, 80, 50, 70],
+            // contextMenu: true,
+
+            licenseKey: 'non-commercial-and-evaluation',
+            contextMenu: true,
+            allowInsertColumn: false,
+            allowRemoveColumn: false,
+
+            nestedHeaders: [
+                ['id', 'Tên dự án ', 'Mốc báo cáo', 'Doanh thu', 'Nộp ngân sách', { label: 'Nhân công', colspan: 9 }],
+
+                ['', ' ', '', '', '', 'Tổng số', 'Nam', 'Nữ', "Tuổi trung bình", 'Trung cấp', "Cao đẳng", "Đại học", "Trên đại học", "Lương trung bình"]
+            ],
+
+            afterGetColHeader: function (col, TH) {
+                var TR = TH.parentNode;
+                var THEAD = TR.parentNode;
+                var headerLevel = (-1) * THEAD.childNodes.length + Array.prototype.indexOf.call(THEAD.childNodes, TR);
+
+                function applyClass(elem, className) {
+                    if (!Handsontable.dom.hasClass(elem, className)) {
+                        Handsontable.dom.addClass(elem, className);
+                    }
+                }
+
+                if (col < 0) {
+                    TH.innerHTML = 'STT'
+                }
+
+
+            },
+
+            manualRowMove: true,
+            manualColumnMove: true,
+            contextMenu: true,
+            filters: true,
+            dropdownMenu: true,
+            hiddenColumns: {
+                columns: [0],
+                indicators: true
+            }
+        };
+        hotkqdtsx = new Handsontable(hotElementDN, hotSettingsDN);
+
+        hotkqdtsx.updateSettings({
+            contextMenu: {
+                items: {
+                    "row_above": {
+                        name: 'Chèn thêm dòng vào phía trên',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "row_below": {
+                        name: 'Chèn thêm dòng vào phía dưới',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "remove_row": {
+                        name: 'Xóa dòng',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "undo": {
+                        name: 'Lùi lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "redo": {
+                        name: 'Lặp lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "copy": {
+                        name: 'Sao chép',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "cut": {
+                        name: 'Xóa',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotkqdtsx.getSelected() && hotkqdtsx.getSelected()[0] === 0)
+                        }
+                    },
+
+                }
+            }
+        })
+
+
+        // tat ca cac id da thay doi null bi trung
+        var arrID_Change = [];
+        var arrRow_Change = [];
+
+        //lấy tất cả những tg đã thay đổi            
+        hotkqdtsx.addHook('afterChange', (changes) => {
+            changes.forEach(([row, prop, oldValue, newValue]) => {
+                var id_check = hotkqdtsx.getData()[row][0];
+                if (!arrID_Change.includes(id_check) && id_check !== null) {
+                    arrID_Change.push(id_check);
+                    arrRow_Change.push(row);
+                }
+            });
+        });
+
+        //lấy tất cả id đã bị xóa
+        var arrID_Delete = [];
+
+
+        hotkqdtsx.addHook('beforeRemoveRow', (index, amount) => {
+            console.log(index)
+            for (var i = 0; i < amount; i++) {
+                arrID_Delete.push(hotkqdtsx.getData()[index + i][0]);
+                //                    console.log(hotkqdtsx.getData()[index + i][1])
+            }
+
+        });
+
+        //console.log(hotkqdtsx.getData())
+
+        //cập nhật dữ liệu
+
+        button.addEventListener("click", function () {
+            var dulieu = hotkqdtsx.getData();
+
+            var changed = 0;
+            var checkDelete = 1;
+            var checkUpdate = 1;
+            var checkAdd = 1;
+
+
+            //bước 1. xóa dữ liệu
+            if (arrID_Delete.length > 0) {
+                //console.log('delete:' + arrID_Delete.toString());
+                //                    console.log(arrID_Delete);
+
+                for (i = 0; i < arrID_Delete.length; i++) {
+                    //lay id delete
+                    var id_delete = arrID_Delete[i];
+                    //                        console.log(i)
+                    $.ajax({
+                        url: "http://" + hostname + ":" + port + "/ketquaSanxuatkinhdoanh/ketquaSanxuatkinhdoanh/" + id_delete,
+                        type: 'DELETE',
+                        async: false,
+                        success: function (result) {
+                            changed = 1;
+
+
+
+                            //                                console.log(id_delete)
+                            var ketquaSanxuatkinhdoanh_deleted = document.getElementById("element_KQDTSX__row__" + id_delete);
+
+                            ketquaSanxuatkinhdoanh_deleted.remove();
+
+                        },
+                        error: function () {
+                            checkDelete = 0;
+                        }
+                    });
+                }
+                arrID_Delete = [];
+            }
+
+            //bước 2. thêm dữ liệu mới
+            for (i = 0; i < dulieu.length; i++) {
+                //                    console.log(i)
+                if (dulieu[i][0] === null) {
+
+                    var obj = {};
+                    if (dulieu[i][1] !== '' && dulieu[i][1] !== null) {
+                        for (var j = 0; j < str_duandautusanxuats.length; j++) {
+                            if (str_duandautusanxuats[j] === dulieu[i][1]) {
+                                //                                    console.log(id_duandautusanxuats[j])
+                                obj["idDuanSanxuatkinhdoanh"] = id_duandautusanxuats[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    if (dulieu[i][2] !== '' && dulieu[i][2] !== null) {
+                        const myArray = dulieu[i][2].split("/");
+                        var newDate = "";
+                        newDate = newDate.concat(myArray[2]);
+                        newDate = newDate.concat("-");
+                        newDate = newDate.concat(myArray[1]);
+                        newDate = newDate.concat("-");
+                        newDate = newDate.concat(myArray[0]);
+
+
+                        obj["mocBaocao"] = newDate;
+                    }
+                    if (dulieu[i][3] !== '' && dulieu[i][3] !== null) {
+                        dulieu[i][3] = parseFloat(dulieu[i][3], 10);
+                        obj["doanhthuTinhTudaunam"] = dulieu[i][3];
+                    }
+
+                    if (dulieu[i][4] !== '' && dulieu[i][4] !== null) {
+                        dulieu[i][4] = parseFloat(dulieu[i][4], 10);
+                        obj["nopNgansachTinhTudaunam"] = dulieu[i][4];
+                    }
+
+                    if (dulieu[i][5] !== '' && dulieu[i][5] !== null) {
+                        dulieu[i][5] = parseInt(dulieu[i][5], 10);
+                        obj["tongsoNhancong"] = dulieu[i][5];
+                    }
+
+
+                    if (dulieu[i][6] !== '' && dulieu[i][6] !== null) {
+                        dulieu[i][6] = parseInt(dulieu[i][6], 10);
+                        obj["tongsoNhancongNam"] = dulieu[i][6];
+                    }
+
+
+                    if (dulieu[i][7] !== '' && dulieu[i][7] !== null) {
+                        dulieu[i][7] = parseInt(dulieu[i][7], 10);
+                        obj["tongsoNhancongNu"] = dulieu[i][7];
+                    }
+
+                    if (dulieu[i][8] !== '' && dulieu[i][8] !== null) {
+                        dulieu[i][8] = parseFloat(dulieu[i][8], 10);
+                        obj["tuoiTrungbinhNhancong"] = dulieu[i][8];
+                    }
+
+                    if (dulieu[i][9] !== '' && dulieu[i][9] !== null) {
+                        dulieu[i][9] = parseInt(dulieu[i][9], 10);
+                        obj["nhancongTrungcap"] = dulieu[i][9];
+                    }
+
+                    if (dulieu[i][10] !== '' && dulieu[i][10] !== null) {
+                        dulieu[i][10] = parseInt(dulieu[i][10], 10);
+                        obj["nhancongCaodang"] = dulieu[i][10];
+                    }
+
+                    if (dulieu[i][11] !== '' && dulieu[i][11] !== null) {
+                        dulieu[i][11] = parseInt(dulieu[i][11], 10);
+                        obj["nhancongDaihoc"] = dulieu[i][11];
+                    }
+
+                    if (dulieu[i][12] !== '' && dulieu[i][12] !== null) {
+                        dulieu[i][12] = parseInt(dulieu[i][12], 10);
+                        obj["nhancongTrendaihoc"] = dulieu[i][12];
+                    }
+
+
+                    if (dulieu[i][13] !== '' && dulieu[i][13] !== null) {
+                        dulieu[i][13] = parseInt(dulieu[i][13], 10);
+                        obj["luongTrungbinh"] = dulieu[i][13];
+                    }
+
+
+
+
+                    // Biến cờ hiệu
+                    var flag = true;
+
+                    if (dulieu[i][1] === '' || dulieu[i][1] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tên dự án');
+                        flag = false;
+                    }
+
+
+
+
+                    if (dulieu[i][2] === '' || dulieu[i][2] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập mốc báo cáo');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][3] === '' || dulieu[i][3] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập doanh thu từ đầu năm');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][4] === '' || dulieu[i][4] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập nộp ngân sách từ đầu năm');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][5] === '' || dulieu[i][5] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tổng số nhân công');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][6] === '' || dulieu[i][6] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tổng số nhân công nam');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][7] === '' || dulieu[i][7] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tổng số nhân công nữ');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][8] === '' || dulieu[i][8] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tuổi trung bình nhân công');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][9] === '' || dulieu[i][9] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập nhân công trung cấp');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][10] === '' || dulieu[i][10] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập nhân công cao đẳng');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][11] === '' || dulieu[i][11] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập nhân công đại học');
+                        flag = false;
+                    }
+
+
+                    if (dulieu[i][12] === '' || dulieu[i][12] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập nhân công trên đại học');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][13] === '' || dulieu[i][13] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập lương trung bình');
+                        flag = false;
+                    }
+
+
+                    if (Object.is(dulieu[i][4], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' nộp ngân sách từ đầu năm phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][5], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' tổng số nhân công phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][6], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' tổng số nhân công nam phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][7], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' tổng số nhân công nữ phải là số');
+                        flag = false;
+
+                    }
+                    if (Object.is(dulieu[i][8], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' tuổi trung bình phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][9], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' số nhân viên trung cấp phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][10], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' số nhân viên cao đẳng phải là số');
+                        flag = false;
+
+                    }
+
+
+                    if (Object.is(dulieu[i][11], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' số nhân viên đại học phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][12], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' số nhân viên trên đại học phải là số');
+                        flag = false;
+
+                    }
+
+                    if (Object.is(dulieu[i][13], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' lương trung bình phải là số');
+                        flag = false;
+
+                    }
+
+                    if (dulieu[i][5] !== '' && dulieu[i][6] !== '' && dulieu[i][7] !== ''
+                        && !Object.is(dulieu[i][5], NaN) && !Object.is(dulieu[i][6], NaN) && !Object.is(dulieu[i][7], NaN)
+                    ) {
+                        console.log("tong so nhan cong    " + dulieu[i][5] + "  " + dulieu[i][6] + "  " + dulieu[i][7])
+                        console.log("????")
+                        if ((dulieu[i][6] + dulieu[i][7]) !== dulieu[i][5]) {
+                            alert('Dòng ' + (i + 1) + ' tổng số nhân công không đúng \nTổng số nhân công nam nữ không bằng tổng số nhân công');
+                            flag = false;
+
+                        }
+                    }
+
+
+                    if (dulieu[i][5] !== '' && dulieu[i][9] !== '' && dulieu[i][10] !== ''
+                        && dulieu[i][11] !== '' && dulieu[i][12] !== ''
+
+                        && !Object.is(dulieu[i][5], NaN) && !Object.is(dulieu[i][9], NaN) && !Object.is(dulieu[i][10], NaN)
+                        && !Object.is(dulieu[i][11], NaN) && !Object.is(dulieu[i][12], NaN)
+                    ) {
+                        console.log("????")
+                        if ((dulieu[i][9] + dulieu[i][10]
+                            + dulieu[i][11] + dulieu[i][12]) !== dulieu[i][5]) {
+                            alert('Dòng ' + (i + 1) + ' tổng số nhân công không đúng \nTổng số nhân công theo trình độ học vấn không bằng tổng số nhân công');
+                            flag = false;
+
+                        }
+                    }
+
+
+                    if (flag === true) {
+                        changed = 1;
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'type': 'POST',
+                            'async': false,
+                            'url': "http://" + hostname + ":" + port + "/ketquaSanxuatkinhdoanh/ketquaSanxuatkinhdoanh/",
+                            'data': JSON.stringify(obj),
+                            'dataType': 'json',
+                        }).done(function (data) {
+
+                            var jsonData = JSON.parse(JSON.stringify(data));
+                            //                                console.log(jsonData)
+                            var res = {};
+                            res.idKetqua = jsonData.idKetqua;
+
+                            if (jsonData.idDuanSanxuatkinhdoanh === null)
+                                res.tenDuan = "";
+                            else
+                                res.tenDuan = dulieu[i][1];
+
+                            if (jsonData.doanhthuTinhTudaunam === null)
+                                res.doanhthuTinhTudaunam = "";
+                            else
+                                res.doanhthuTinhTudaunam = jsonData.doanhthuTinhTudaunam;
+
+                            if (jsonData.nopNgansachTinhTudaunam === null)
+                                res.nopNgansachTinhTudaunam = "";
+                            else
+                                res.nopNgansachTinhTudaunam = jsonData.nopNgansachTinhTudaunam;
+
+                            if (jsonData.tongsoNhancong === null)
+                                res.tongsoNhancong = "";
+                            else
+                                res.tongsoNhancong = jsonData.tongsoNhancong;
+
+                            if (jsonData.tongsoNhancongNam === null)
+                                res.tongsoNhancongNam = "";
+                            else
+                                res.tongsoNhancongNam = jsonData.tongsoNhancongNam;
+
+                            if (jsonData.tongsoNhancongNu === null)
+                                res.tongsoNhancongNu = "";
+                            else
+                                res.tongsoNhancongNu = jsonData.tongsoNhancongNu;
+
+                            if (jsonData.tuoiTrungbinhNhancong === null)
+                                res.tuoiTrungbinhNhancong = "";
+                            else
+                                res.tuoiTrungbinhNhancong = jsonData.tuoiTrungbinhNhancong;
+
+                            if (jsonData.nhancongTrungcap === null)
+                                res.nhancongTrungcap = "";
+                            else
+                                res.nhancongTrungcap = jsonData.nhancongTrungcap;
+
+                            if (jsonData.nhancongCaodang === null)
+                                res.nhancongCaodang = "";
+                            else
+                                res.nhancongCaodang = jsonData.nhancongCaodang;
+
+                            if (jsonData.nhancongDaihoc === null)
+                                res.nhancongDaihoc = "";
+                            else
+                                res.nhancongDaihoc = jsonData.nhancongDaihoc;
+
+                            if (jsonData.nhancongTrendaihoc === null)
+                                res.nhancongTrendaihoc = "";
+                            else
+                                res.nhancongTrendaihoc = jsonData.nhancongTrendaihoc;
+
+                            if (jsonData.luongTrungbinh === null)
+                                res.luongTrungbinh = "";
+                            else
+                                res.luongTrungbinh = jsonData.luongTrungbinh;
+
+                            if (jsonData.mocBaocao === null)
+                                res.mocBaocao = "";
+                            else {
+                                res.mocBaocao = jsonData.mocBaocao;
+                                console.log(res.mocBaocao)
+                                const dateFormat = res.mocBaocao.split("T");
+                                res.mocBaocao = dateFormat[0];
+                                const myArray = res.mocBaocao.split("-");
+                                var newDate = "";
+                                newDate = newDate.concat(myArray[2]);
+                                newDate = newDate.concat("/");
+                                newDate = newDate.concat(myArray[1]);
+                                newDate = newDate.concat("/");
+
+                                newDate = newDate.concat(myArray[0]);
+
+
+                                res.mocBaocao = newDate;
+                            }
+
+                            var changes = [
+                                [i, 'id', res.idKetqua],
+                                [i, 'tenDuan', res.tenDuan],
+                                [i, 'mocBaocao', res.mocBaocao],
+                                [i, 'doanhthuTinhTudaunam', res.doanhthuTinhTudaunam],
+                                [i, 'nopNgansachTinhTudaunam', res.nopNgansachTinhTudaunam],
+                                [i, 'tongsoNhancong', res.tongsoNhancong],
+                                [i, 'tongsoNhancongNam', res.tongsoNhancongNam],
+                                [i, 'tongsoNhancongNu', res.tongsoNhancongNu],
+                                [i, 'tuoiTrungbinhNhancong', res.tuoiTrungbinhNhancong],
+                                [i, 'nhancongTrungcap', res.nhancongTrungcap],
+                                [i, 'nhancongCaodang', res.nhancongCaodang],
+                                [i, 'nhancongDaihoc', res.nhancongDaihoc],
+                                [i, 'nhancongTrendaihoc', res.nhancongTrendaihoc],
+                                [i, 'luongTrungbinh', res.luongTrungbinh],
+                            ];
+                            //                                console.log(changes);
+                            hotkqdtsx.setDataAtRowProp(changes);
+
+                            var postketquaSanxuatkinhdoanh = '';
+                            //chu y code cu thieu dong nay nen khong khoi tao dc the moi
+                            postketquaSanxuatkinhdoanh += '<div class="element_KQDTSX__row" id="element_KQDTSX__row__' + jsonData.idKetqua + '">';
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div id='ten' class='tendu${jsonData.idKetqua}'>Tên dự án:</div></div>`;
+
+                            // lay jsonData.idDuanSanxuatkinhdoanh chu k phai jsonData.idDuanSanxuatkinhdoanh.ten vi no null
+                            if (jsonData.idDuanSanxuatkinhdoanh === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">` + dulieu[i][1] + `</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='mbc${jsonData.mocBaocao}'>Mốc báo cáo:</div></div>`;
+                            if (jsonData.mocBaocao === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.mocBaocao}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='dtttdn${jsonData.idKetqua}'>Doanh thu tính từ đầu năm:</div></div>`;
+                            if (jsonData.doanhthuTinhTudaunam === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.doanhthuTinhTudaunam}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='nnsttdn${jsonData.idKetqua}'>Nộp ngân sách tính từ đầu năm:</div></div>`;
+                            if (jsonData.nopNgansachTinhTudaunam === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.nopNgansachTinhTudaunam}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='tsnc${jsonData.idKetqua}'>Tổng số nhân công:</div></div>`;
+                            if (jsonData.tongsoNhancong === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tongsoNhancong}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='tsncnam${jsonData.idKetqua}'>Tổng số nhân công nam:</div></div>`;
+                            if (jsonData.tongsoNhancongNam === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tongsoNhancongNam}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='tsncn${jsonData.idKetqua}'>Tổng số nhân công nữ:</div></div>`;
+                            if (jsonData.tongsoNhancongNu === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tongsoNhancongNu}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='ttbnc${jsonData.idKetqua}'>Tuổi trung bình nhân công:</div></div>`;
+                            if (jsonData.tuoiTrungbinhNhancong === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tuoiTrungbinhNhancong}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='nctc${jsonData.idKetqua}'>Nhân công trung cấp:</div></div>`;
+                            if (jsonData.nhancongTrungcap === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.nhancongTrungcap}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='nccd${jsonData.idKetqua}'>Nhân công cao đẳng:</div></div>`;
+                            if (jsonData.nhancongCaodang === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.nhancongCaodang}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='ncdh${jsonData.idKetqua}'>Nhân công đại học:</div></div>`;
+                            if (jsonData.nhancongDaihoc === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.nhancongDaihoc}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='nctdh${jsonData.idKetqua}'>Nhân công trên đại học:</div></div>`;
+                            if (jsonData.nhancongTrendaihoc === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.nhancongTrendaihoc}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += `<div class="col-xs-7"><div class='ltb${jsonData.idKetqua}'>Lương trung bình:</div></div>`;
+                            if (jsonData.luongTrungbinh === null)
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5"></div>`;
+                            else
+                                postketquaSanxuatkinhdoanh += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.luongTrungbinh}</div>`;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+
+
+
+
+
+
+
+                            //chu y o day la jsonData.idKetqua code cu la id 
+                            var choice = '<div class="enterprise__button"><a href="#"><button onclick=edit(';
+                            choice += jsonData.idKetqua;
+                            choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleterow(';
+                            choice += jsonData.idKetqua;
+                            choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                            postketquaSanxuatkinhdoanh += `<div class="row">`;
+                            postketquaSanxuatkinhdoanh += choice;
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+                            postketquaSanxuatkinhdoanh += `</div>`;
+
+
+
+                            //idKetqua chu k phai id
+                            $.ajax({
+                                url: "http://" + hostname + ":" + port + "/ketquaSanxuatkinhdoanh/preketquaSanxuatkinhdoanh/" + jsonData.idKetqua,
+                                type: 'GET',
+                                success: function (preId) {
+                                    console.log(preId)
+                                    if (preId === -1) {
+                                        $(postketquaSanxuatkinhdoanh).insertAfter("#element_KQDTSX__row__0");
+                                    } else {
+                                        $(postketquaSanxuatkinhdoanh).insertAfter("#element_KQDTSX__row__" + preId);
+                                    }
+                                }
+                            })
+                        })
+                            .fail(function (jqXHR, textStatus, errorThrown) {
+                                checkAdd = 0;
+                            });
+                    } else {
+                        checkAdd = 0;
+                    }
+                }
+            }
+
+            //bước 3. sửa dữ liệu
+            //console.log('changes:' + arrID_Change.toString());
+            for (i = 0; i < arrRow_Change.length; i++) {
+                var obj = {};
+
+                console.log(dulieu[arrRow_Change[i]][5])
+
+
+                if (dulieu[arrRow_Change[i]][1] !== '' && dulieu[arrRow_Change[i]][1] !== null) {
+                    for (var j = 0; j < str_duandautusanxuats.length; j++) {
+                        if (str_duandautusanxuats[j] === dulieu[arrRow_Change[i]][1]) {
+                            //                                console.log(id_duandautusanxuats[j])
+                            obj["idDuanSanxuatkinhdoanh"] = id_duandautusanxuats[j];
+                            break;
+                        }
+                    }
+                }
+
+                if (dulieu[arrRow_Change[i]][2] !== '' && dulieu[arrRow_Change[i]][2] !== null) {
+                    const myArray = dulieu[arrRow_Change[i]][2].split("/");
+                    var newDate = "";
+                    newDate = newDate.concat(myArray[2]);
+                    newDate = newDate.concat("-");
+                    newDate = newDate.concat(myArray[1]);
+                    newDate = newDate.concat("-");
+                    newDate = newDate.concat(myArray[0]);
+
+                    obj["mocBaocao"] = newDate;
+                }
+
+
+                if (dulieu[arrRow_Change[i]][3] !== '' && dulieu[arrRow_Change[i]][3] !== null) {
+                    dulieu[arrRow_Change[i]][3] = parseFloat(dulieu[arrRow_Change[i]][3], 10);
+                    obj["doanhthuTinhTudaunam"] = dulieu[arrRow_Change[i]][3];
+                }
+
+
+
+
+
+                if (dulieu[arrRow_Change[i]][4] !== '' && dulieu[arrRow_Change[i]][4] !== null) {
+                    dulieu[arrRow_Change[i]][4] = parseFloat(dulieu[arrRow_Change[i]][4], 10);
+                    obj["nopNgansachTinhTudaunam"] = dulieu[arrRow_Change[i]][4];
+                }
+
+
+                if (dulieu[arrRow_Change[i]][5] !== '' && dulieu[arrRow_Change[i]][5] !== null) {
+                    dulieu[arrRow_Change[i]][5] = parseInt(dulieu[arrRow_Change[i]][5], 10);
+                    obj["tongsoNhancong"] = dulieu[arrRow_Change[i]][5];
+
+                }
+
+                if (dulieu[arrRow_Change[i]][6] !== '' && dulieu[arrRow_Change[i]][6] !== null) {
+                    dulieu[arrRow_Change[i]][6] = parseInt(dulieu[arrRow_Change[i]][6], 10);
+                    obj["tongsoNhancongNam"] = dulieu[arrRow_Change[i]][6];
+
+                }
+
+
+                if (dulieu[arrRow_Change[i]][7] !== '' && dulieu[arrRow_Change[i]][7] !== null) {
+                    dulieu[arrRow_Change[i]][7] = parseInt(dulieu[arrRow_Change[i]][7], 10);
+                    obj["tongsoNhancongNu"] = dulieu[arrRow_Change[i]][7];
+                }
+
+                if (dulieu[arrRow_Change[i]][8] !== '' && dulieu[arrRow_Change[i]][8] !== null) {
+                    dulieu[arrRow_Change[i]][8] = parseFloat(dulieu[arrRow_Change[i]][8], 10);
+                    obj["tuoiTrungbinhNhancong"] = dulieu[arrRow_Change[i]][8];
+                }
+
+                if (dulieu[arrRow_Change[i]][9] !== '' && dulieu[arrRow_Change[i]][9] !== null) {
+                    dulieu[arrRow_Change[i]][9] = parseInt(dulieu[arrRow_Change[i]][9], 10);
+                    obj["nhancongTrungcap"] = dulieu[arrRow_Change[i]][9];
+                }
+
+                if (dulieu[arrRow_Change[i]][10] !== '' && dulieu[arrRow_Change[i]][10] !== null) {
+                    dulieu[arrRow_Change[i]][10] = parseInt(dulieu[arrRow_Change[i]][10], 10);
+                    obj["nhancongCaodang"] = dulieu[arrRow_Change[i]][10];
+                }
+
+                if (dulieu[arrRow_Change[i]][11] !== '' && dulieu[arrRow_Change[i]][11] !== null) {
+                    dulieu[arrRow_Change[i]][11] = parseInt(dulieu[arrRow_Change[i]][11], 10);
+                    obj["nhancongDaihoc"] = dulieu[arrRow_Change[i]][11];
+                }
+
+
+                if (dulieu[arrRow_Change[i]][12] !== '' && dulieu[arrRow_Change[i]][12] !== null) {
+                    console.log(dulieu[arrRow_Change[i]][12])
+                    dulieu[arrRow_Change[i]][12] = parseInt(dulieu[arrRow_Change[i]][12], 10);
+                    obj["nhancongTrendaihoc"] = dulieu[arrRow_Change[i]][12];
+                    console.log(dulieu[arrRow_Change[i]][12])
+
+                }
+
+                if (dulieu[arrRow_Change[i]][13] !== '' && dulieu[arrRow_Change[i]][13] !== null) {
+                    dulieu[arrRow_Change[i]][13] = parseFloat(dulieu[arrRow_Change[i]][13], 10);
+                    obj["luongTrungbinh"] = dulieu[arrRow_Change[i]][13];
+                }
+
+                console.log("???" + JSON.stringify(obj));
+
+
+                var flag = true;
+
+                if (dulieu[arrRow_Change[i]][1] === '' || dulieu[arrRow_Change[i]][1] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tên dự án');
+                    flag = false;
+                }
+
+
+
+
+                if (dulieu[arrRow_Change[i]][2] === '' || dulieu[arrRow_Change[i]][2] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập mốc báo cáo');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][3] === '' || dulieu[arrRow_Change[i]][3] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập doanh thu từ đầu năm');
+                    flag = false;
+                }
+                //checkk
+                if (Object.is(dulieu[arrRow_Change[i]][3], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' doanh thu từ đầu năm phải là số');
+                    flag = false;
+
+                }
+
+
+
+
+
+                if (Object.is(dulieu[arrRow_Change[i]][4], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' nộp ngân sách từ đầu năm phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][5], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' tổng số nhân công phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][6], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' tổng số nhân công nam phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][7], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' tổng số nhân công nữ phải là số');
+                    flag = false;
+
+                }
+                if (Object.is(dulieu[arrRow_Change[i]][8], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' tuổi trung bình phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][9], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' số nhân viên trung cấp phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][10], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' số nhân viên cao đẳng phải là số');
+                    flag = false;
+
+                }
+
+
+                if (Object.is(dulieu[arrRow_Change[i]][11], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' số nhân viên đại học phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][12], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' số nhân viên trên đại học phải là số');
+                    flag = false;
+
+                }
+
+                if (Object.is(dulieu[arrRow_Change[i]][13], NaN)) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' lương trung bình phải là số');
+                    flag = false;
+
+                }
+
+
+
+                if (dulieu[arrRow_Change[i]][4] === '' || dulieu[arrRow_Change[i]][4] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập nộp ngân sách từ đầu năm');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][5] === '' || dulieu[arrRow_Change[i]][5] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tổng số nhân công');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][6] === '' || dulieu[arrRow_Change[i]][6] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tổng số nhân công nam');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][7] === '' || dulieu[arrRow_Change[i]][7] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tổng số nhân công nữ');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][8] === '' || dulieu[arrRow_Change[i]][8] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tuổi trung bình nhân công');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][9] === '' || dulieu[arrRow_Change[i]][9] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập nhân công trung cấp');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][10] === '' || dulieu[arrRow_Change[i]][10] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập nhân công cao đẳng');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][11] === '' || dulieu[arrRow_Change[i]][11] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập nhân công đại học');
+                    flag = false;
+                }
+
+
+
+
+                if (dulieu[arrRow_Change[i]][12] === '' || dulieu[arrRow_Change[i]][12] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập nhân công trên đại học');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][13] === '' || dulieu[arrRow_Change[i]][13] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập lương trung bình');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][5] !== '' && dulieu[arrRow_Change[i]][6] !== '' && dulieu[arrRow_Change[i]][7] !== ''
+                    && !Object.is(dulieu[arrRow_Change[i]][5], NaN) && !Object.is(dulieu[arrRow_Change[i]][6], NaN) && !Object.is(dulieu[arrRow_Change[i]][7], NaN)
+                ) {
+                    console.log("????")
+                    if ((dulieu[arrRow_Change[i]][6] + dulieu[arrRow_Change[i]][7]) !== dulieu[arrRow_Change[i]][5]) {
+                        alert('Dòng ' + (arrRow_Change[i] + 1) + ' tổng số nhân công không đúng \nTổng số nhân công nam nữ không bằng tổng số nhân công');
+                        flag = false;
+
+                    }
+                }
+
+
+                if (dulieu[arrRow_Change[i]][5] !== '' && dulieu[arrRow_Change[i]][9] !== '' && dulieu[arrRow_Change[i]][10] !== ''
+                    && dulieu[arrRow_Change[i]][11] !== '' && dulieu[arrRow_Change[i]][12] !== ''
+
+                    && !Object.is(dulieu[arrRow_Change[i]][5], NaN) && !Object.is(dulieu[arrRow_Change[i]][9], NaN) && !Object.is(dulieu[arrRow_Change[i]][10], NaN)
+                    && !Object.is(dulieu[arrRow_Change[i]][11], NaN) && !Object.is(dulieu[arrRow_Change[i]][12], NaN)
+                ) {
+                    console.log("????")
+                    if ((dulieu[arrRow_Change[i]][9] + dulieu[arrRow_Change[i]][10]
+                        + dulieu[arrRow_Change[i]][11] + dulieu[arrRow_Change[i]][12]) !== dulieu[arrRow_Change[i]][5]) {
+                        alert('Dòng ' + (arrRow_Change[i] + 1) + ' tổng số nhân công không đúng \nTổng số nhân công theo trình độ học vấn không bằng tổng số nhân công');
+                        flag = false;
+
+                    }
+                }
+
+
+                if (flag === true) {
+                    changed = 1;
+                    jQuery.ajax({
+
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: 'PUT',
+                        url: "http://" + hostname + ":" + port + "/ketquaSanxuatkinhdoanh/ketquaSanxuatkinhdoanh/" + arrID_Change[i],
+                        data: JSON.stringify(obj),
+                        dataType: 'json'
+                    }).done(function (data) {
+                        //chu y code cu thieu lenh ajax nay
+                        // lenh nay lay gia tri cua cai vua put
+
+                        $.ajax({
+                            url: "http://" + hostname + ":" + port + "/ketquaSanxuatkinhdoanh/ketquaSanxuatkinhdoanh/" + data.idKetqua,
+                            type: 'GET',
+                            success: function (response) {
+
+
+                                // 
+                                var ketquaSanxuatkinhdoanh_changed = document.getElementById("element_KQDTSX__row__" + response.idKetqua);
+                                ketquaSanxuatkinhdoanh_changed.innerHTML = "";
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div id='ten' class='tendu${response.idKetqua}'>Tên dự án:</div></div>`;
+                                if (response.idDuanSanxuatkinhdoanh.ten === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.idDuanSanxuatkinhdoanh.ten}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='mbc${response.idKetqua}'>Mốc báo cáo:</div></div>`;
+                                if (response.mocBaocao === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.mocBaocao}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='dtttdn${response.idKetqua}'>Doanh thu tính từ đầu năm:</div></div>`;
+                                if (response.doanhthuTinhTudaunam === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.doanhthuTinhTudaunam}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='nnsttdn${response.idKetqua}'>Nộp ngân sách tính từ đầu năm:</div></div>`;
+                                if (response.nopNgansachTinhTudaunam === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.nopNgansachTinhTudaunam}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='tsnc${response.idKetqua}'>Tổng số nhân công:</div></div>`;
+                                if (response.tongsoNhancong === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.tongsoNhancong}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='tsncnam${response.idKetqua}'>Tổng số nhân công nam:</div></div>`;
+                                if (response.tongsoNhancongNam === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.tongsoNhancongNam}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='tsncn${response.idKetqua}'>Tổng số nhân công nữ:</div></div>`;
+                                if (response.tongsoNhancongNu === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.tongsoNhancongNu}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='ttbnc${response.idKetqua}'>Tuổi trung bình nhân công:</div></div>`;
+                                if (response.tuoiTrungbinhNhancong === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.tuoiTrungbinhNhancong}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='nctc${response.idKetqua}'>Nhân công trung cấp:</div></div>`;
+                                if (response.nhancongTrungcap === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.nhancongTrungcap}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='nccd${response.idKetqua}'>Nhân công cao đẳng:</div></div>`;
+                                if (response.nhancongCaodang === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.nhancongCaodang}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='ncdh${response.idKetqua}'>Nhân công đại học:</div></div>`;
+                                if (response.nhancongDaihoc === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.nhancongDaihoc}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='nctdh${response.idKetqua}'>Nhân công trên đại học:</div></div>`;
+                                if (response.nhancongTrendaihoc === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.nhancongTrendaihoc}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-7"><div class='ltb${response.idKetqua}'>Lương trung bình:</div></div>`;
+                                if (response.luongTrungbinh === null)
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.luongTrungbinh}</div>`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+
+
+
+
+
+
+
+
+                                //chu y cho edit vs delete nay la editKQDTSX vs deleteKQDTSX
+                                var choice = '<div class="enterprise__button"><a href="#"><button onclick=editKQDTSX(';
+                                //chu y day la response.idKetqua code cu la id
+                                choice += (response.idKetqua);
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleteKQDTSX(';
+                                choice += (response.idKetqua);
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                //chu y cho nay thieu innerHTML
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `<div class="row">`;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += choice;
+                                ketquaSanxuatkinhdoanh_changed.innerHTML += `</div>`;
+                            }
+                        })
+
+
+                    })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            checkUpdate = 0;
+                        });
+                } else {
+                    checkUpdate = 0;
+                }
+            }
+            arrID_Change = [];
+            arrRow_Change = [];
+
+
+
+            if (changed === 1 && checkAdd === 1 && checkDelete === 1 && checkUpdate === 1) {
+                
+                $("#kqdtsx-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#kqdtsx-success-alert").slideUp(500);
+                });
+            }
+        });
+        $(document).ready(function () {
+            changeinnerWidth_ketquadautusanxuat = function () {
+
+                $('#mapView').css("width", "70%");
+                $('#content').css("width", "30%");
+                loadHtml('window_ketquadautusanxuat_mini', 'ketquadautusanxuat-mini.html');
+            }
+        });
+
+        $('.doanhnghiep_closegrid').click(function () {
+            event.preventDefault();
+            $('.doanhnghiep_closegrid').addClass('active');
+            if ($('.doanhnghiep_closegrid').hasClass("active")) {
+                $(".mob-min").css("width", "0%");
+                $(".mob-max").css("width", "100%");
+                $(".doanhnghiep_open").css("display", "flex");
+            } else {
+                $(".doanhnghiep_open").css("display", "none");
+            }
+        });
+
+        function loadGridketquaSanxuatkinhdoanh() {
+            data_ketquadautusanxuat = [];
+            try {
+                dynamicSQL('http://' + hostname + ':' + port + '/ketquaSanxuatkinhdoanh/ketquaSanxuatkinhdoanh/');
+                Object.keys(dataResponse).forEach(function (key) {
+                    var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                    // console.log(element.ten);
+                    var res = {};
+
+                    res.id = element.idKetqua;
+                    if (element.doanhthuTinhTudaunam === null)
+                        res.doanhthuTinhTudaunam = "";//doanhthuTinhTudaunam doanh nghiep
+                    else
+                        res.doanhthuTinhTudaunam = element.doanhthuTinhTudaunam;
+
+                    if (element.luongTrungbinh === null)
+                        res.luongTrungbinh = "";//doanhthuTinhTudaunam doanh nghiep
+                    else
+                        res.luongTrungbinh = element.luongTrungbinh;
+
+                    if (element.nopNgansachTinhTudaunam === null)
+                        res.nopNgansachTinhTudaunam = "";//giam doc
+                    else
+                        res.nopNgansachTinhTudaunam = element.nopNgansachTinhTudaunam;
+
+                    if (element.tongsoNhancong === null)
+                        res.tongsoNhancong = "";//dia chi                    
+                    else
+                        res.tongsoNhancong = element.tongsoNhancong;
+
+                    if (element.tongsoNhancongNam === null)
+                        res.tongsoNhancongNam = "";//dia chi                    
+                    else
+                        res.tongsoNhancongNam = element.tongsoNhancongNam;
+
+                    if (element.tongsoNhancongNu === null)
+                        res.tongsoNhancongNu = "";//ma dang ky                    
+                    else
+                        res.tongsoNhancongNu = element.tongsoNhancongNu;
+
+                    if (element.tuoiTrungbinhNhancong === null)
+                        res.tuoiTrungbinhNhancong = "";//ngay dang ky  
+                    else
+                        res.tuoiTrungbinhNhancong = element.tuoiTrungbinhNhancong;
+
+                    if (element.nhancongTrungcap === null)
+                        res.nhancongTrungcap = "";//ma so thue    
+                    else
+                        res.nhancongTrungcap = element.nhancongTrungcap;
+
+                    if (element.nhancongCaodang === null)
+                        res.nhancongCaodang = "";//linh vuc kinh doanh
+                    else
+                        res.nhancongCaodang = element.nhancongCaodang;
+
+                    if (element.nhancongDaihoc === null)
+                        res.nhancongDaihoc = "";//linh vuc kinh doanh
+                    else
+                        res.nhancongDaihoc = element.nhancongDaihoc;
+
+                    if (element.nhancongTrendaihoc === null)
+                        res.nhancongTrendaihoc = "";//linh vuc kinh doanh
+                    else
+                        res.nhancongTrendaihoc = element.nhancongTrendaihoc;
+
+                    if (element.luongTrungbinh === null)
+                        res.luongTrungbinh = "";
+                    else
+                        res.luongTrungbinh = element.luongTrungbinh;
+
+                    if (element.idDuanSanxuatkinhdoanh === null)
+                        res.tenDuan = "";
+                    else
+                        res.tenDuan = element.idDuanSanxuatkinhdoanh.ten;
+
+                    if (element.mocBaocao === null)
+                        res.mocBaocao = "";
+                    else {
+
+                        const myArray = element.mocBaocao.split("-");
+                        var newDate = "";
+                        newDate = newDate.concat(myArray[2]);
+                        newDate = newDate.concat("/");
+                        newDate = newDate.concat(myArray[1]);
+                        newDate = newDate.concat("/");
+
+                        newDate = newDate.concat(myArray[0]);
+
+
+                        res.mocBaocao = newDate;
+                    }
+
+                    data_ketquadautusanxuat.push(res);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+
+            hotkqdtsx.updateSettings({
+                data: data_ketquadautusanxuat
+            });
+        }
+        ;
+
+    </script>
+</body>
+
+</html>

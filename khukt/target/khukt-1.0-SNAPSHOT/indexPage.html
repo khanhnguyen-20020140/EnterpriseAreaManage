@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+   <title>Doanh nghiệp</title>
+   <link href="css/font-awesome.css" rel="stylesheet">
+   <link href="css/simple-line-icons.css" rel="stylesheet">
+   <link href="css/jquery-ui.css" rel="stylesheet">
+   <link href="css/datepicker.css" rel="stylesheet">
+   <link href="css/bootstrap.css" rel="stylesheet">
+   <link href="css/app.css" rel="stylesheet">
+   <link href="css/custom.css" rel="stylesheet">
+   <link rel="stylesheet" media="screen" href="css/handsontable.full.min.css">
+   <link href="lib/maplibre-gl.css" rel="stylesheet">
+   <!-- <link rel="stylesheet" href="css/example.css"> -->
+  
+   <style>
+      .ggmap{
+         display: none;
+         overflow-y:scroll;
+         background-color: #f3f3f3;
+         width: 30%;
+         height: 700px;
+         position:absolute;
+         right: 0;
+         padding: 10px 10px 10px 15px;
+         }
+         .filter__around
+         {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 0px 10px;
+         }
+         .filter__around h1
+         {
+         padding: 15px 20px;
+         float: left;
+         margin: 0px;
+         font-size: 30px;
+         font-weight: bold;
+         }
+         .filter__around button {
+         background-color: #0eaaa6;
+         color: #fff;
+         padding: 12px 18px;
+         font-size: 14px;
+         line-height: 15px;
+         border: unset;
+         border-radius: 5px;
+         }
+         .filter__click
+         {
+         display: flex;
+         align-items: center;
+         }
+         .filter__click .handleFilter 
+         {
+         margin: 0px;
+         padding: 0px 10px;
+         }
+         .row{
+         display: block;
+         }
+         /* CSS */
+         td.custom-cell {
+         color: #e30808;
+         background-color: #400000;
+         }
+         .custom-table thead th:nth-child(even),
+         .custom-table tbody tr:nth-child(odd) th {
+         background-color: #d7f1e1;
+         }
+         #mapView {
+         width: 0%;
+         float: left;
+         }
+         /* color */
+         #content {
+         overflow-x: hidden;
+         overflow-y: auto;
+         background-color: #f3f3f3;
+         width: 100%;
+         height: 100px;
+         border-top: 1px solid black;
+         float: right;
+         -webkit-overflow-scrolling: touch;
+         }
+         .change-button{
+         margin-top: 20px;
+         }
+         .button-3 {
+         /* margin-top: -25px; */
+         /* margin-bottom: 500px; */
+         margin-left:50px;
+         height: 40px;
+         width: 100px;
+         margin-bottom: 25px;
+         appearance: none;
+         background-color: #2ea44f;
+         border: 1px solid rgba(27, 31, 35, .15);
+         border-radius: 6px;
+         box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+         box-sizing: border-box;
+         color: #fff;
+         cursor: pointer;
+         display: inline-block;
+         font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+         font-size: 14px;
+         font-weight: 600;
+         line-height: 20px;
+         padding: 6px 16px;
+         position: relative;
+         text-align: center;
+         text-decoration: none;
+         user-select: none;
+         -webkit-user-select: none;
+         touch-action: manipulation;
+         vertical-align: middle;
+         white-space: nowrap;
+         }
+         .button-3:focus:not(:focus-visible):not(.focus-visible) {
+         box-shadow: none;
+         outline: none;
+         }
+         .button-3:hover {
+         background-color: #2c974b;
+         }
+         .button-3:focus {
+         box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+         outline: none;
+         }
+         .button-3:disabled {
+         background-color: #94d3a2;
+         border-color: rgba(27, 31, 35, .1);
+         color: rgba(255, 255, 255, .8);
+         cursor: default;
+         }
+         .button-3:active {
+         background-color: #298e46;
+         box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+         }
+         #example{
+         /* max-width:300px; */
+         }
+         .handsontable THEAD TH.color1 {
+         background: #A0A0A0;
+         border-color: #f4efef;
+         color: black;
+         font-weight: 600;
+         }
+         td {max-width:150px;}
+         .ast {
+         color: white;
+         }
+         .handsontable .unwraptext {
+         white-space: nowrap;
+         max-width: 0px !important;
+         }
+         .handsontable .wraptext {
+         overflow-wrap: break-word;
+         white-space: pre-line;
+         max-width: 20px;
+         }
+         .top-nav,
+         .user-nav {
+         float: right;
+         -webkit-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+         transition: all .2s ease-in-out;
+         }
+         .top-nav>div {
+         float: right;
+         }
+         .top-nav>div>ul,
+         .top-nav>ul,
+         .user-nav>ul {
+         margin: 0;
+         padding: 0;
+         list-style-type: none;
+         float: right;
+         -webkit-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+         transition: all .2s ease-in-out;
+         }
+         .top-nav>ul,
+         .user-nav>ul {
+         margin-right: 20px;
+         }
+         .top-nav>div>ul>li,
+         .top-nav>ul>li,
+         .user-nav>ul>li {
+         float: left;
+         margin-left: 20px;
+         padding-top: 10px;
+         position: relative;
+         }
+         .top-nav>div>ul>li>a,
+         .top-nav>ul>li>a,
+         .user-nav>ul>li>a {
+         color: #fff;
+         padding-bottom: 10px;
+         display: block;
+         }
+         .no-touch .top-nav>div>ul>li>a:hover,
+         .no-touch .top-nav>ul>li>a:hover,
+         .no-touch .user-nav>ul>li>a:hover {
+         color: #fff;
+         }
+         #header .top-nav {
+         margin-right: 20px;
+         }
+         #header .top-nav>div>ul>li,
+         #header .top-nav>ul>li,
+         #header .user-nav>ul>li {
+         padding: 0;
+         }
+         #header .top-nav>div>ul>li>a,
+         #header .top-nav>ul>li>a,
+         #header .user-nav>ul>li>a {
+         color: #999;
+         padding: 21px 0;
+         display: block;
+         }
+         .no-touch #header .top-nav>div>ul>li>a:hover,
+         .no-touch #header .top-nav>ul>li>a:hover,
+         .no-touch #header .user-nav>ul>li>a:hover {
+         color: #333;
+         }
+         .top-nav>div>ul>li>ul.sub-menu {
+         position: absolute;
+         top: 100%;
+         left: 0;
+         z-index: 1600;
+         float: left;
+         min-width: 160px;
+         padding: 5px 0;
+         margin: 0;
+         font-size: 13px;
+         background-color: #fff;
+         text-align: left;
+         list-style: none;
+         -webkit-background-clip: padding-box;
+         background-clip: padding-box;
+         border: 0 none;
+         border-radius: 2px;
+         -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+         box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+         -webkit-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+         transition: all .2s ease-in-out;
+         /*opacity: 0;
+         visibility: hidden;
+         margin-top: -20px;*/
+         display: none;
+         }
+         #header .top-nav>div>ul>li>ul.sub-menu {
+         border: 1px solid #dfdfdf;
+         }
+         .top-nav>div>ul>li:hover>ul.sub-menu {
+         /*opacity: 1;
+         visibility: visible;
+         margin-top: 0;*/
+         display: block;
+         }
+         .top-nav>div>ul>li>ul.sub-menu>li>a {
+         padding: 7px 20px;
+         display: block;
+         font-size: 13px;
+         color: #333;
+         white-space: nowrap;
+         }
+         .no-touch .top-nav>div>ul>li>ul.sub-menu>li>a:hover {
+         background-color: #f3f3f3;
+         color: #333;
+         }
+         a.top-navHandler {
+         display: block;
+         float: right;
+         text-align: center;
+         font-size: 24px;
+         line-height: 24px;
+         color: #fff;
+         padding: 5px;
+         -webkit-transition: all .5s ease-in-out;
+         -o-transition: all .5s ease-in-out;
+         transition: all .5s ease-in-out;
+         }
+         #header a.top-navHandler {
+         float: right;
+         text-align: center;
+         font-size: 24px;
+         line-height: 24px;
+         padding-top: 13px;
+         height: 50px;
+         width: 24px;
+         color: #fff;
+         margin-right: 15px;
+         text-decoration: none;
+         }
+         a.top-navHandler.active {
+         text-shadow: 0 0 10px #fff;
+         }
+         .no-touch a.top-navHandler:hover {
+         text-decoration: none;
+         color: #fff;
+         }
+         #transportationUI,
+         #supermarketsUI,
+         #schoolsUI,
+         #librariesUI,
+         #pharmaciesUI,
+         #hospitalsUI {
+         background-color: #fff;
+         color: #333;
+         border-radius: 2px;
+         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .13);
+         cursor: pointer;
+         margin-bottom: 7px;
+         text-align: center;
+         }
+         #transportationUI.active {
+         color: #e9573f;
+         }
+         #supermarketsUI.active {
+         color: #f6bb43;
+         }
+         #schoolsUI.active {
+         color: #8cc051;
+         }
+         #librariesUI.active {
+         color: #3baeda;
+         }
+         #pharmaciesUI.active {
+         color: #967bdc;
+         }
+         #hospitalsUI.active {
+         color: #d870ad;
+         }
+         #transportationIcon,
+         #supermarketsIcon,
+         #schoolsIcon,
+         #librariesIcon,
+         #pharmaciesIcon,
+         #hospitalsIcon {
+         font-size: 16px;
+         line-height: 16px;
+         padding: 7px;
+         }
+      
+      
+
+/* CSS */
+
+td.custom-cell {
+    color: #e30808;
+    background-color: #400000;
+  }
+  .custom-table thead th:nth-child(even),
+  .custom-table tbody tr:nth-child(odd) th {
+    background-color: #d7f1e1;
+  }
+
+  .col-lg-12{
+   margin-left: 5%;
+  }
+
+.change-button{
+    margin-top: 20px;
+}
+.button-3 {
+  /* margin-top: -205px; */
+  /* margin-bottom: 450px; */
+  margin-left:50px;
+  height: 40px;
+  width: 100px;
+  margin-bottom: 25px;
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.button-3:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.button-3:hover {
+  background-color: #2c974b;
+}
+
+.button-3:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.button-3:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.button-3:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+#example{
+  /* max-width:300px; */
+  height: 500px;
+}
+  .handsontable THEAD TH.color1 {
+    background: #A0A0A0;
+    border-color: #f4efef;
+    color: black;
+    font-weight: 600;
+  }
+
+  td {max-width:150px;}
+  
+  .ast {
+    color: white;
+  }
+  
+  .handsontable .unwraptext {
+    white-space: nowrap;
+    max-width: 0px !important;
+}
+.handsontable .wraptext {
+    overflow-wrap: break-word;
+    white-space: pre-line;
+    max-width: 20px;
+}
+      .top-nav,
+      .user-nav {
+         float: right;
+         -webkit-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+         transition: all .2s ease-in-out;
+      }
+
+      .top-nav>div {
+         float: right;
+      }
+
+      .top-nav>div>ul,
+      .top-nav>ul,
+      .user-nav>ul {
+         margin: 0;
+         padding: 0;
+         list-style-type: none;
+         float: right;
+         -webkit-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+         transition: all .2s ease-in-out;
+      }
+
+      .top-nav>ul,
+      .user-nav>ul {
+         margin-right: 20px;
+      }
+
+      .top-nav>div>ul>li,
+      .top-nav>ul>li,
+      .user-nav>ul>li {
+         float: left;
+         margin-left: 20px;
+         padding-top: 10px;
+         position: relative;
+      }
+
+      .top-nav>div>ul>li>a,
+      .top-nav>ul>li>a,
+      .user-nav>ul>li>a {
+         color: #fff;
+         padding-bottom: 10px;
+         display: block;
+      }
+
+      .no-touch .top-nav>div>ul>li>a:hover,
+      .no-touch .top-nav>ul>li>a:hover,
+      .no-touch .user-nav>ul>li>a:hover {
+         color: #fff;
+      }
+
+      #header .top-nav {
+         margin-right: 20px;
+      }
+
+      #header .top-nav>div>ul>li,
+      #header .top-nav>ul>li,
+      #header .user-nav>ul>li {
+         padding: 0;
+      }
+
+      #header .top-nav>div>ul>li>a,
+      #header .top-nav>ul>li>a,
+      #header .user-nav>ul>li>a {
+         color: #999;
+         padding: 21px 0;
+         display: block;
+      }
+
+      .no-touch #header .top-nav>div>ul>li>a:hover,
+      .no-touch #header .top-nav>ul>li>a:hover,
+      .no-touch #header .user-nav>ul>li>a:hover {
+         color: #333;
+      }
+
+      .top-nav>div>ul>li>ul.sub-menu {
+         position: absolute;
+         top: 100%;
+         left: 0;
+         z-index: 1600;
+         float: left;
+         min-width: 160px;
+         padding: 5px 0;
+         margin: 0;
+         font-size: 13px;
+         background-color: #fff;
+         text-align: left;
+         list-style: none;
+         -webkit-background-clip: padding-box;
+         background-clip: padding-box;
+         border: 0 none;
+         border-radius: 2px;
+         -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+         box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+         -webkit-transition: all .2s ease-in-out;
+         -o-transition: all .2s ease-in-out;
+         transition: all .2s ease-in-out;
+         /*opacity: 0;
+         visibility: hidden;
+         margin-top: -20px;*/
+         display: none;
+      }
+
+      #header .top-nav>div>ul>li>ul.sub-menu {
+         border: 1px solid #dfdfdf;
+      }
+
+      .top-nav>div>ul>li:hover>ul.sub-menu {
+         /*opacity: 1;
+         visibility: visible;
+         margin-top: 0;*/
+         display: block;
+      }
+
+      .top-nav>div>ul>li>ul.sub-menu>li>a {
+         padding: 7px 20px;
+         display: block;
+         font-size: 13px;
+         color: #333;
+         white-space: nowrap;
+      }
+
+      .no-touch .top-nav>div>ul>li>ul.sub-menu>li>a:hover {
+         background-color: #f3f3f3;
+         color: #333;
+      }
+
+      a.top-navHandler {
+         display: block;
+         float: right;
+         text-align: center;
+         font-size: 24px;
+         line-height: 24px;
+         color: #fff;
+         padding: 5px;
+         -webkit-transition: all .5s ease-in-out;
+         -o-transition: all .5s ease-in-out;
+         transition: all .5s ease-in-out;
+      }
+
+      #header a.top-navHandler {
+         float: right;
+         text-align: center;
+         font-size: 24px;
+         line-height: 24px;
+         padding-top: 13px;
+         height: 50px;
+         width: 24px;
+         color: #fff;
+         margin-right: 15px;
+         text-decoration: none;
+      }
+
+      a.top-navHandler.active {
+         text-shadow: 0 0 10px #fff;
+      }
+
+      .no-touch a.top-navHandler:hover {
+         text-decoration: none;
+         color: #fff;
+      }
+
+      #transportationUI,
+      #supermarketsUI,
+      #schoolsUI,
+      #librariesUI,
+      #pharmaciesUI,
+      #hospitalsUI {
+         background-color: #fff;
+         color: #333;
+         border-radius: 2px;
+         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .13);
+         cursor: pointer;
+         margin-bottom: 7px;
+         text-align: center;
+      }
+
+      #transportationUI.active {
+         color: #e9573f;
+      }
+
+      #supermarketsUI.active {
+         color: #f6bb43;
+      }
+
+      #schoolsUI.active {
+         color: #8cc051;
+      }
+
+      #librariesUI.active {
+         color: #3baeda;
+      }
+
+      #pharmaciesUI.active {
+         color: #967bdc;
+      }
+
+      #hospitalsUI.active {
+         color: #d870ad;
+      }
+
+      #transportationIcon,
+      #supermarketsIcon,
+      #schoolsIcon,
+      #librariesIcon,
+      #pharmaciesIcon,
+      #hospitalsIcon {
+         font-size: 16px;
+         line-height: 16px;
+         padding: 7px;
+      }
+   </style>
+   <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+
+<body class="notransition">
+   <!-- Header -->
+   <div id="header">
+      <div class="logo">
+         <a href="index.html">
+            <span class="fa fa-home marker"></span>
+            <span class="logoText">reales</span>
+         </a>
+      </div>
+      <a href="#" class="navHandler"><span class="fa fa-bars fa-ellipsis-v"></span></a>
+      <div class="search">
+         <span class="searchIcon icon-magnifier"></span>
+         <input type="text" placeholder="Search for houses, apartments...">
+      </div>
+      <div class="headerUserWraper">
+         <a href="javascript:void(0);" class="top-navHandler visible-xs active"><span class="fa fa-bars"></span></a>
+         <a href="#" class="userHandler dropdown-toggle" data-toggle="dropdown"><span class="icon-user"></span><span
+               class="counter">5</span></a>
+         <a href="#" class="headerUser dropdown-toggle" data-toggle="dropdown">
+            <img class="avatar headerAvatar pull-left" src="images/avatar-1.png" alt="avatar">
+            <div class="userTop pull-left">
+               <span class="headerUserName">John Smith</span> <span class="fa fa-angle-down"></span>
+            </div>
+            <div class="clearfix"></div>
+         </a>
+         <div class="dropdown-menu pull-right userMenu" role="menu">
+            <div class="mobAvatar">
+               <img class="avatar mobAvatarImg" src="images/avatar-1.png" alt="avatar">
+               <div class="mobAvatarName">John Smith</div>
+            </div>
+            <ul>
+               <li><a href="#"><span class="icon-settings"></span>Settings</a></li>
+               <li><a href="profile.html"><span class="icon-user"></span>Profile</a></li>
+               <li><a href="#"><span class="icon-bell"></span>Notifications <span
+                        class="badge pull-right bg-red">5</span></a></li>
+               <li class="divider"></li>
+               <li><a href="#"><span class="icon-power"></span>Logout</a></li>
+            </ul>
+         </div>
+      </div>
+
+
+
+
+      <div class="top-nav" style="height: auto;">
+         <div class="menu-top-menu-container">
+            <ul id="menu-top-menu" class="menu">
+               <li id="menu-item-225"
+                  class="xxx menu-item menu-item-type-post_type menu-item-object-page menu-item-225"><a
+                     href="http://mariusn.com/themes/reales-wp/">Home</a></li>
+               <li id="menu-item-10874"
+                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-10874">
+                  <a href="#">Demos&nbsp;&nbsp;<span class="fa fa-angle-down"></span></a>
+                  <ul class="sub-menu">
+                     <li id="menu-item-10875"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-10875">
+                        <a href="http://mariusn.com/themes/reales-wp/">Demo 1</a>
+                     </li>
+                     <li id="menu-item-10876"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10876"><a
+                           href="http://mariusn.com/themes/reales-wp-2/">Demo 2</a></li>
+                     <li id="menu-item-10877"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10877"><a
+                           href="http://mariusn.com/themes/reales-wp-3/">Demo 3</a></li>
+                     <li id="menu-item-10878"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10878"><a
+                           href="http://mariusn.com/themes/reales-wp-4/">Demo 4</a></li>
+                  </ul>
+               </li>
+               <li id="menu-item-556"
+                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-556">
+                  <a href="#">Properties&nbsp;&nbsp;<span class="fa fa-angle-down"></span></a>
+                  <ul class="sub-menu">
+                     <li id="menu-item-555"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-555"><a
+                           href="http://mariusn.com/themes/reales-wp/search-results/?search_city=San+Francisco&amp;search_lat=37.7749295&amp;search_lng=-122.41941550000001&amp;search_category=0&amp;search_type=0&amp;search_min_price=&amp;search_max_price=">Properties
+                           List</a></li>
+                     <li id="menu-item-557"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-557"><a
+                           href="http://mariusn.com/themes/reales-wp/properties/elegant-apartment/">Single Property</a>
+                     </li>
+                     <li id="menu-item-558"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-558"><a
+                           href="http://mariusn.com/themes/reales-wp/search-results/?search_city=San+Francisco&amp;search_lat=37.7749295&amp;search_lng=-122.41941550000001&amp;search_category=0&amp;search_type=0&amp;search_min_price=&amp;search_max_price=">Search
+                           by City</a></li>
+                     <li id="menu-item-559"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-559"><a
+                           href="http://mariusn.com/themes/reales-wp/search-results/?search_city=San+Francisco&amp;search_lat=37.7749295&amp;search_lng=-122.41941550000001&amp;search_category=29&amp;search_type=0&amp;search_min_price=&amp;search_max_price=">Search
+                           by Category</a></li>
+                     <li id="menu-item-560"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-560"><a
+                           href="http://mariusn.com/themes/reales-wp/search-results/?search_city=San+Francisco&amp;search_lat=37.7749295&amp;search_lng=-122.41941550000001&amp;search_category=0&amp;search_type=10&amp;search_min_price=&amp;search_max_price=">Search
+                           by Type</a></li>
+                     <li id="menu-item-561"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-561"><a
+                           href="http://mariusn.com/themes/reales-wp/search-results/?search_city=San+Francisco&amp;search_lat=37.7749295&amp;search_lng=-122.41941550000001&amp;search_category=0&amp;search_type=0&amp;search_min_price=&amp;search_max_price=700000">Search
+                           by Price</a></li>
+                  </ul>
+               </li>
+               <li id="menu-item-2459"
+                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2459">
+                  <a href="#">IDX&nbsp;&nbsp;<span class="fa fa-angle-down"></span></a>
+                  <ul class="sub-menu">
+                     <li id="menu-item-2460"
+                        class="menu-item menu-item-type-post_type menu-item-object-ds-idx-listings-page menu-item-2460">
+                        <a href="http://mariusn.com/themes/reales-wp/idx/listings/idx-test/">dsIDXpress Listings</a>
+                     </li>
+                     <li id="menu-item-2461"
+                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2461"><a
+                           href="http://mariusn.com/themes/reales-wp/dsidxpress-single-listing-shortcode/">dsIDXpress
+                           Single Listing Shortcode</a></li>
+                     <li id="menu-item-2462"
+                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2462"><a
+                           href="http://mariusn.com/themes/reales-wp/dsidxpress-listings-shortcode/">dsIDXpress Listings
+                           Shortcode</a></li>
+                  </ul>
+               </li>
+               <li id="menu-item-562"
+                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-562">
+                  <a href="#">Agents&nbsp;&nbsp;<span class="fa fa-angle-down"></span></a>
+                  <ul class="sub-menu">
+                     <li id="menu-item-5446"
+                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5446"><a
+                           href="http://mariusn.com/themes/reales-wp/our-agents/">Agents List</a></li>
+                     <li id="menu-item-563"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-563"><a
+                           href="http://mariusn.com/themes/reales-wp/agents/jane-smith/">Agent Page</a></li>
+                  </ul>
+               </li>
+               <li id="menu-item-5449" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5449">
+                  <a href="http://mariusn.com/themes/reales-wp/customers/">Customers</a>
+               </li>
+               <li id="menu-item-269"
+                  class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-269"><a
+                     href="http://mariusn.com/themes/reales-wp/blog/">Blog</a></li>
+               <li id="menu-item-564"
+                  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-564">
+                  <a href="#">Features&nbsp;&nbsp;<span class="fa fa-angle-down"></span></a>
+                  <ul class="sub-menu">
+                     <li id="menu-item-578"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-578"><a
+                           href="http://mariusn.com/themes/reales-wp/front-end-property-submission/">Front-end Property
+                           Submission</a></li>
+                     <li id="menu-item-588"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-588"><a
+                           href="http://mariusn.com/themes/reales-wp/reales-wp-custom-widgets/">Custom Widgets</a></li>
+                     <li id="menu-item-595"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-595"><a
+                           href="http://mariusn.com/themes/reales-wp/reales-wp-shortcodes/">Reales WP Shortcodes</a>
+                     </li>
+                  </ul>
+               </li>
+               <li id="menu-item-519" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-519"><a
+                     href="http://mariusn.com/themes/reales-wp/contact-us/">Contact Us</a></li>
+            </ul>
+         </div>
+      </div>
+      <a href="#" class="mapHandler"><span class="icon-map"></span></a>
+      <div class="clearfix"></div>
+   </div>
+   <!-- Left Side Navigation -->
+   <div id="leftSide">
+      <nav class="leftNav scrollable">
+         <div class="search">
+            <span class="searchIcon icon-magnifier"></span>
+            <input type="text" placeholder="Search for houses, apartments...">
+            <div class="clearfix"></div>
+         </div>
+         <ul>
+            <li><a href="explore.html"><span class="navIcon icon-compass"></span><span
+                     class="navLabel">Explore</span></a></li>
+            <li><a href="single.html"><span class="navIcon icon-home"></span><span class="navLabel">Single</span></a>
+            </li>
+            <li><a href="add.html"><span class="navIcon icon-plus"></span><span class="navLabel">New</span></a></li>
+            <li class="hasSub">
+               <a href="#"><span class="navIcon icon-drop"></span><span class="navLabel">Colors</span><span
+                     class="fa fa-angle-left arrowRight"></span><span class="badge bg-yellow">5</span></a>
+               <ul class="colors">
+                  <li><a href="#">Red <span class="fa fa-circle-o c-red icon-right"></span></a></li>
+                  <li><a href="#">Green <span class="fa fa-circle-o c-green icon-right"></span></a></li>
+                  <li><a href="#">Blue <span class="fa fa-circle-o c-blue icon-right"></span></a></li>
+                  <li><a href="#">Yellow <span class="fa fa-circle-o c-yellow icon-right"></span></a></li>
+                  <li><a href="#">Magenta <span class="fa fa-circle-o c-magenta icon-right"></span></a></li>
+               </ul>
+            </li>
+            <li class="hasSub">
+               <a href="#"><span class="navIcon icon-layers"></span><span class="navLabel">Elements</span><span
+                     class="fa fa-angle-left arrowRight"></span></a>
+               <ul>
+                  <li><a href="buttons.html">Buttons</a></li>
+                  <li><a href="icons.html">Icons <span class="badge pull-right bg-yellow">841</span></a></li>
+                  <li><a href="grid.html">Grid</a></li>
+                  <li><a href="widgets.html">Widgets</a></li>
+                  <li><a href="components.html">Components</a></li>
+                  <li><a href="lists.html">Lists</a></li>
+                  <li><a href="tables.html">Tables</a></li>
+                  <li><a href="form.html">Form</a></li>
+               </ul>
+            </li>
+            <li class="hasSub">
+               <a href="#"><span class="navIcon icon-link"></span><span class="navLabel">Pages</span><span
+                     class="fa fa-angle-left arrowRight"></span></a>
+               <ul>
+                  <li><a href="signin.html">Sign In</a></li>
+                  <li><a href="signup.html">Sign Up</a></li>
+                  <li><a href="profile.html">Profile</a></li>
+                  <li><a href="index.html">Homepage Slideshow</a></li>
+                  <li><a href="index-map.html">Homepage Map</a></li>
+                  <li><a href="blog.html">Blog</a></li>
+                  <li><a href="blog-post.html">Blog Post</a></li>
+               </ul>
+            </li>
+         </ul>
+      </nav>
+      <div class="leftUserWraper dropup">
+         <a href="#" class="avatarAction dropdown-toggle" data-toggle="dropdown">
+            <img class="avatar" src="images/avatar-1.png" alt="avatar"><span class="counter">5</span>
+            <div class="userBottom pull-left">
+               <span class="bottomUserName">John Smith</span> <span class="fa fa-angle-up pull-right arrowUp"></span>
+            </div>
+            <div class="clearfix"></div>
+         </a>
+         <ul class="dropdown-menu" role="menu">
+            <li><a href="#"><span class="icon-settings"></span>Settings</a></li>
+            <li><a href="profile.html"><span class="icon-user"></span>Profile</a></li>
+            <li><a href="#"><span class="icon-bell"></span>Notifications <span
+                     class="badge pull-right bg-red">5</span></a></li>
+            <li class="divider"></li>
+            <li><a href="#"><span class="icon-power"></span>Logout</a></li>
+         </ul>
+      </div>
+   </div>
+   <div class="closeLeftSide"></div>
+   <!-- Content -->
+   <div id="wrapper" class="mapView">
+      <div class="mapView__map">
+         <div id="mapView">
+            <div class="mapPlaceholder"><span class="fa fa-spin fa-spinner"></span> Loading map...</div>
+         </div>
+         <div class="mapView__show">
+            <div class="btn-group">
+               <a class="btn btn-xs btn-round  dropdown-toggle" data-toggle="dropdown"><span
+                     class="fa fa-map-marker"></span> </a>
+               <ul class="dropdown-menu pull-right" role="menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li class="dropdown-submenu"><a href="#">Another action</a>
+                     <ul class="dropdown-menu">
+                        <li><a href="#">Service C1</a></li>
+                        <li><a href="#">Service C2</a></li>
+                        <li><a href="#">Service C3</a></li>
+                        <li><a href="#">Service C4</a></li>
+                        <li><a href="#">Service C5</a></li>
+                     </ul>
+
+                  </li>
+                  <li><a href="#">Something else here</a></li>
+
+                  <li><a href="#">Separated link</a></li>
+               </ul>
+            </div>
+         </div>
+         <div class="mapView__icons">
+            <div id="transportationUI" title="Click to view the transportation stations">
+               <div id="transportationIcon"><span class="fa fa-bus"></span></div>
+            </div>
+            <div id="supermarketsUI" title="Click to view the supermarkets">
+               <div id="supermarketsIcon"><span class="fa fa-shopping-cart"></span></div>
+            </div>
+            <div id="schoolsUI" title="Click to view the schools">
+               <div id="schoolsIcon"><span class="fa fa-university"></span></div>
+            </div>
+            <div id="librariesUI" title="Click to view the libraries">
+               <div id="librariesIcon"><span class="fa fa-book"></span></div>
+            </div>
+            <div id="pharmaciesUI" title="Click to view the pharmacies">
+               <div id="pharmaciesIcon"><span class="fa fa-plus-square"></span></div>
+            </div>
+            <div id="hospitalsUI" title="Click to view the hospitals">
+               <div id="hospitalsIcon"><span class="fa fa-h-square"></span></div>
+            </div>
+         </div>
+      </div>
+      <div class="mapView__content" id="content">
+         <div class="filter">
+            <div class="filter__around">
+               <h1>Doanh nghiệp</h1>
+               <div class="filter__click">
+                  <button onclick="changeinnerWidth()">Thu nhỏ</button>
+                  <a href="#" class="handleFilter"><span class="icon-equalizer"></span></a>
+               </div>
+            </div>
+            
+            <div class="clearfix"></div>
+            <form class="filterForm">
+            </form>
+         </div>
+         
+
+         <div class="resultsList" id="resultsList">
+            <div class="row" id="row">
+               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                  <div id="example">
+                     <div id="headerr"></div>
+                  </div>
+                  
+                  
+                  <button id="button" class="button-3" ></button>
+               </div>
+              
+            </div>
+            
+         </div>
+         
+      </div>
+      <div class="ggmap" id="ggmap"></div>
+      <div class="clearfix"></div>
+   </div>
+   <script type='text/javascript' > 
+      var myHandsontable = 0; 
+      var checkload =0;
+      var checkput =0;
+      var headerload=1;
+      var ggmapload=1;
+    </script>
+   <script src="js/jquery-2.1.1.min.js"></script>
+   <script src="js/jquery-ui.min.js"></script>
+   <script src="js/jquery-ui-touch-punch.js"></script>
+   <script src="js/jquery.placeholder.js"></script>
+   <script src="js/bootstrap.js"></script>
+   <script src="js/jquery.touchSwipe.min.js"></script>
+   <script src="js/jquery.slimscroll.min.js"></script>
+   <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCUprg4Vr1-pMFU7UYE07czxemvnJGOdE&amp;sensor=true&amp;libraries=geometry&amp;libraries=places"
+      type="text/javascript"></script>  
+   <script src="js/infobox.js"></script>
+   <script src="js/jquery.tagsinput.min.js"></script>
+   <script src="js/bootstrap-datepicker.js"></script>
+   <script src="lib/maplibre-gl.js"></script>   
+   <script src="js/app.js" type="text/javascript"></script>
+   
+   <!-- <script
+      src="https://www.jqueryscript.net/demo/Excel-like-Data-Grid-Editor-For-jQuery-handsontable/lib/jquery.min.js"></script> -->
+   <script src="js/handsontable.full.min.js"></script>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script>
+      $(document).ready(function(){
+         if(headerload==1){
+            $('#headerr').load("doanhnghiep.html");
+            headerload+=1;
+         }
+         if(ggmapload==1){
+            $('#ggmap').load("mini-doanhnghiep.html");
+            ggmapload+=1;
+         }                 
+      });
+      
+      function changeinnerWidth(){   
+         var mapView = document.getElementById("mapView");
+         var content = document.getElementById("content");
+         var ggmap = document.getElementById("ggmap");
+         // console.log(ggmap);         
+         mapView.style.width = '80%';
+         content.style.display='none';         
+         ggmap.style.display="block";
+      }
+
+      function expand(){
+         var mapView = document.getElementById("mapView");
+         var content = document.getElementById("content");
+         var button = document.getElementById("change-button");
+
+         mapView.style.width = '0%';
+         content.style.width='100%';
+         content.style.display='block';
+         ggmap.style.display="none";         
+      }
+   </script>
+</body>
+
+</html>

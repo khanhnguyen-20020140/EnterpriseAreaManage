@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://unpkg.com/htmlincludejs"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    </head>
+    <body>
+        <div class="doanhnghiep_title">
+            <h4>Dự án xây dựng hạ tầng mới</h4>
+            <div class="doanhnghiep_button">
+                <a class="doanhnghiep_close"  href="#"><span class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+            </div> 
+        </div>         
+        <div>
+            <div class="table-responsive resultsList__mobile">
+                <form class="resultsList__form" id="form_register" action="">
+                    <div class="form-group">
+                        <label for="addDAXDHT-tda">Tên dự án:</label>
+                        <input type="text" class="form-control" id="addDAXDHT-tda" placeholder="Tên dự án" name="ten">
+                        <span class="resultsList__error" id="add_tenduan_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-dn">Doanh nghiệp:</label>
+                        <select name="addDAXDHT-dn" id="addDAXDHT-dn" class="custom-select">
+                            <option value="-1">Chọn doanh nghiệp</option>
+                        </select>
+                        <span class="resultsList__error" id="add_dn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-sqdcp">Số quyết định cấp phép:</label>
+                        <input type="text" class="form-control" id="addDAXDHT-sqdcp" placeholder="Số quyết định cấp phép"
+                               name="addDAXDHT-sqdcp">
+                        <span class="resultsList__error" id="add_soquyetdinhchophep_null"></span>
+                        <span class="resultsList__error" id="add_soquyetdinhchophep_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-vdtdk">Vốn đầu tư đăng ký:</label>
+                        <input type="text" class="form-control" id="addDAXDHT-vdtdk" placeholder="Vốn đầu tư đăng ký"
+                               name="addDAXDHT-vdtdk">
+                        <span class="resultsList__error" id="add_vondangkydautu_null"></span>
+                        <span class="resultsList__error" id="add_vondangkydautu_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-nguonvon">Nguồn vốn:</label>
+                        <select name="addDAXDHT-nguonvon" id="addDAXDHT-nguonvon" class="custom-select">
+                            <option value="-1">Chọn nguồn vốn</option>
+                        </select>
+                        <span class="resultsList__error" id="add_nv_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-khucn">Khu công nghiệp:</label>
+                        <select name="addDAXDHT-khucn" id="addDAXDHT-khucn" class="custom-select">
+                            <option value="-1">Chọn khu công nghiệp</option>
+                        </select>
+                        <span class="resultsList__error" id="add_kcn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-msda">Mã số dự án:</label>
+                        <input type="text" class="form-control" id="addDAXDHT-msda"
+                               placeholder="Mã số dự án" >
+                        <span class="resultsList__error" id="add_msda_error"></span>
+                        <span class="resultsList__error" id="add_msda_null"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-nqdcp">Ngày quyết định cấp phép:</label>
+                        <input type="date" class="form-control" id="addDAXDHT-nqdcp"
+                               placeholder="Ngày quyết định cấp phép" >
+                        <span class="resultsList__error" id="add_nqdcp_error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addDAXDHT-vtdusd">Vốn tương đương USD:</label>
+                        <input type="text" class="form-control" id="addDAXDHT-vtdusd"
+                               placeholder="Vốn tương đương USD" >
+                        <span class="resultsList__error" id="add_vtdusd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-qmcs">Quy mô/công suất:</label>
+                        <input type="text" class="form-control" id="addDAXDHT-qmcs"
+                               placeholder="Quy mô/công suất" >
+                        <span class="resultsList__error" id="add_qmcs_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-nhphd">Ngày hết phép hoạt động:</label>
+                        <input type="date" class="form-control" id="addDAXDHT-nhphd"
+                               placeholder="Ngày hết phép hoạt động" >
+                        <span class="resultsList__error" id="add_nhphd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-ttda">Trạng thái dự án:</label>
+                        <select name="addDAXDHT-ttda" id="addDAXDHT-ttda" class="custom-select">
+                            <option value="-1">Chọn trạng thái dự án</option>
+                        </select>
+                        <span class="resultsList__error" id="add_ttda_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="addDAXDHT-lhda">Loại hình dự án:</label>
+                        <select name="addDAXDHT-lhda" id="addDAXDHT-lhda" class="custom-select">
+                            <option value="-1">Chọn loại hình dự án</option>
+                        </select>
+                        <span class="resultsList__error" id="add_lhda_error"></span>
+                    </div>                    
+                </form>
+            </div>
+        </div>
+        <div id="hot_add_hangmuc_htkt">                        
+        </div>
+        <div class="chitiet_DAXDHT__button">
+            <a href="#"><button onclick=_updateNew_DAXDHT()><i class="fa fa-edit"></i> Cập nhật </button></a>
+			<a href="#"><button onclick=_closeNew_DAXDHT()><i class="fa fa-edit"></i> Hủy </button></a>
+        </div>
+
+
+        <script>
+            $(document).ready(function () {
+                $('.doanhnghiep_close').click(function () {
+                    var addfont = document.getElementById("radius");
+                    $('.doanhnghiep_close').addClass('active');
+                    if ($('.doanhnghiep_close').hasClass("active")) {
+                        $(".mob-min").css("width", "0%");
+                        $(".mob-max").css("width", "100%");
+                        $(".doanhnghiep_open").css("display", "flex");
+                        addfont.style.display = 'none';
+                    } else {
+                        $(".doanhnghiep_open").css("display", "none");
+                        addfont.style.display = 'block';
+                    }
+                });
+
+                $(".resultsList__mobile").submit(function (e) {
+                    e.preventDefault();
+                    var name = $("input[name='name']").val();
+                    var email = $("input[name='email']").val();
+                    $(".data-table tbody").append("<tr data-name='" + name + "' data-email='" + email + "'><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+                    $("input[name='']").val("");
+                });
+            });
+
+			function _closeNew_DAXDHT() {
+				cleardraw_hatangkythuat();				
+				loadHtml('window_duanxaydunghatang_mini','duanxaydunghatang-mini.html');
+			}
+            
+			function _updateNew_DAXDHT() {             
+                //buoc 1. cap nhat du an                
+                var flag = true;
+                var str_tda = $("#addDAXDHT-tda").val();
+                var str_vdtdk = $("#addDAXDHT-vdtdk").val();
+                var str_sqdcp = $("#addDAXDHT-sqdcp").val();
+                var str_ndsxkd = $("#addDAXDHT-ndsxkd").val();
+                var str_msda = $("#addDAXDHT-msda").val();
+                var str_nqdcp = $("#addDAXDHT-nqdcp").val();
+                var str_vtdusd = $("#addDAXDHT-vtdusd").val();
+                var str_qmcs = $("#addDAXDHT-qmcs").val();
+                var str_nhphd = $("#addDAXDHT-nhphd").val();
+                var str_tmdt = $("#addDAXDHT-tmdt").val();
+                var m_id_dn = $("#addDAXDHT-dn").val();
+                var m_id_nv = $("#addDAXDHT-nv").val();
+                var m_id_kcn = $("#addDAXDHT-kcn").val();
+                var m_id_lvsxkd = $("#addDAXDHT-lvsxkd").val();
+                var m_id_ttda = $("#addDAXDHT-ttda").val();
+                var m_id_lhda = $("#addDAXDHT-lhda").val();
+
+                if (str_sqdcp == '') {
+                    $('#add_soquyetdinhchophep_null').text('Chưa nhập số quyết định cho phép');
+                    flag = false;
+                } else {
+                    $('#add_soquyetdinhchophep_null').text('');
+                }
+
+                if (str_sqdcp !== '') {
+                    str_sqdcp = parseInt(str_sqdcp, 10);
+                }
+
+                if (Object.is(str_sqdcp, NaN)) {
+                    $('#add_soquyetdinhchophep_error').text('Số quyết định cho phép phải để số');
+                    flag = false;
+
+                } else {
+                    $('#add_soquyetdinhchophep_error').text('');
+                }
+
+
+                if (str_vdtdk == '') {
+                    $('#add_vondangkydautu_null').text('Chưa nhập vốn đầu tư đăng ký');
+                    flag = false;
+                } else {
+                    $('#add_vondangkydautu_null').text('');
+                }
+
+                if (str_vdtdk !== '') {
+                    str_vdtdk = parseInt(str_vdtdk, 10);
+                }
+
+                if (Object.is(str_vdtdk, NaN)) {
+                    $('#add_vondangkydautu_error').text('Vốn đầu tư đăng ký phải để số');
+                    flag = false;
+
+                } else {
+                    $('#add_vondangkydautu_error').text('');
+                }
+
+                if (str_msda == '') {
+                    $('#add_msda_null').text('Chưa nhập mã số dự án');
+                    flag = false;
+                } else {
+                    $('#add_msda_null').text('');
+                }
+
+                if (str_msda !== '') {
+                    str_msda = parseInt(str_msda, 10);
+                }
+
+                if (Object.is(str_msda, NaN)) {
+                    $('#add_msda_error').text('Mã số dự án phải để số');
+                    flag = false;
+
+                } else {
+                    $('#add_msda_error').text('');
+                }
+
+
+
+
+
+                if (m_id_dn === '-1') {
+                    $('#add_dn_error').text('Bạn chưa chọn Doanh nghiệp *');
+                    flag = false;
+
+                } else {
+                    $('#add_dn_error').text('');
+                }
+
+
+                if (m_id_kcn === '-1') {
+                    $('#add_kcn_error').text('Bạn chưa chọn khu chuyên ngành *');
+                    flag = false;
+                } else {
+                    $('#add_kcn_error').text('');
+                }
+
+
+
+                if (m_id_nv === '-1') {
+                    $('#add_nv_error').text('Bạn chưa chọn Nguồn vốn *');
+                    flag = false;
+                } else {
+                    $('#add_nv_error').text('');
+                }
+
+
+
+
+                if (m_id_ttda === '-1') {
+                    $('#add_ttda_error').text('Bạn chưa chọn Trạng thái dự án *');
+                    flag = false;
+                } else {
+                    $('#add_ttda_error').text('');
+                }
+
+                if (m_id_lhda === '-1') {
+                    $('#add_lhda_error').text('Bạn chưa chọn Loại hình dự án *');
+                    flag = false;
+                } else {
+                    $('#add_lhda_error').text('');
+                }
+
+
+
+
+                if (str_tda == '') {
+                    $('#add_tenduan_error').text('Chưa nhập tên dự án');
+                    flag = false;
+                } else {
+                    $('#add_tenduan_error').text('');
+                }
+
+
+                if (str_qmcs == '') {
+                    $('#add_qmcs_error').text('Chưa nhập quy mô/công suất');
+                    flag = false;
+                } else {
+                    $('#add_qmcs_error').text('');
+                }
+
+
+
+                if (str_vtdusd == '') {
+                    $('#add_vtdusd_error').text('Chưa nhập vốn tương đương USD');
+                    flag = false;
+                } else {
+                    $('#add_vtdusd_error').text('');
+                }
+
+
+                var obj = {};
+                obj["ten"] = str_tda;
+                obj["soqdCapphep"] = str_sqdcp;
+                obj["vondautuDangky"] = str_vdtdk;
+//                                        obj["noidungSanxuatKinhdoanh"] = str_ndsxkd;
+                obj["masoDuan"] = str_msda;
+                obj["ngayQuyetdinhCapphep"] = str_nqdcp;
+                obj["vontuongduongUsd"] = str_vtdusd;
+                obj["quymoCongsuat"] = str_qmcs;
+                obj["ngayHetphepHoatdong"] = str_nhphd;
+//                                        obj["tongmucDautu"] = str_tmdt;
+
+                obj["idNguonvon"] = m_id_nv;
+                obj["idDoanhnghiep"] = m_id_dn;
+//                                        obj["idLinhvucSanxuatkinhdoanh"] = m_id_lvsxkd;
+                obj["idTrangthaiDuan"] = m_id_ttda;
+                obj["idLoaihinhDuan"] = m_id_lhda;
+                obj["idKhuChuyennganh"] = m_id_kcn;
+
+//                                        
+                if (flag === true) {
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        'type': 'POST',
+                        'url': "http://" + hostname + ":" + port + "/duanXaydunghatang/duanXaydunghatang/",
+                        'data': JSON.stringify(obj),
+                        'dataType': 'json',
+                    }).done(function (response) {
+                        //console.log(response.id);
+                        //lấy danh sách id cho các bảng polygon, line và point
+                        let m_hientrang_polygon = [];
+                        let m_hientrang_line = [];
+                        let m_hientrang_point = [];
+                        let i, j;
+                        for (j = 0; j < hotaddhtkt.countRows(); j++) {
+                            var row = hotaddhtkt.getDataAtRow(j);
+                            if (row[1] === 3)
+                                m_hientrang_point.push(row[0]);
+                            if (row[1] === 2)
+                                m_hientrang_line.push(row[0]);
+                            if (row[1] === 1)
+                                m_hientrang_polygon.push(row[0]);
+                        }
+
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: 'PUT',
+                            async: false,
+                            url: "http://" + hostname + ":" + port + "/hatangkythuatpoint/hatangkythuatpoints/" + response.id,
+                            data: m_hientrang_point.join()
+                        }).done(function () {});
+
+                        //xét bảng line                               
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: 'PUT',
+                            async: false,
+                            url: "http://" + hostname + ":" + port + "/hatangkythuatline/hatangkythuatlines/" + response.id,
+                            data: m_hientrang_line.join()
+                        }).done(function () {});
+
+                        //xét bảng polygon                
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: 'PUT',
+                            async: false,
+                            url: "http://" + hostname + ":" + port + "/hatangkythuatpolygon/hatangkythuatpolygons/" + response.id,
+                            data: m_hientrang_polygon.join()
+                        }).done(function () {});
+                        
+                        cleardraw_hatangkythuat();
+                        //quay ve trang truoc
+                        $('#' + activedHtml).hide();
+                        activedHtml = 'window_thanhphanxaydunghatang_mini';
+                        reloadHtml('window_thanhphanxaydunghatang_mini', 'duanxaydunghatang-mini.html');
+                        $('#window_thanhphanxaydunghatang_mini').show();
+
+                    });
+                }                                               
+            };            
+            
+            loadCbHtml('addDAXDHT-dn', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+            loadCbHtml('addDAXDHT-khucn', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+            loadCbHtml('addDAXDHT-ttda', 'http://' + hostname + ':' + port + '/dmtrangthai/dmtrangthais/', -1);
+            loadCbHtml('addDAXDHT-lhda', 'http://' + hostname + ':' + port + '/dmloaihinhduan/dmloaihinhduans/', -1); 
+            loadCbHtml('addDAXDHT-nguonvon', 'http://' + hostname + ':' + port + '/nguonvondautu/nguonvondautus/', -1);
+
+            //khởi tạo grid
+            var hotAddElementHTKT = document.querySelector('#hot_add_hangmuc_htkt');
+            var hotAddSettingsHTKT = {
+                data: [],
+                columns: [
+                    {
+                        data: 'id',
+                        type: 'text',
+                        width: 40
+                    },
+                    {
+                        data: 'typeobject',
+                        type: 'text',
+                        width: 40
+                    },
+                    {
+                        data: 'ten',
+                        type: 'text'
+                    }
+                ],
+                stretchH: 'all',
+                width: $('#content').width() - 30,
+                height: 400,
+                autoWrapRow: true,
+                rowHeights: 40,
+                manualRowResize: true,
+                manualColumnResize: true,
+                rowHeaders: true,
+                colHeaders: [
+                    'ID',
+                    'Kiểu object',
+                    'Hạng mục xây dựng hạ tầng kỹ thuật'
+                ],
+                manualRowMove: true,
+                manualColumnMove: true,
+                contextMenu: {
+                    items: {
+                        remove_row: {}
+                    }
+                },
+                filters: true,
+                dropdownMenu: false,
+                hiddenColumns: {
+                    columns: [0, 1],
+                    indicators: true
+                }
+            };
+            
+            function showMsgPopup(id, typeobject) {
+                //msgFeature(e.lngLat, features[0].properties.ten + ' ('+features[0].id+')');
+                try {
+                    if(typeobject === 3){
+                        dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpoint/hatangkythuatpoint/' + id);
+                    }else if(typeobject === 2){
+                        dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatline/hatangkythuatline/' + id);
+                    }else if(typeobject === 1){
+                        dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpolygon/hatangkythuatpolygon/' + id);
+                    }
+                    if (!jQuery.isEmptyObject(dataResponse)) {
+                        var element = JSON.parse(JSON.stringify(dataResponse));
+                        var lngLat = [];
+                        lngLat.push(element.longitude);        
+                        lngLat.push(element.latitude);                                            
+                        msgFeature(lngLat, element.ten + ' ('+element.gid+')');
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+
+            hotaddhtkt = new Handsontable(hotAddElementHTKT, hotAddSettingsHTKT);
+            hotaddhtkt.addHook('beforeOnCellMouseDown', function (event, coords, TD, controller) {
+                //console.log('row click= ' + coords.row);
+                let id = hotaddhtkt.getDataAtCell(coords.row, 0);
+                let typeobject = hotaddhtkt.getDataAtCell(coords.row, 1);
+                showMsgPopup(id, typeobject);
+            });
+            hotaddhtkt.addHook('afterDocumentKeyDown', function (event) {
+                var results = hotaddhtkt.getSelected();//[[startRow, startCol, endRow, endCol],..]
+                //console.log('row click= ' + results[0][0]);
+                let id = hotaddhtkt.getDataAtCell(results[0][0], 0);
+                let typeobject = hotaddhtkt.getDataAtCell(results[0][0], 1);
+                showMsgPopup(id, typeobject);
+            });
+        </script>
+    </body>
+</html>

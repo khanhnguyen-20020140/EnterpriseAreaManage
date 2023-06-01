@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <script>
+            var foo_polygon;
+            var foo_point;
+            var foo_line;
+            var getFeatures_QHHighlight = function () {
+                const bounds = map.getBounds();
+                var features = map.queryRenderedFeatures(bounds);
+                //console.log(features);
+                //console.clear();
+                var rc_polygon = [];
+                var rc_line = [];
+                var rc_point = [];
+
+                for (let j = 0; j < lsHighlightQHLine.length; j++) {
+                    for (let i = 0; i < features.length; i++) {
+                        if (features[i].source != "khucn_hatangkythuat_line")
+                            continue;
+                        if (lsHighlightQHLine[j] === features[i].properties.highlight) {
+                            var element = {};
+                            element.gid = features[i].id;
+                            element.ten = features[i].properties.ten;
+
+
+                            element.id_loaiquyhoach = features[i].properties.id_loaiquyhoach;
+                            if (typeof (element.ten) != "undefined") {
+                                rc_line.push(element);
+                            }
+
+
+                            break;
+                        }
+                    }
+                }
+
+                for (let j = 0; j < lsHighlightQHPoint.length; j++) {
+                    for (let i = 0; i < features.length; i++) {
+                        if (features[i].source != "khucn_hatangkythuat_circle")
+                            continue;
+                        if (lsHighlightQHPoint[j] === features[i].properties.highlight) {
+                            var element = {};
+                            element.gid = features[i].id;
+                            element.ten = features[i].properties.ten;
+
+                            element.id_loaiquyhoach = features[i].properties.id_loaiquyhoach;
+                            if (typeof (element.ten) != "undefined") {
+                                rc_point.push(element);
+                            }
+
+                            // console.log(element);
+                            break;
+                        }
+                    }
+                }
+
+
+                for (let j = 0; j < lsHighlightQHPolygon.length; j++) {
+                    for (let i = 0; i < features.length; i++) {
+
+
+                        if (features[i].source != "khucn_hatangkythuat_polygon")
+                            continue;
+                        if (lsHighlightQHPolygon[j] === features[i].properties.highlight) {
+                            var element = {};
+                            element.gid = features[i].id;
+                            element.ten = features[i].properties.ten;
+
+                            element.id_loaiquyhoach = features[i].properties.id_loaiquyhoach;
+
+                            if (typeof (element.ten) != "undefined") {
+                                rc_polygon.push(element);
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                var hot_data = [];
+                foo_polygon = rc_polygon.map(doc => Object.values(doc));
+                for (let j = 0; j < foo_polygon.length; j++) {
+                    var res = {};
+                    res.selected = foo_polygon[j][1] + ' (' + foo_polygon[j][0] + ')';
+                    hot_data.push(res);
+                }
+
+                foo_point = rc_point.map(doc => Object.values(doc));
+                for (let j = 0; j < foo_point.length; j++) {
+
+                    var res = {};
+                    res.selected = foo_point[j][1] + ' (' + foo_point[j][0] + ')';
+                    hot_data.push(res);
+                }
+                foo_line = rc_line.map(doc => Object.values(doc));
+                for (let j = 0; j < foo_line.length; j++) {
+                    var res = {};
+                    res.selected = foo_line[j][1] + ' (' + foo_line[j][0] + ')';
+                    hot_data.push(res);
+                }
+
+                //console.log(hot_data);
+                const container = document.querySelector('#DADTSX-element');
+                container.innerHTML = '';
+                var hot_DADTSX_display = {
+                    data: hot_data,
+                    columns: [
+                        {
+                            data: 'selected',
+                            type: 'text',
+                            editor: false
+                        }
+                    ],
+                    stretchH: 'all',
+                    width: $('#content').width() - 10,
+                    autoWrapRow: true,
+                    manualRowResize: true,
+                    manualColumnResize: true,
+                    rowHeaders: true,
+                    colHeaders: [
+                        'Tên thành phần đã chọn',
+                    ],
+                    manualRowMove: true,
+                    manualColumnMove: true,
+                    contextMenu: {
+                        items : {
+                           remove_row: {}
+                        }
+                    },
+                    filters: true,
+                    dropdownMenu: true,
+
+                };
+                var hotdadtsx = new Handsontable(container, hot_DADTSX_display);
+                return;
+            }
+
+            getFeatures_QHHighlight();
+
+            var selected_polygon = foo_polygon;
+            var selected_line = foo_line;
+            var selected_point = foo_point;
+            //console.log(selected_polygon)
+
+            function render(id_render) {
+                document.querySelector('#small_render_DADTSX').style.display = 'block';
+                document.querySelector('#smalladd_DADTSX_CREATE').style.display = 'none';
+
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/" + id_render,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(id_render)
+                        console.log(response)
+
+                        let row;
+
+                        let fragment = new DocumentFragment();
+
+                        document.querySelector('#small_render_DADTSX').innerHTML = '';
+
+//                        Object.keys(response).forEach(function (key) {
+//                            console.log(key, response[key]);
+//                            console.log(response[key])
+//                            let str = JSON.stringify(response[key]);
+//                            console.log(str)
+
+                        var jsonData = response;
+
+
+                        console.log('id:' + jsonData.id + ', ten: ' + jsonData.ten);
+
+                        /*Create new row and class*/
+
+
+                        row = document.createElement("tr");
+                        row.classList.add("element_DADTSX__row");
+                        var idd = "element_DADTSX__row__" + jsonData.id;
+                        row.setAttribute("id", idd);
+                        divele = document.createElement("div");
+                        /*Append the row to the fragment*/
+                        fragment.appendChild(row);
+                        fragment.appendChild(divele);
+
+                        var iddelete = jsonData.id;
+
+
+
+                        //                        var string1 = '<div class="element_DADTSX__button"><a href="#"><button onclick=editDADTSX(';
+                        //                        string1 += (iddelete);
+                        //                        string1 += ')><i class="fa fa-edit"></i> </button></a><a href="#"><button onclick=deleteDADTSX(';
+                        //                        string1 += (iddelete);
+                        //                        string1 += ')><i class="fa fa-trash"></i> </button></a></div>';
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div id='ten' class='tendu${jsonData.id}'>Tên dự án:</div></div>`;
+                        if (jsonData.ten === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" id='ten'>${jsonData.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+
+
+                        console.log(jsonData.idDoanhnghiep);
+                        console.log(jsonData.idDoanhnghiep.ten);
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='dn${jsonData.id}'>Doanh nghiệp:</div></div>`;
+                        if (jsonData.idDoanhnghiep === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idDoanhnghiep.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='sqdcp${jsonData.id}'>Số quyết định cho phép:</div></div>`;
+                        if (jsonData.soquyetdinhCapphep === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.soquyetdinhCapphep}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='vdtdk${jsonData.id}'>Vốn đầu tư đăng ký:</div></div>`;
+                        if (jsonData.vondautuDangky === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.vondautuDangky}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='nv${jsonData.id}'>Nguồn vốn:</div></div>`;
+                        if (jsonData.idNguonvon === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idNguonvon.nguonvon}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='kcn${jsonData.id}'>Khu chuyên ngành:</div></div>`;
+                        if (jsonData.idKhuChuyennganh === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idKhuChuyennganh.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='ndsxkd${jsonData.id}'>Nội dung sản xuất kinh doanh:</div></div>`;
+                        if (jsonData.noidungSanxuatKinhdoanh === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.noidungSanxuatKinhdoanh}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='lvsxkd${jsonData.id}'>Lĩnh vực sản xuất kinh doanh:</div></div>`;
+                        if (jsonData.idLinhvucSanxuatkinhdoanh === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                        row.innerHTML += `</div>`;
+               
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='msda${jsonData.id}'>Mã số dự án:</div></div>`;
+                        if (jsonData.masoDuan === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.masoDuan}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='nqdcp${jsonData.id}'>Ngày quyết định cấp phép:</div></div>`;
+                        if (jsonData.ngayQuyetdinhCapphep === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ngayQuyetdinhCapphep}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='vtdusd${jsonData.id}'>Vốn tương đương USD:</div></div>`;
+                        if (jsonData.vontuongduongUSD === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.vontuongduongUSD}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='qmcs${jsonData.id}'>Quy mô/Công suất:</div></div>`;
+                        if (jsonData.quymoCongsuat === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.quymoCongsuat}</div>`;
+                        row.innerHTML += `</div>`;
+     
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='nhphd${jsonData.id}'>Ngày hết phép hoạt động:</div></div>`;
+                        if (jsonData.ngayHetphepHoatdong === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ngayHetphepHoatdong}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='ttda${jsonData.id}'>Trạng thái dự án:</div></div>`;
+                        if (jsonData.idTrangthaiDuan === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idTrangthaiDuan.trangthai}</div>`;
+                        row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-5"><div class='lhdu${jsonData.id}'>Loại hình dự án:</div></div>`;
+                        if (jsonData.idLoaihinhDuan === null)
+                            row.innerHTML += `<div class="col-xs-7"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLoaihinhDuan}</div>`;
+                        row.innerHTML += `</div>`;
+ 
+                        document.getElementById("small_render_DADTSX").appendChild(fragment)
+                    }
+                });
+            }
+            function taolapduandautusanxuat() {
+                var str_tda = $("#DADTSX_CREATE-tda").val();
+                var str_vdtdk = $("#DADTSX_CREATE-vdtdk").val();
+                var str_sqdcp = $("#DADTSX_CREATE-sqdcp").val();
+                var str_ndsxkd = $("#DADTSX_CREATE-ndsxkd").val();
+                var str_msda = $("#DADTSX_CREATE-msda").val();
+                var str_nqdcp = $("#DADTSX_CREATE-nqdcp").val();
+                var str_vtdusd = $("#DADTSX_CREATE-vtdusd").val();
+                var str_qmcs = $("#DADTSX_CREATE-qmcs").val();
+                var str_nhphd = $("#DADTSX_CREATE-nhphd").val();
+
+
+                var m_id_dn = $("#DADTSX_CREATE-dn").val();
+                var m_id_nv = $("#DADTSX_CREATE-nv").val();
+                var m_id_kcn = $("#DADTSX_CREATE-kcn").val();
+
+                var m_id_lvsxkd = $("#DADTSX_CREATE-lvsxkd").val();
+                var m_id_ttda = $("#DADTSX_CREATE-ttda").val();
+                var m_id_lhda = $("#DADTSX_CREATE-lhda").val();
+                // BƯỚC 2: Validate dữ liệu
+                // Biến cờ hiệu
+                var flag = true;
+                if (str_sqdcp == '') {
+                    $('#create_soquyetdinhchophep_null').text('Số quyết định cho phép đang rỗng');
+                    flag = false;
+                } else {
+                    $('#create_soquyetdinhchophep_null').text('');
+                }
+
+                if (str_sqdcp !== '') {
+                    str_sqdcp = parseInt(str_sqdcp, 10);
+                }
+
+                if (Object.is(str_sqdcp, NaN)) {
+                    $('#create_soquyetdinhchophep_error').text('Số quyết định cho phép phải để số');
+                    flag = false;
+
+                } else {
+                    $('#create_soquyetdinhchophep_error').text('');
+                }
+
+                if (str_vdtdk == '') {
+                    $('#create_vondangkydautu_null').text('Vốn đầu tư đăng ký đang rỗng');
+                    flag = false;
+                } else {
+                    $('#create_vondangkydautu_null').text('');
+                }
+
+                if (str_vdtdk !== '') {
+                    str_vdtdk = parseInt(str_vdtdk, 10);
+                }
+
+                if (Object.is(str_vdtdk, NaN)) {
+                    $('#create_vondangkydautu_error').text('Vốn đầu tư đăng ký phải để số');
+                    flag = false;
+
+                } else {
+                    $('#create_vondangkydautu_error').text('');
+                }
+
+                if (str_msda == '') {
+                    $('#create_msda_null').text('Mã số dự án đang rỗng');
+                    flag = false;
+                } else {
+                    $('#create_msda_null').text('');
+                }
+
+                if (str_msda !== '') {
+                    str_msda = parseInt(str_msda, 10);
+                }
+
+                if (Object.is(str_msda, NaN)) {
+                    $('#create_msda_error').text('Mã số dự án phải để số');
+                    flag = false;
+
+                } else {
+                    $('#create_msda_error').text('');
+                }
+
+                if (m_id_dn === '-1') {
+                    $('#create_dn_error').text('Bạn chưa chọn Doanh nghiệp *');
+                    flag = false;
+
+                } else {
+                    $('#create_dn_error').text('');
+                }
+
+                if (m_id_kcn === '-1') {
+                    $('#create_kcn_error').text('Bạn chưa chọn khu chuyên ngành *');
+                    flag = false;
+                } else {
+                    $('#create_kcn_error').text('');
+                }
+
+                if (m_id_nv === '-1') {
+                    $('#create_nv_error').text('Bạn chưa chọn Nguồn vốn *');
+                    flag = false;
+                } else {
+                    $('#create_nv_error').text('');
+                }
+
+                if (m_id_lvsxkd === '-1') {
+                    $('#create_lvsxkd_error').text('Bạn chưa chọn Lĩnh vực sản xuất kinh doanh *');
+                    flag = false;
+                } else {
+                    $('#create_lvsxkd_error').text('');
+                }
+
+                if (m_id_ttda === '-1') {
+                    $('#create_ttda_error').text('Bạn chưa chọn Trạng thái dự án *');
+                    flag = false;
+                } else {
+                    $('#create_ttda_error').text('');
+                }
+
+                if (m_id_lhda === '-1') {
+                    $('#create_lhda_error').text('Bạn chưa chọn Loại hình dự án *');
+                    flag = false;
+                } else {
+                    $('#create_lhda_error').text('');
+                }
+
+                if (str_tda == '') {
+                    $('#create_tenduan_error').text('Tên dự án đang rỗng');
+                    flag = false;
+                } else {
+                    $('#create_tenduan_error').text('');
+                }
+
+                if (str_ndsxkd == '') {
+                    $('#create_noidungsanxuatkinhdoanh_error').text('Nội dung sản xuất kinh doanh đang rỗng');
+                    flag = false;
+                } else {
+                    $('#create_noidungsanxuatkinhdoanh_error').text('');
+                }
+
+                var obj = {};
+                obj["ten"] = str_tda;
+                obj["soquyetdinhCapphep"] = str_sqdcp;
+                obj["vondautuDangky"] = str_vdtdk;
+                obj["noidungSanxuatKinhdoanh"] = str_ndsxkd;
+                obj["masoDuan"] = str_msda;
+                obj["ngayQuyetdinhCapphep"] = str_nqdcp;
+                obj["vontuongduongUSD"] = str_vtdusd;
+                obj["quymoCongsuat"] = str_qmcs;
+                obj["ngayHetphepHoatdong"] = str_nhphd;
+                obj["idNguonvon"] = m_id_nv;
+                obj["idDoanhnghiep"] = m_id_dn;
+                obj["idLinhvucSanxuatkinhdoanh"] = m_id_lvsxkd;
+                obj["idTrangthaiDuan"] = m_id_ttda;
+                obj["idLoaihinhDuan"] = m_id_lhda;
+                obj["idKhuChuyennganh"] = m_id_kcn;
+
+                if (flag === true) {
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        'type': 'POST',
+                        'url': "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/",
+                        'data': JSON.stringify(obj),
+                        'dataType': 'json',
+                    }).done(function (response) {
+                        //console.log(response.id);
+                        for (var a = 0; a < selected_polygon.length; a++) {
+                            var urlput = "http://" + hostname + ":" + port + "/quyhoachpolygon/quyhoachpolygon/";
+                            urlput = urlput.concat(selected_polygon[a][0]);
+                            var jsonSTr = JSON.stringify({
+                                idDuanDtsx: {id: response.id}
+                            });
+                            jQuery.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'type': 'PUT',
+                                'url': urlput,
+                                'data': jsonSTr,
+                                'dataType': 'json',
+                            })
+                        }
+                        for (var a = 0; a < selected_line.length; a++) {
+                            var urlput = "http://" + hostname + ":" + port + "/quyhoachline/quyhoachline/";
+                            urlput = urlput.concat(selected_line[a][0]);
+                            var jsonSTr = JSON.stringify({
+                                idDuanDtsx: {id: response.id}
+                            });
+                            jQuery.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'type': 'PUT',
+                                'url': urlput,
+                                'data': jsonSTr,
+                                'dataType': 'json',
+                            })
+                        }
+
+                        for (var a = 0; a < selected_point.length; a++) {
+                            var urlput = "http://" + hostname + ":" + port + "/quyhoachpoint/quyhoachpoint/";
+                            urlput = urlput.concat(selected_point[a][0]);
+                            var jsonSTr = JSON.stringify({
+                                idDuanDtsx: {id: response.id}
+                            });
+                            jQuery.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'type': 'PUT',
+                                'url': urlput,
+                                'data': jsonSTr,
+                                'dataType': 'json',
+                            })
+                        }
+
+                        $('#DADTSX-render').load("duandautusanxuat-render.html");
+                        render(response.id);
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>

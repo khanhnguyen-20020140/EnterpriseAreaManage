@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="small element_DADTSX" id="small_render_DADTSX">
+            <script>
+
+                function render(id_render) {
+                    $.ajax({
+                        url: "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/" +id_render,
+                        type: 'GET',
+                        success: function (response) {
+
+                            let row;
+
+                            let fragment = new DocumentFragment();
+
+                            document.querySelector('#small_render_DADTSX').innerHTML = '';
+
+                            Object.keys(response).forEach(function (key) {
+                                //console.log(key, response[key]); 
+                                let str = JSON.stringify(response[key]);
+                                var jsonData = JSON.parse(str);
+                                //console.log('id:' + jsonData.id + ', ten: ' + jsonData.ten);
+
+                                /*Create new row and class*/
+
+
+                                row = document.createElement("tr");
+                                row.classList.add("element_DADTSX__row");
+                                var idd = "element_DADTSX__row__" + jsonData.id;
+                                row.setAttribute("id", idd);
+                                divele = document.createElement("div");
+                                /*Append the row to the fragment*/
+                                fragment.appendChild(row);
+                                fragment.appendChild(divele);
+
+                                var iddelete = jsonData.id;
+
+
+
+                                //                        var string1 = '<div class="element_DADTSX__button"><a href="#"><button onclick=editDADTSX(';
+                                //                        string1 += (iddelete);
+                                //                        string1 += ')><i class="fa fa-edit"></i> </button></a><a href="#"><button onclick=deleteDADTSX(';
+                                //                        string1 += (iddelete);
+                                //                        string1 += ')><i class="fa fa-trash"></i> </button></a></div>';
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div id='ten' class='tendu${jsonData.id}'>Tên dự án:</div></div>`;
+                                if (jsonData.ten === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" id='ten'>${jsonData.ten}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+
+
+
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='dn${jsonData.id}'>Doanh nghiệp:</div></div>`;
+                                if (jsonData.idDoanhnghiep === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idDoanhnghiep.ten}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+
+
+
+
+
+
+
+
+
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='sqdcp${jsonData.id}'>Số quyết định cho phép:</div></div>`;
+                                if (jsonData.soquyetdinhCapphep === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.soquyetdinhCapphep}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='vdtdk${jsonData.id}'>Vốn đầu tư đăng ký:</div></div>`;
+                                if (jsonData.vondautuDangky === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.vondautuDangky}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='nv${jsonData.id}'>Nguồn vốn:</div></div>`;
+                                if (jsonData.idNguonvon === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idNguonvon.nguonvon}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                //   row.innerHTML += `<div class='nv${user[0]}'>Nguồn vốn: ${user[5]} </div>`;
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='kcn${jsonData.id}'>Khu chuyên ngành:</div></div>`;
+                                if (jsonData.idKhuChuyennganh === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idKhuChuyennganh.ten}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+                                // row.innerHTML += `<div class='kcn${user[0]}'>Khu chuyên ngành: ${user[6]} </div>`;
+
+
+
+
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='ndsxkd${jsonData.id}'>Nội dung sản xuất kinh doanh:</div></div>`;
+                                if (jsonData.noidungSanxuatKinhdoanh === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.noidungSanxuatKinhdoanh}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                // row.innerHTML += `<div class='ndsxkd${user[0]}'>: ${user[7]} </div>`;
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='lvsxkd${jsonData.id}'>Lĩnh vực sản xuất kinh doanh:</div></div>`;
+                                if (jsonData.idLinhvucSanxuatkinhdoanh === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                //row.innerHTML += `<div class='lvsxkd${user[0]}'>: ${user[8]} </div>`;
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='msda${jsonData.id}'>Mã số dự án:</div></div>`;
+                                if (jsonData.masoDuan === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.masoDuan}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                //row.innerHTML += `<div class='msda${user[0]}'>Mã số dự án: ${user[9]} </div>`;
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='nqdcp${jsonData.id}'>Ngày quyết định cấp phép:</div></div>`;
+                                if (jsonData.ngayQuyetdinhCapphep === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ngayQuyetdinhCapphep}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+
+                                //
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='vtdusd${jsonData.id}'>Vốn tương đương USD:</div></div>`;
+                                if (jsonData.vontuongduongUSD === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.vontuongduongUSD}</div>`;
+                                row.innerHTML += `</div>`;
+
+
+                                //
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='qmcs${jsonData.id}'>Quy mô/Công suất:</div></div>`;
+                                if (jsonData.quymoCongsuat === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.quymoCongsuat}</div>`;
+                                row.innerHTML += `</div>`;
+                                //
+
+
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='nhphd${jsonData.id}'>Ngày hết phép hoạt động:</div></div>`;
+                                if (jsonData.ngayHetphepHoatdong === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ngayHetphepHoatdong}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                //                                        row.innerHTML += `<div class='nhphd${user[0]}'>Ngày hết phép hoạt động: ${user[13]} </div>`;
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='ttda${jsonData.id}'>Trạng thái dự án:</div></div>`;
+                                if (jsonData.idTrangthaiDuan === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idTrangthaiDuan.trangthai}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                //                                    row.innerHTML += `<div class='ttda${user[0]}'>Trạng thái dự án: ${user[14]} </div>`;
+
+                                row.innerHTML += `<div class="row">`;
+                                row.innerHTML += `<div class="col-xs-5"><div class='lhdu${jsonData.id}'>Loại hình dự án:</div></div>`;
+                                if (jsonData.idLoaihinhDuan === null)
+                                    row.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLoaihinhDuan}</div>`;
+                                //                                            row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLoaihinhDuan.loaihinhDuan}</div>`;
+                                row.innerHTML += `</div>`;
+
+                                //                                    row.innerHTML += `<div class='lhdu${user[0]}'>Loại hình dự án: ${user[15]} </div>`;
+
+
+
+
+                                //                                    row.innerHTML += `<div class='tmdt${user[0]}'>Tổng mức đầu tư: ${user[16]} </div>`;
+
+                                row.innerHTML += `<div class="row">`;
+                                //                        row.innerHTML += string1;
+                                row.innerHTML += `</div>`;
+                            });
+                            document.getElementById("small_render_DADTSX").appendChild(fragment)
+
+
+
+
+                        }
+                    });
+                }
+            </script>
+    </body>
+</html>

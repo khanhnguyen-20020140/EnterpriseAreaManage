@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+        <script>
+            var expandWindow;
+        </script>
+    </head>
+    <body>
+        <div class="doanhnghiep_title">
+            <h1>DANH SÁCH DOANH NGHIỆP</h1>
+            <div class="doanhnghiep_button">
+                <button onclick="expandWindow()"><svg class="svg-inline--fa fa-arrows-maximize fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="arrows-maximize" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M416 224C433.688 224 448 209.688 448 192V64C448 59.836 447.152 55.688 445.537 51.781C442.295 43.941 436.059 37.703 428.217 34.461C424.311 32.848 420.162 32 416 32H288C270.312 32 256 46.312 256 64S270.312 96 288 96H338.75L224 210.75L109.25 96H160C177.688 96 192 81.688 192 64S177.688 32 160 32H32C27.838 32 23.689 32.848 19.783 34.461C11.941 37.703 5.705 43.941 2.463 51.781C0.848 55.688 0 59.836 0 64V192C0 209.688 14.312 224 32 224S64 209.688 64 192V141.25L178.75 256L64 370.75V320C64 302.312 49.688 288 32 288S0 302.312 0 320V448C0 452.164 0.848 456.312 2.461 460.219C5.703 468.059 11.941 474.297 19.781 477.539C23.688 479.152 27.836 480 32 480H160C177.688 480 192 465.688 192 448S177.688 416 160 416H109.25L224 301.25L338.75 416H288C270.312 416 256 430.312 256 448S270.312 480 288 480H416C420.164 480 424.312 479.152 428.219 477.539C436.059 474.297 442.297 468.059 445.539 460.219C447.152 456.312 448 452.164 448 448V320C448 302.312 433.688 288 416 288S384 302.312 384 320V370.75L269.25 256L384 141.25V192C384 209.688 398.312 224 416 224Z"></path></svg></button>
+                <a class="doanhnghiep_close"  href="#"><span class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+            </div> 
+        </div>                
+        <div class="plus radius" id="radius" onclick="add()">
+        </div>
+
+        <div class="small enterprise" id="small">
+
+        </div>
+
+        <div class="smalladd" id="smalladd">
+            <div class="table-responsive resultsList__mobile">
+                <form class="resultsList__form" action="" onsubmit="return false"  id="form_register">
+                    <div class="form-group">
+                        <label  for="ten">Tên doanh nghiệp:</label>
+                        <input type="text" class="form-control" id="tendoanhnghiep" placeholder="Tên doanh nghiệp" name="ten">
+                        <span class="resultsList__error" id="ten_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="giamdoc">Giám đốc:</label>
+                        <input type="text" class="form-control" id="giamdoc" placeholder="Giám đốc" name="giamdoc">
+                        <span class="resultsList__error" id="giamdoc_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Địa chỉ:</label>
+                        <input type="text" class="form-control" id="diachi" placeholder="Địa chỉ" name="diachi">
+                        <span class="resultsList__error" id="diachi_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="linhvuc_kinhdoanh">Lĩnh vực kinh doanh:</label>
+                        <input type="text" class="form-control" id="linhvuc_kinhdoanh" placeholder="Lĩnh vực kinh doanh" name="linhvuc_kinhdoanh">
+                        <span class="resultsList__error" id="linhvuc_kinhdoanh_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ma_dangky">Mã đăng ký:</label>
+                        <input type="text" class="form-control" id="ma_dangky" placeholder="Mã đăng ký" name="ma_dangky">
+                        <span class="resultsList__error" id="ma_dangky_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="masothue">Mã số thuế:</label>
+                        <input type="text" class="form-control" id="masothue" placeholder="Mã số thuế" name="masothue">
+                        <span class="resultsList__error" id="masothue_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngay_thanhlap">Ngày thành lập:</label>
+                        <input type="date" class="form-control" id="ngay_thanhlap" placeholder="Ngày thành lập" name="ngay_thanhlap">
+                        <span class="resultsList__error" id="ngay_thanhlap_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_linhvuc_sanxuatkinhdoanh">Lĩnh vực kinh doanh:</label>
+                        <select name="id_linhvuc_sanxuatkinhdoanh" id="id_linhvuc_sanxuatkinhdoanh" class="custom-select">    
+                            <option value="-1">Chọn lĩnh vực kinh doanh</option>
+                        </select>
+                        <span class="resultsList__error" id="linhvuc_sanxuatkinhdoanh_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_loai_doanhnghiep">Loại doanh nghiệp:</label>
+                        <select name="id_loai_doanhnghiep" id="id_loai_doanhnghiep" class="custom-select">                            
+                            <option value="-1">Chọn loại doanh nghiệp</option>
+                        </select>
+                        <span class="resultsList__error" id="loai_doanhnghiep__error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="quocgia">Quốc gia:</label>
+                        <input type="text" class="form-control" id="quocgia" placeholder="Quốc gia" name="quocgia">
+                        <span class="resultsList__error" id="quocgia_error"></span>
+                    </div>
+
+                    <div class="resultsList__twobutton">
+                        <button type="submit" class="btn btn-primary" id="myBtn" ><i class="fa-floppy-o fa fa-floppy-disk"></i></button>                        
+                        <button type="submit" class="btn btn-primary doanhnghiepback"  onclick="doanhnghiepback()">Quay lại</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+
+            $(document).ready(function () {
+                $('.doanhnghiep_close').click(function () {
+                    var addfont = document.getElementById("radius");
+                    $('.doanhnghiep_close').addClass('active');
+                    if ($('.doanhnghiep_close').hasClass("active")) {
+                        $(".mob-min").css("width", "0%");
+                        $(".mob-max").css("width", "100%");
+                        $(".doanhnghiep_open").css("display", "flex");
+                        addfont.style.display = 'none';
+                    } else {
+                        $(".doanhnghiep_open").css("display", "none");
+                        addfont.style.display = 'block';
+                    }
+                });
+
+                expandWindow = function () {
+                    var mapView = document.getElementById("mapView");
+                    var content = document.getElementById("content");
+                    //var button = document.getElementById("change-button");
+
+                    var x = windowWidth - $("#leftSide").width();
+                    mapView.style.width = '0%';
+                    content.style.width = x + 'px';
+                    content.style.display = 'block';
+
+                    loadHtml('window_doanhnghiep', 'doanhnghiep.html');
+                    //loadGridDoanhnghiep();
+                }
+
+                loadDoanhnghiep();
+
+                /*
+                 * Cập nhật dữ liệu mới
+                 * @returns {undefined}
+                 */
+
+
+
+
+                $("#myBtn").click(function () {
+                    if (idEditData !== -1) {
+                        updatedn(idEditData);
+
+                    } else {
+                        var str_ten = $("#tendoanhnghiep").val();
+                        var str_giamdoc = $("#giamdoc").val();
+                        var str_diachi = $("#diachi").val();
+                        var str_lvkd = $("#linhvuc_kinhdoanh").val();
+                        var str_madk = $("#ma_dangky").val();
+                        var str_masothue = $("#masothue").val();
+                        var str_ngaythanhlap = $("#ngay_thanhlap").val();
+                        var m_id_lvsxkd = $("#id_linhvuc_sanxuatkinhdoanh").val();
+
+                        var m_id_loaidn = $("#id_loai_doanhnghiep").val();
+                        var str_quocgia = $("#quocgia").val();
+
+
+
+                        // BƯỚC 2: Validate dữ liệu
+                        // Biến cờ hiệu
+                        var flag = true;
+                        if (str_ten == '') {
+                            $('#ten_error').text('Chưa nhập tên doanh nghiệp');
+                            flag = false;
+                        } else {
+                            $('#ten_error').text('');
+                        }
+                        if (str_madk == '') {
+                            $('#ma_dangky_error').text('Chưa nhập mã đăng ký');
+                            flag = false;
+                        } else {
+                            $('#ma_dangky_error').text('');
+                        }
+                        console.log(str_ngaythanhlap)
+
+                        const dateFormat = str_ngaythanhlap.split("T");
+                        str_ngaythanhlap = dateFormat[0];
+                        console.log(str_ngaythanhlap)
+
+
+                        var obj = {};
+                        if (str_ten !== '')
+                            obj["ten"] = str_ten;
+                        if (str_madk !== '')
+                            obj["maDangky"] = str_madk;
+                        if (str_masothue !== '')
+                            obj["masothue"] = str_masothue;
+                        if (str_diachi !== '')
+                            obj["diachi"] = str_diachi;
+                        if (str_giamdoc !== '')
+                            obj["giamdoc"] = str_giamdoc;
+                        if (str_lvkd !== '')
+                            obj["linhvucKinhdoanh"] = str_lvkd;
+                        if (str_ngaythanhlap !== '')
+                            obj["ngayThanhlap"] = str_ngaythanhlap;
+                        if (m_id_lvsxkd !== -1)
+                            obj["idLinhvucSanxuatkinhdoanh"] = m_id_lvsxkd;
+                        if (m_id_loaidn !== -1)
+                            obj["idLoaiDoanhnghiep"] = m_id_loaidn;
+                        if (str_quocgia !== '')
+                            obj["quocgia"] = str_quocgia;
+
+                        //console.log('me: '+JSON.stringify(obj));
+
+                        if (flag === true) {
+                            var addfont = document.getElementById("radius");
+                            addfont.style.display = 'block';
+                            $('#ten_error').text('');
+                            $('#ma_dangky_error').text('');
+                            jQuery.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'type': 'POST',
+                                'url': "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/",
+                                'data': JSON.stringify(obj),
+                                'dataType': 'json',
+                            }).done(function (response) {
+
+//                                $('#window_doanhnghiep_mini').load("doanhnghiep-mini.html");
+//                                var postDoanhnghiep = "";
+                                console.log(response.ngayThanhlap)
+
+
+                                var postDoanhnghiep = '';
+                                postDoanhnghiep += '<div class="enterprise__row" id="enterprise__row__' + response.id + '">';
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div id='ten' class='ten${response.id}'>Tên doanh nghiệp:</div></div>`;
+                                if (response.ten === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" id='ten'>${response.ten}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='giamdoc${response.id}'>Giám đốc:</div></div>`;
+                                if (response.giamdoc === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.giamdoc}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='diachi${response.id}'>Địa chỉ:</div></div>`;
+                                if (response.diachi === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.diachi}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='linhvuc${response.id}'>Lĩnh vực:</div></div>`;
+                                if (response.linhvucKinhdoanh === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.linhvucKinhdoanh}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='mdk${response.id}'>Mã đăng ký:</div></div>`;
+                                if (response.maDangky === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.maDangky}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='mst${response.id}'>Mã số thuế:</div></div>`;
+                                if (response.masothue === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.masothue}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='mdk${response.id}'>Ngày thành lập:</div></div>`;
+                                if (response.ngayThanhlap === null) {
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                } else {
+                                    var dateFormat = response.ngayThanhlap.split("T");
+                                    response.ngayThanhlap = dateFormat[0];
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.ngayThanhlap}</div>`;
+                                }
+
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='ldn${response.id}'>Loại doanh nghiệp:</div></div>`;
+                                if (response.idLoaiDoanhnghiep === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">` + $('#id_loai_doanhnghiep option:selected').text() + `</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='lvsx${response.id}'>Lĩnh vực sản xuất:</div></div>`;
+                                if (response.idLinhvucSanxuatkinhdoanh === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">` + $('#id_linhvuc_sanxuatkinhdoanh option:selected').text() + `</div>`;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += `<div class="col-xs-5"><div class='mst${response.quocgia}'>Quốc gia:</div></div>`;
+                                if (response.quocgia === null)
+                                    postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                                else
+                                    postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${response.quocgia}</div>`;
+                                postDoanhnghiep += `</div>`;
+
+
+                                var choice = '<div class="enterprise__button"><a href="#"><button onclick=edit(';
+                                choice += response.id;
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleterow(';
+                                choice += response.id;
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                postDoanhnghiep += `<div class="row">`;
+                                postDoanhnghiep += choice;
+                                postDoanhnghiep += `</div>`;
+
+                                postDoanhnghiep += `</div>`;
+
+
+//                                postDiv.innerHtml = postDoanhnghiep;
+
+
+                                console.log(response.id)
+                                $.ajax({
+                                    url: "http://" + hostname + ":" + port + "/doanhnghiep/preDoanhnghiep/" + response.id,
+                                    type: 'GET',
+                                    success: function (preId) {
+                                        console.log(response.ngayThanhlap)
+                                        console.log(preId);
+                                        if (preId === -1) {
+                                            $(postDoanhnghiep).insertAfter("#enterprise__row__0");
+                                            doanhnghieppostback();
+                                            var myElement = document.getElementById('enterprise__row__' + response.id);
+                                            myElement.scrollIntoView();
+
+
+                                            if (typeof hotdn !== 'undefined') {
+                                                console.log("???")
+
+
+                                                hotdn.alter('insert_row', 0);
+                                                hotdn.setDataAtCell(0, 0, response.id);
+                                                if (response.ten !== null)
+                                                    hotdn.setDataAtCell(0, 1, response.ten);
+                                                if (response.giamdoc !== null)
+                                                    hotdn.setDataAtCell(0, 2, response.giamdoc);
+                                                if (response.diachi !== null)
+                                                    hotdn.setDataAtCell(0, 3, response.diachi);
+                                                if (response.linhvucKinhdoanh !== null)
+                                                    hotdn.setDataAtCell(0, 8, response.linhvucKinhdoanh);
+                                                if (response.maDangky !== null)
+                                                    hotdn.setDataAtCell(0, 5, response.maDangky);
+                                                if (response.masothue !== null)
+                                                    hotdn.setDataAtCell(0, 7, response.masothue);
+                                                if (response.quocgia !== null)
+                                                    hotdn.setDataAtCell(0, 4, response.quocgia);
+
+                                                if (response.ngayThanhlap !== null) {
+                                                    const dateFormat = response.ngayThanhlap.split("T");
+                                                    response.ngayThanhlap = dateFormat[0];
+                                                    const myArray = response.ngayThanhlap.split("-");
+                                                    var newDate = "";
+                                                    newDate = newDate.concat(myArray[2]);
+                                                    newDate = newDate.concat("/");
+                                                    newDate = newDate.concat(myArray[1]);
+                                                    newDate = newDate.concat("/");
+
+                                                    newDate = newDate.concat(myArray[0]);
+                                                    response.ngayThanhlap = newDate;
+                                                    console.log(response.ngayThanhlap)
+                                                    hotdn.setDataAtCell(0, 6, response.ngayThanhlap);
+
+                                                }
+                                                if (response.idLinhvucSanxuatkinhdoanh !== null) {
+                                                    hotdn.setDataAtCell(0, 9, $('#id_linhvuc_sanxuatkinhdoanh option:selected').text());
+                                                }
+                                                if (response.idLoaiDoanhnghiep !== null) {
+                                                    hotdn.setDataAtCell(0, 10, $('#id_loai_doanhnghiep option:selected').text());
+                                                }
+
+
+
+
+                                            }
+                                        } else {
+                                            $(postDoanhnghiep).insertAfter("#enterprise__row__" + preId);
+                                            doanhnghieppostback();
+                                            var myElement = document.getElementById('enterprise__row__' + preId);
+                                            myElement.scrollIntoView();
+                                            console.log("nani")
+
+                                            if (typeof hotdn !== 'undefined') {
+                                                console.log("???")
+                                                for (var i = 0; i < hotdn.getData().length; i++) {
+                                                    if (hotdn.getData()[i][0] === preId) {
+                                                        hotdn.alter('insert_row', (i + 1));
+                                                        hotdn.setDataAtCell((i + 1), 0, response.id);
+                                                        if (response.ten !== null)
+                                                            hotdn.setDataAtCell((i + 1), 1, response.ten);
+                                                        if (response.giamdoc !== null)
+                                                            hotdn.setDataAtCell((i + 1), 2, response.giamdoc);
+                                                        if (response.diachi !== null)
+                                                            hotdn.setDataAtCell((i + 1), 3, response.diachi);
+                                                        if (response.linhvucKinhdoanh !== null)
+                                                            hotdn.setDataAtCell((i + 1), 8, response.linhvucKinhdoanh);
+                                                        if (response.maDangky !== null)
+                                                            hotdn.setDataAtCell((i + 1), 5, response.maDangky);
+                                                        if (response.masothue !== null)
+                                                            hotdn.setDataAtCell((i + 1), 7, response.masothue);
+                                                        if (response.quocgia !== null)
+                                                            hotdn.setDataAtCell((i + 1), 4, response.quocgia);
+
+                                                        if (response.ngayThanhlap !== null) {
+                                                            const dateFormat = response.ngayThanhlap.split("T");
+                                                            response.ngayThanhlap = dateFormat[0];
+                                                            const myArray = response.ngayThanhlap.split("-");
+                                                            var newDate = "";
+                                                            newDate = newDate.concat(myArray[2]);
+                                                            newDate = newDate.concat("/");
+                                                            newDate = newDate.concat(myArray[1]);
+                                                            newDate = newDate.concat("/");
+
+                                                            newDate = newDate.concat(myArray[0]);
+                                                            response.ngayThanhlap = newDate;
+                                                            console.log(response.ngayThanhlap)
+                                                            hotdn.setDataAtCell((i + 1), 6, response.ngayThanhlap);
+
+                                                        }
+                                                        if (response.idLinhvucSanxuatkinhdoanh !== null) {
+                                                            hotdn.setDataAtCell((i + 1), 9, $('#id_linhvuc_sanxuatkinhdoanh option:selected').text());
+                                                        }
+                                                        if (response.idLoaiDoanhnghiep !== null) {
+                                                            hotdn.setDataAtCell((i + 1), 10, $('#id_loai_doanhnghiep option:selected').text());
+                                                        }
+
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                            });
+                        }
+                    }
+                });
+
+
+
+
+                $(".resultsList__mobile").submit(function (e) {
+                    e.preventDefault();
+                    var name = $("input[name='name']").val();
+                    var email = $("input[name='email']").val();
+                    $(".data-table tbody").append("<tr data-name='" + name + "' data-email='" + email + "'><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+                    $("input[name='']").val("");
+                });
+            });
+
+            let topscroll_dn = 0; //lưu vị trí của thanh cuộn dọc của div content
+
+            function add() {
+                idEditData = -1;
+                var put = document.getElementById("small")
+                put.style.display = 'none';
+                var add = document.getElementById("smalladd");
+                add.style.display = 'block';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'none';
+                $("#tendoanhnghiep").val("");
+                $("#giamdoc").val("");
+                $("#diachi").val("");
+                $("#linhvuc_kinhdoanh").val("");
+                $("#ma_dangky").val("");
+                $("#masothue").val("");
+                $("#quocgia").val("");
+                $("#ngay_thanhlap").val("");
+                loadCbHtml('id_linhvuc_sanxuatkinhdoanh', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', -1);
+                loadCbHtml('id_loai_doanhnghiep', 'http://' + hostname + ':' + port + '/dmloaidoanhnghiep/dmloaidoanhnghieps/', -1);
+            }
+
+            function edit(id) {
+                idEditData = id;
+                topscroll_dn = $("#content").scrollTop();
+                var put = document.getElementById("small")
+                put.style.display = 'none';
+                var add = document.getElementById("smalladd");
+                add.style.display = 'block';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'none';
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + id,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.ten !== null)
+                            $("#tendoanhnghiep").val(response.ten);
+                        else
+                            $("#tendoanhnghiep").val("");
+                        if (response.giamdoc !== null)
+                            $("#giamdoc").val(response.giamdoc);
+                        else
+                            $("#giamdoc").val("");
+                        if (response.diachi !== null)
+                            $("#diachi").val(response.diachi);
+                        else
+                            $("#diachi").val("");
+                        if (response.linhvucKinhdoanh !== null)
+                            $("#linhvuc_kinhdoanh").val(response.linhvucKinhdoanh);
+                        else
+                            $("#linhvuc_kinhdoanh").val("");
+                        if (response.maDangky !== null)
+                            $("#ma_dangky").val(response.maDangky);
+                        else
+                            $("#ma_dangky").val("");
+                        if (response.masothue !== null)
+                            $("#masothue").val(response.masothue);
+                        else
+                            $("#masothue").val("");
+                        if (response.quocgia !== null)
+                            $("#quocgia").val(response.quocgia);
+                        else
+                            $("#quocgia").val("");
+                        if (response.ngayThanhlap !== null)
+                            $("#ngay_thanhlap").val(response.ngayThanhlap);
+                        else
+                            $("#ngay_thanhlap").val("");
+                        if (response.idLinhvucSanxuatkinhdoanh !== null) {
+                            loadCbHtml('id_linhvuc_sanxuatkinhdoanh', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', response.idLinhvucSanxuatkinhdoanh.idLinhvucSanxuatkinhdoanh);
+                        } else {
+                            loadCbHtml('id_linhvuc_sanxuatkinhdoanh', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', -1);
+                        }
+                        if (response.idLoaiDoanhnghiep !== null) {
+                            loadCbHtml('id_loai_doanhnghiep', 'http://' + hostname + ':' + port + '/dmloaidoanhnghiep/dmloaidoanhnghieps/', response.idLoaiDoanhnghiep.idLoaiDoanhnghiep);
+                        } else {
+                            loadCbHtml('id_loai_doanhnghiep', 'http://' + hostname + ':' + port + '/dmloaidoanhnghiep/dmloaidoanhnghieps/', -1);
+                        }
+                    }
+                });
+            }
+
+            function doanhnghiepback() {
+                $('#ten_error').text('');
+                $('#ma_dangky_error').text('');
+                idEditData = -1;
+                var put = document.getElementById("small")
+                put.style.display = 'block';
+                var add = document.getElementById("smalladd");
+                add.style.display = 'none';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'block';
+                $("#content").scrollTop(topscroll_dn);
+            }
+
+            function doanhnghieppostback() {
+                idEditData = -1;
+                var put = document.getElementById("small")
+                put.style.display = 'block';
+                var add = document.getElementById("smalladd");
+                add.style.display = 'none';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'block';
+            }
+
+            /*
+             * Cập nhật lại dữ liệu theo mã định danh
+             * @param {type} id
+             * @returns {undefined}
+             */
+            function updatedn(id) {
+                var str_ten = $("#tendoanhnghiep").val();
+                var str_giamdoc = $("#giamdoc").val();
+                var str_diachi = $("#diachi").val();
+                var str_lvkd = $("#linhvuc_kinhdoanh").val();
+                var str_madk = $("#ma_dangky").val();
+                var str_masothue = $("#masothue").val();
+                var str_ngaythanhlap = $("#ngay_thanhlap").val();
+                var m_id_lvsxkd = $("#id_linhvuc_sanxuatkinhdoanh").val();
+                var m_id_loaidn = $("#id_loai_doanhnghiep").val();
+                var str_quocgia = $("#quocgia").val();
+
+                var obj = {};
+                obj["ten"] = str_ten;
+                obj["maDangky"] = str_madk;
+                obj["masothue"] = str_masothue;
+                obj["diachi"] = str_diachi;
+                obj["giamdoc"] = str_giamdoc;
+                obj["linhvucKinhdoanh"] = str_lvkd;
+                obj["ngayThanhlap"] = str_ngaythanhlap;
+                obj["idLinhvucSanxuatkinhdoanh"] = m_id_lvsxkd;
+                obj["idLoaiDoanhnghiep"] = m_id_loaidn;
+                obj["quocgia"] = str_quocgia;
+
+                var flag = true;
+                console.log("??/")
+                console.log(str_ten)
+                if (str_ten == '') {
+                    $('#ten_error').text('Chưa nhập tên doanh nghiệp');
+                    flag = false;
+                } else {
+                    $('#ten_error').text('');
+                }
+                if (str_madk == '') {
+                    $('#ma_dangky_error').text('Chưa nhập mã đăng ký');
+                    flag = false;
+                } else {
+                    $('#ma_dangky_error').text('');
+                }
+
+                if (flag === true) {
+                    $('#ten_error').text('');
+                    $('#ma_dangky_error').text('');
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        'type': 'PUT',
+                        'url': "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + id,
+                        'data': JSON.stringify(obj),
+                        'dataType': 'json'
+                    }).done(function () {
+                        //reloadHtml('window_doanhnghiep_mini','doanhnghiep-mini.html'); 
+//                    loadDoanhnghiep();
+
+                        $.ajax({
+                            url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + id,
+                            type: 'GET',
+                            success: function (response) {
+                                console.log(response.ngayThanhlap)
+                                var doanhnghiep_changed = document.getElementById("enterprise__row__" + id);
+                                doanhnghiep_changed.innerHTML = "";
+
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div id='ten' class='ten${response.id}'>Tên doanh nghiệp:</div></div>`;
+                                if (response.ten === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" id='ten'>${response.ten}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='giamdoc${response.id}'>Giám đốc:</div></div>`;
+                                if (response.giamdoc === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.giamdoc}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='diachi${response.id}'>Địa chỉ:</div></div>`;
+                                if (response.diachi === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.diachi}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='linhvuc${response.id}'>Lĩnh vực:</div></div>`;
+                                if (response.linhvucKinhdoanh === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.linhvucKinhdoanh}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mdk${response.id}'>Mã đăng ký:</div></div>`;
+                                if (response.maDangky === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.maDangky}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mst${response.id}'>Mã số thuế:</div></div>`;
+                                if (response.masothue === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.masothue}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mdk${response.id}'>Ngày thành lập:</div></div>`;
+                                if (response.ngayThanhlap === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.ngayThanhlap}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='ldn${response.id}'>Loại doanh nghiệp:</div></div>`;
+                                if (response.idLoaiDoanhnghiep === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.idLoaiDoanhnghiep.loaiDoanhnghiep}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='lvsx${response.id}'>Lĩnh vực sản xuất:</div></div>`;
+                                if (response.idLinhvucSanxuatkinhdoanh === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mst${response.quocgia}'>Quốc gia:</div></div>`;
+                                if (response.quocgia === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.quocgia}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+
+
+                                var choice = '<div class="enterprise__button"><a href="#"><button onclick=edit(';
+                                choice += (id);
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleterow(';
+                                choice += (id);
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += choice;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                for (var i = 0; i < hotdn.getData().length; i++) {
+                                    if (hotdn.getData()[i][0] === response.id) {
+
+
+                                        if (response.ten !== null)
+                                            hotdn.setDataAtCell(i, 1, response.ten);
+                                        if (response.giamdoc !== null)
+                                            hotdn.setDataAtCell(i, 2, response.giamdoc);
+                                        if (response.diachi !== null)
+                                            hotdn.setDataAtCell(i, 3, response.diachi);
+                                        if (response.linhvucKinhdoanh !== null)
+                                            hotdn.setDataAtCell(i, 8, response.linhvucKinhdoanh);
+                                        if (response.maDangky !== null)
+                                            hotdn.setDataAtCell(i, 5, response.maDangky);
+                                        if (response.masothue !== null)
+                                            hotdn.setDataAtCell(i, 7, response.masothue);
+                                        if (response.quocgia !== null)
+                                            hotdn.setDataAtCell(i, 4, response.quocgia);
+                                        if (response.ngayThanhlap !== null) {
+                                            const myArray = response.ngayThanhlap.split("-");
+                                            var newDate = "";
+                                            newDate = newDate.concat(myArray[2]);
+                                            newDate = newDate.concat("/");
+                                            newDate = newDate.concat(myArray[1]);
+                                            newDate = newDate.concat("/");
+
+                                            newDate = newDate.concat(myArray[0]);
+                                            response.ngayThanhlap = newDate;
+                                            hotdn.setDataAtCell(i, 6, response.ngayThanhlap);
+                                        }
+
+                                        if (response.idLinhvucSanxuatkinhdoanh !== null) {
+                                            hotdn.setDataAtCell(i, 9, response.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh);
+                                        }
+                                        if (response.idLoaiDoanhnghiep !== null) {
+                                            hotdn.setDataAtCell(i, 10, response.idLoaiDoanhnghiep.loaiDoanhnghiep);
+                                        }
+
+                                        break;
+                                    }
+                                }
+
+
+                            }
+                        })
+
+
+
+                        doanhnghiepback();
+                    });
+                }
+            }
+
+            function deleterow(id) {
+                $('<div></div>').appendTo('body')
+                        .html('<div><h6>Bạn chắc chắn muốn xóa dữ liệu này?</h6></div>')
+                        .dialog({
+                            modal: true,
+                            title: 'Xác nhận xóa dữ liệu',
+                            zIndex: 10000,
+                            autoOpen: true,
+                            width: 'auto',
+                            resizable: false,
+                            buttons: {
+                                Yes: function () {
+                                    $.ajax({
+                                        url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + id,
+                                        type: 'DELETE',
+                                        success: function (result) {
+
+                                            var doanhnghiep_deleted = document.getElementById("enterprise__row__" + id);
+                                            doanhnghiep_deleted.remove();
+
+                                            hotdn.deselectCell();
+                                            for (var i = 0; i < hotdn.getData().length; i++) {
+                                                if (hotdn.getData()[i][0] === id) {
+                                                    hotdn.alter('remove_row', i, 1);
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+                                    });
+                                    $(this).dialog("close");
+                                },
+                                No: function () {
+                                    $(this).dialog("close");
+                                }
+                            },
+                            close: function (event, ui) {
+                                $(this).remove();
+                            }
+                        });
+            }
+
+            function cancel(id) {
+                var idmall = "enterprise__row__" + id;
+                divput = document.getElementById(idmall);
+                divput.style.display = "block";
+                idmall = "smallput__" + id;
+                var divput = document.getElementById(idmall);
+                divput.style.display = "none";
+                var btndelete = "btn-delete" + id;
+                var nutxoa = document.getElementById(btndelete);
+                nutxoa.style.display = 'flex';
+
+                var btnupdate = "myBtnput_" + id;
+                var btncancel = "myBtncancel_" + id;
+
+                var nutupdate = document.getElementById(btnupdate);
+                var nuthuy = document.getElementById(btncancel);
+
+                nutupdate.style.display = "none";
+                nuthuy.style.display = "none";
+            }
+
+            function loadDoanhnghiep() {
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghieps/",
+                    type: 'GET',
+                    success: function (response) {
+                        let row;
+                        document.querySelector('#small').innerHTML = '<div class="enterprise__row" id="enterprise__row__0" style="display: none"></div>';
+
+                        let fragment = new DocumentFragment();
+                        Object.keys(response).forEach(function (key) {
+                            //console.log(key, response[key]); 
+                            let str = JSON.stringify(response[key]);
+                            var jsonData = JSON.parse(str);
+                            //console.log('id:' + jsonData.id + ', ten: ' + jsonData.ten);
+
+                            /*Create new row and class*/
+                            row = document.createElement("div");
+                            row.classList.add("enterprise__row");
+                            var id_dn = "enterprise__row__" + jsonData.id;
+                            row.setAttribute("id", id_dn);
+//                            divele = document.createElement("div");
+                            /*Append the row to the fragment*/
+                            fragment.appendChild(row);
+//                            fragment.appendChild(divele);
+
+                            var iddelete = jsonData.id;
+
+                            var string1 = '<div class="enterprise__button"><a href="#"><button onclick=edit(';
+                            string1 += (iddelete);
+                            string1 += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleterow(';
+                            string1 += (iddelete);
+                            string1 += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div id='ten' class='ten${jsonData.id}'>Tên doanh nghiệp:</div></div>`;
+                            if (jsonData.ten === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" id='ten'>${jsonData.ten}</div>`;
+
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='giamdoc${jsonData.id}'>Giám đốc:</div></div>`;
+                            if (jsonData.giamdoc === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.giamdoc}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='diachi${jsonData.id}'>Địa chỉ:</div></div>`;
+                            if (jsonData.diachi === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.diachi}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='linhvuc${jsonData.id}'>Lĩnh vực:</div></div>`;
+                            if (jsonData.linhvucKinhdoanh === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.linhvucKinhdoanh}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='mdk${jsonData.id}'>Mã đăng ký:</div></div>`;
+                            if (jsonData.maDangky === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.maDangky}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='mst${jsonData.id}'>Mã số thuế:</div></div>`;
+                            if (jsonData.masothue === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.masothue}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='mdk${jsonData.id}'>Ngày thành lập:</div></div>`;
+                            if (jsonData.ngayThanhlap === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ngayThanhlap}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='ldn${jsonData.id}'>Loại doanh nghiệp:</div></div>`;
+                            if (jsonData.idLoaiDoanhnghiep === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLoaiDoanhnghiep.loaiDoanhnghiep}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='lvsx${jsonData.id}'>Lĩnh vực sản xuất:</div></div>`;
+                            if (jsonData.idLinhvucSanxuatkinhdoanh === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-5"><div class='mst${jsonData.quocgia}'>Quốc gia:</div></div>`;
+                            if (jsonData.quocgia === null)
+                                row.innerHTML += `<div class="col-xs-7"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.quocgia}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += string1;
+                            row.innerHTML += `</div>`;
+                        });
+                        document.getElementById("small").appendChild(fragment);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
+

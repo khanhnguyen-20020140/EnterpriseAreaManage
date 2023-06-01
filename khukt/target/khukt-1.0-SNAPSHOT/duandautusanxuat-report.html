@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Báo cáo Kết quả Sản xuất kinh doanh</title>
+    <style>
+        #window_baocaoketquadautusanxuat .zoomin {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="duandautusanxuat-report-all">
+        <div id="duandautusanxuat-pagereport">
+            <div style="position: absolute; right: 0;top: 0;z-index: 99;" onclick=duandautusanxuatreportback()>
+                <div class="button-3">
+                    <span class="glyphicon glyphicon-remove"></span></p>
+                </div>
+            </div>
+            <!--            <div  class="button-3" onclick = duandautusanxuatreportexceldownload()><i class="glyphicon glyphicon-cloud-download"></i></div>-->
+        </div>
+        <div id="duandautusanxuat_typereport">
+            <div id="duandautusanxuat_type_report" class="duandautusanxuat_typereport_element">
+                <select id="duandautusanxuat_typereport_result">
+                    <option value="default">Chọn loại báo cáo:</option>
+                    <option value="1">Theo doanh nghiệp</option>
+                    <option value="2">Theo khu chuyên ngành</option>
+                    <option value="3">Theo khu kinh tế</option>
+                    <option value="4">Trên toàn tỉnh</option>
+                </select>
+            </div>
+            <div id="duandautusanxuat_type_report_kcn" class="duandautusanxuat_typereport_element">
+                <select id="duandautusanxuat-kcn-report" class="custom-select">
+                    <option value="-1">Chọn khu chuyên ngành</option>
+                </select>
+            </div>
+            <div id="duandautusanxuat_type_report_dn" class="duandautusanxuat_typereport_element">
+                <select id="duandautusanxuat-dn-report" class="custom-select">
+                    <option value="-1">Chọn doanh nghiệp</option>
+                </select>
+            </div>
+            <div id="duandautusanxuat_type_report_kkt" class="duandautusanxuat_typereport_element">
+                <select id="duandautusanxuat-kkt-report" class="custom-select">
+                    <option value="-1">Chọn khu kinh tế</option>
+                </select>
+            </div>
+            <div id="duandautusanxuat_type_report_column">
+                <form id="duandautusanxuat_columnselect" onsubmit="return false">
+                    <div class="duandautusanxuat_multiselect">
+                        <div id="duandautusanxuat_selectBox" class="duandautusanxuat_typereport_element"
+                            onclick="duandautusanxuat_showCheckboxes()">
+                            <select>
+                                <option>Chọn cột hiển thị</option>
+                            </select>
+                            <div class="duandautusanxuat_overSelect"></div>
+                        </div>
+                        <div id="duandautusanxuat_checkboxes">
+                            <span class="bigcheck" style="display: none;">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="tenduan" />
+                                    <span class="bigcheck-target"></span>
+                                    Tên dự án
+                                </label>
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="soquyetdinhchophep" checked
+                                        value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số quyết định cho phép
+                            </span>
+                            <input type="checkbox" id="mocbaocao" /></input>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="vondautu" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Vốn đầu tư
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="noidungsanxuat" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Nội dung sản xuất
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="masoduan" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Mã số dự án
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="ngaycapphephoatdong" checked
+                                        value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Ngày cấp phép hoạt động
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="vontuongduongusd" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Vốn tương đương USD
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="quymo" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Quy mô
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="ngayhetphephoatdong" checked
+                                        value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Ngày hết phép hoạt động
+                            </span>
+
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="loaihinhduan" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Loại hình dự án
+                            </span>
+
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="doanhnghiep" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Doanh nghiệp
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="nguonvon" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Nguồn vốn
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="khuchuyennganh" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Khu chuyên ngành
+                            </span>
+
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="linhvucsanxuat" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Lĩnh vực sản xuất
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="trangthai" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Trạng thái
+                            </span>
+
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="tongmucdautu" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Tổng mức đầu tư
+                            </span>
+
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- <div id="duandautusanxuat_type_report_date">
+                <div id="stardny">
+                    <label for="tiendo_ngaybatdau">Từ :</label>
+                    <input type="date" class="form-control" id="tiendo_ngaybatdau" placeholder="Ngày bắt đầu"
+                        name="tiendo_ngaybatdau">
+                </div>
+                <div id="endDay">
+                    <label for="tiendo_ngayketthuc">Tới :</label>
+                    <input type="date" class="form-control" id="tiendo_ngayketthuc" placeholder="Ngày kết thúc"
+                        name="tiendo_ngayketthuc">
+                </div>
+                <span class="resultsList__error" id="date_error"></span>
+            </div> -->
+            <div id="duandautusanxuat_type_report_render" onclick="duandautusanxuat_renderReport()">
+                <div class="button-3">
+
+                    <i class="glyphicon glyphicon-file"></i>
+                </div>
+            </div>
+            <div class="button-3" id="duandautusanxuat_report_reload" onclick=duandautusanxuatreportreload()>
+
+                <i class="glyphicon glyphicon-refresh"></i>
+            </div>
+            <ul id="duandautusanxuat-accordion" class="accordion">
+                <li>
+                    <div class="link"><i class="fa fa-download" aria-hidden="true"></i>Tải xuống<i
+                            class="fa fa-chevron-down"></i></div>
+                    <ul class="submenu">
+                        <li id="download-duandautusanxuat-excel">
+                        </li>
+                        <li id="download-duandautusanxuat-word">
+                        </li>
+                        <li id="download-duandautusanxuat-pdf">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="alert alert-success" id="duandautusanxuat-report-success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <div id="duandautusanxuat-report-success-alert-appear">
+            </div>
+        </div>
+        <div class="loader-wrapper" id="duandautusanxuat-loader-wrapper">
+            <span class="loader"><span class="loader-inner"></span></span>
+        </div>
+        <div id="getduandautusanxuatreport" width="100%" height="600px"></div>
+    </div>
+</body>
+<script>
+
+    $("#duandautusanxuat-report-success-alert").hide();
+    $(function () {
+        var Accordion = function (el, multiple) {
+            this.el = el || {};
+            this.multiple = multiple || false;
+            // Variables privadas
+            var links = this.el.find('.link');
+            // Evento
+            links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown)
+        }
+        Accordion.prototype.dropdown = function (e) {
+            var $el = e.data.el;
+            $this = $(this),
+                $next = $this.next();
+            $next.slideToggle();
+            $this.parent().toggleClass('open');
+            if (!e.data.multiple) {
+                $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+            };
+        }
+        var accordion = new Accordion($('#duandautusanxuat-accordion'), false);
+    });
+    $(window).on("load", function () {
+        $("#duandautusanxuat-loader-wrapper").fadeOut("slow");
+    });
+    var url_select = "";
+    var type_picked = "";
+    var expanded = false;
+    function duandautusanxuat_showCheckboxes() {
+        var checkboxes = document.getElementById("duandautusanxuat_checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
+    loadCbHtml('duandautusanxuat-dn-report', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+    loadCbHtml('duandautusanxuat-kcn-report', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+    loadCbHtml('duandautusanxuat-kkt-report', 'http://' + hostname + ':' + port + '/khukinhte/khukinhtes/', -1);
+    $('#duandautusanxuat_typereport_result').on('change', function () {
+        if ($("#duandautusanxuat_typereport_result").val() === '1') {
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'none';
+            //                document.getElementById("duandautusanxuat_typereport").style.display = 'none';
+        } else if ($("#duandautusanxuat_typereport_result").val() === '2') {
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'none';
+            //                document.getElementById("duandautusanxuat_typereport").style.display = 'none';
+        } else if ($("#duandautusanxuat_typereport_result").val() === '3') {
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'none';
+            //                document.getElementById("duandautusanxuat_typereport").style.display = 'none';
+        } else if ($("#duandautusanxuat_typereport_result").val() === '4') {
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'flex';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'block';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'block';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'block';
+        } else {
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'none';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'none';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'none';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'none';
+        }
+    });
+    $('#duandautusanxuat-dn-report').on('change', function () {
+        console.log($("#duandautusanxuat-dn-report").val())
+        if ($("#duandautusanxuat-dn-report").val() === '-1') {
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'none';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'none';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'none';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'none';
+        } else {
+            console.log("display : none ?")
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'flex';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'block';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'block';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'block';
+        }
+    });
+    $('#duandautusanxuat-kcn-report').on('change', function () {
+        if ($("#duandautusanxuat-kcn-report").val() === '-1') {
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'none';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'none';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'none';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'none';
+        } else {
+            console.log("display : none ?")
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'flex';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'block';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'block';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'block';
+        }
+    });
+    $('#duandautusanxuat-kkt-report').on('change', function () {
+        if ($("#duandautusanxuat-kkt-report").val() === '-1') {
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'none';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'none';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'none';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'none';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'none';
+        } else {
+            console.log("display : none ?")
+            document.getElementById("duandautusanxuat_type_report_column").style.display = 'flex';
+            // document.getElementById("duandautusanxuat_type_report_date").style.display = 'flex';
+            document.getElementById("duandautusanxuat_type_report_render").style.display = 'block';
+            document.getElementById("duandautusanxuat-accordion").style.display = 'block';
+            document.getElementById("duandautusanxuat_report_reload").style.display = 'block';
+        }
+    });
+    function duandautusanxuat_getLoaibaocao() {
+        console.log($("#duandautusanxuat_typereport_result").val());
+        //            loadCbHtml('duandautusanxuat-dn-report', 'http://' + hostname + ':' + port + '/duandautusanxuat/duandautusanxuats/', -1);
+        if ($("#duandautusanxuat_typereport_result").val() === '1') {
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'block';
+            //                document.getElementById("duandautusanxuat_typereport").style.display = 'none';
+        }
+        if ($("#duandautusanxuat_typereport_result").val() === '2') {
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'block';
+            //                document.getElementById("duandautusanxuat_typereport").style.display = 'none';
+        }
+        if ($("#duandautusanxuat_typereport_result").val() === '3') {
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'block';
+            //                document.getElementById("duandautusanxuat_typereport").style.display = 'none';
+        }
+    }
+    function duandautusanxuat_backLoaibaocao() {
+        $('#tiendo_ngayketthuc_error').text('');
+        $('#tiendo_ngaybatdau_error').text('');
+        document.getElementById("duandautusanxuat_column").style.display = 'none';
+        document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'none';
+        document.getElementById("duandautusanxuat_type_report_dn").style.display = 'none';
+        document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'none';
+        document.getElementById("duandautusanxuat_typereport").style.display = 'block';
+    }
+    function duandautusanxuat_kcn_selectcolumn() {
+        if ($("#duandautusanxuat-kcn-report").val() != '-1') {
+            document.getElementById("duandautusanxuat_type_report_kcn").style.display = 'none';
+            document.getElementById("duandautusanxuat_column").style.display = 'block';
+        }
+    }
+    function duandautusanxuat_dn_selectcolumn() {
+        if ($("#duandautusanxuat-dn-report").val() != '-1') {
+            console.log("???wwtf");
+            document.getElementById("duandautusanxuat_type_report_dn").style.display = 'none';
+            document.getElementById("duandautusanxuat_column").style.display = 'block';
+        }
+    }
+    function duandautusanxuat_kkt_selectcolumn() {
+        if ($("#duandautusanxuat-kkt-report").val() != '-1') {
+            document.getElementById("duandautusanxuat_type_report_kkt").style.display = 'none';
+            document.getElementById("duandautusanxuat_column").style.display = 'block';
+        }
+    }
+    Number.prototype.padLeft = function (base, chr) {
+        var len = (String(base || 10).length - String(this).length) + 1;
+        return len > 0 ? new Array(len).join(chr || '0') + this : this;
+    }
+    function duandautusanxuat_renderReport() {
+        var str_nbd = $("#tiendo_ngaybatdau").val();
+        var str_nkt = $("#tiendo_ngayketthuc").val();
+        console.log("???")
+        console.log(str_nbd)
+        if (str_nkt === '' || str_nbd === '') {
+            if (str_nkt === '') {
+                document.getElementById("duandautusanxuat-report-success-alert-appear").innerHTML = "<strong> <i class='fas fa-exclamation-triangle' aria-hidden='true'></i>Thời điểm kết thúc đang trống </strong>"
+                $("#duandautusanxuat-report-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#duandautusanxuat-report-success-alert").slideUp(500);
+                });
+                // $('#tiendo_ngayketthuc_error').text('Chưa nhập thời điểm cuối mốc báo cáo *');
+            }
+            if (str_nbd === '') {
+                document.getElementById("duandautusanxuat-report-success-alert-appear").innerHTML = "<strong> <i class='fas fa-exclamation-triangle' aria-hidden='true'></i>Thời điểm ban đầu đang trống </strong>"
+                // $('#tiendo_ngaybatdau_error').text('Chưa nhập thời điểm đầu mốc báo cáo *');
+                $("#duandautusanxuat-report-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#duandautusanxuat-report-success-alert").slideUp(500);
+                });
+            }
+        } else if (str_nkt < str_nbd) {
+            document.getElementById("duandautusanxuat-report-success-alert-appear").innerHTML = "<strong> <i class='fas fa-exclamation-triangle' aria-hidden='true'></i>Thời điểm đầu mốc báo cáo phải nhỏ hơn thời điểm cuối mốc báo cáo</strong>"
+            $("#duandautusanxuat-report-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                $("#duandautusanxuat-report-success-alert").slideUp(500);
+            });
+        } else {
+            document.getElementById("duandautusanxuat-loader-wrapper").style.display = 'flex';
+            type_picked = "";
+            if ($("#duandautusanxuat_typereport_result").val() === '1') {
+                type_picked = "doanhnghiep/";
+                type_picked = type_picked.concat($("#duandautusanxuat-dn-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/duandautusanxuatreport/render/report/";
+                url_select = url_select.concat('doanhnghiep/');
+                url_select = url_select.concat($("#duandautusanxuat-dn-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            if ($("#duandautusanxuat_typereport_result").val() === '2') {
+                type_picked = "khuchuyennganh/";
+                type_picked = type_picked.concat($("#duandautusanxuat-kcn-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/duandautusanxuatreport/render/report/";
+                url_select = url_select.concat('khuchuyennganh/');
+                url_select = url_select.concat($("#duandautusanxuat-kcn-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            if ($("#duandautusanxuat_typereport_result").val() === '3') {
+                type_picked = "khukinhte/";
+                type_picked = type_picked.concat($("#duandautusanxuat-kkt-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/duandautusanxuatreport/render/report/";
+                url_select = url_select.concat('khukinhte/');
+                url_select = url_select.concat($("#duandautusanxuat-kkt-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            if ($("#duandautusanxuat_typereport_result").val() === '4') {
+                type_picked = "toantinh/";
+                type_picked = type_picked.concat("0");
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/duandautusanxuatreport/render/report/";
+                url_select = url_select.concat('toantinh/');
+                url_select = url_select.concat("0");
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            //            str_nbd = $("#tiendo_ngaybatdau").val();
+            //            console.log(str_nbd);
+            //            const dateFormat_nbd = str_nbd.split("T");
+            //            str_nbd = dateFormat_nbd[0];
+            //            str_nkt = $("#tiendo_ngayketthuc").val();
+            //            console.log(str_nkt);
+            //            const dateFormat_nkt = str_nkt.split("T");
+            //            str_nkt = dateFormat_nkt[0];
+            columnDownloadduandautusanxuat = '/';
+            $('form#duandautusanxuat_columnselect').find(':checkbox').each(function () {
+                if (this.checked) {
+                    columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat(this.id);
+                    columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat('/');
+                    url_select = url_select.concat(this.id);
+                    url_select = url_select.concat('/');
+                } else {
+                    columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat('none/');
+                    url_select = url_select.concat('none/');
+                }
+            });
+            //            url_select = url_select.concat(str_nbd);
+            //            url_select = url_select.concat('/');
+            //            url_select = url_select.concat(str_nkt);
+            //            url_select = url_select.concat('/');
+            //            columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat(str_nbd);
+            //            columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat('/');
+            //            columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat(str_nkt);
+            //            columnDownloadduandautusanxuat = columnDownloadduandautusanxuat.concat('/');
+            var d = new Date,
+                dformat = [(d.getMonth() + 1).padLeft(),
+                d.getDate().padLeft(),
+                d.getFullYear()].join('-') + '_' +
+                    [d.getHours().padLeft(),
+                    d.getMinutes().padLeft(),
+                    d.getSeconds().padLeft()].join('-');
+            console.log(dformat);
+            url_select = url_select.concat('duandautusanxuat')
+            url_select = url_select.concat(dformat);
+            url_select = url_select.concat('/');
+            destFileduandautusanxuat = '';
+            destFileduandautusanxuat = 'reports/duandautusanxuat' + dformat + '.pdf';
+            console.log(url_select)
+            $.ajax({
+                url: url_select,
+                type: 'GET',
+            });
+            setTimeout(() => {
+                var input_download = document.getElementById("download-duandautusanxuat-excel");
+                // <i class="fa fa-file-excel-o" style="font-size:24px"></i>Tải excel </a>
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/duandautusanxuatreport/download/xls/' + type_picked + '/' + columnDownloadduandautusanxuat + '"' +
+                    '><i class="fa fa-file-excel-o" style="font-size:24px"></i>Excel </a>';
+                input_download = document.getElementById("download-duandautusanxuat-word");
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/duandautusanxuatreport/download/doc/' + type_picked + '/' + columnDownloadduandautusanxuat + '"' +
+                    '><i class="fa fa-file-word-o" style="font-size:24px"></i>Word</a>';
+                input_download = document.getElementById("download-duandautusanxuat-pdf");
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/duandautusanxuatreport/download/pdf/' + type_picked + '/' + columnDownloadduandautusanxuat + '"' +
+                    '><i class="fa fa-file-pdf-o" style="font-size:24px"></i>PDF</a>';
+                document.getElementById("duandautusanxuat-loader-wrapper").style.display = 'none';
+                $('#getduandautusanxuatreport').load('duandautusanxuat-report-pdf.html');
+            }
+                , 4000);
+        }
+    }
+    function duandautusanxuatreportreload() {
+        $('#getduandautusanxuatreport').load('duandautusanxuat-report-pdf.html');
+    }
+    function duandautusanxuatreportback() {
+        console.log("?/")
+        $(".mob-min").css("width", "0%");
+        $(".mob-max").css("width", "100%");
+        $(".doanhnghiep_open").css("display", "flex");
+    }
+</script>
+
+</html>

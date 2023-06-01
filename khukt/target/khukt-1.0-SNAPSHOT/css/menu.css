@@ -1,0 +1,179 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 4, 2022, 4:30:09 PM
+    Author     : Nguyen Quoc Khanh
+*/
+
+.top-nav, .user-nav {
+    float: right;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+.top-nav > div {
+    float: right;
+}
+.top-nav > div > ul, .top-nav > ul, .user-nav > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    float: right;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+.top-nav > ul, .user-nav > ul {
+    margin-right: 20px;
+}
+.top-nav > div > ul > li, .top-nav > ul > li, .user-nav > ul > li {
+    float: left;
+    margin-left: 20px;
+    padding-top: 10px;
+    position: relative;
+}
+.top-nav > div > ul > li > a, .top-nav > ul > li > a, .user-nav > ul > li > a {
+    color: #fff;
+    padding-bottom: 10px;
+    display: block;
+}
+.no-touch .top-nav > div > ul > li > a:hover, .no-touch .top-nav > ul > li > a:hover, .no-touch .user-nav > ul > li > a:hover {
+    color: #fff;
+}
+#header .top-nav {
+    margin-right: 20px;
+}
+#header .top-nav > div > ul > li, #header .top-nav > ul > li, #header .user-nav > ul > li {
+    padding: 0;
+}
+#header .top-nav > div > ul > li > a, #header .top-nav > ul > li > a, #header .user-nav > ul > li > a {
+    color: #999;
+    padding: 21px 0;
+    display: block;
+}
+.no-touch #header .top-nav > div > ul > li > a:hover, .no-touch #header .top-nav > ul > li > a:hover, .no-touch #header .user-nav > ul > li > a:hover {
+    color: #333;
+}
+.top-nav > div > ul > li > ul.sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1600;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 0;
+    font-size: 13px;
+    background-color: #fff;
+    text-align: left;
+    list-style: none;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0 none;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    /*opacity: 0;
+    visibility: hidden;
+    margin-top: -20px;*/
+    display: none;
+}
+#header .top-nav > div > ul > li > ul.sub-menu {
+    border: 1px solid #dfdfdf;
+}
+.top-nav > div > ul > li:hover > ul.sub-menu {
+    /*opacity: 1;
+    visibility: visible;
+    margin-top: 0;*/
+    display: block;
+}
+.top-nav > div > ul > li > ul.sub-menu > li > a {
+    padding: 7px 20px;
+    display: block;
+    font-size: 13px;
+    color: #333;
+    white-space: nowrap;
+}
+.no-touch .top-nav > div > ul > li > ul.sub-menu > li > a:hover {
+    background-color: #f3f3f3;
+    color: #333;
+}
+a.top-navHandler {
+    display: block;
+    float: right;
+    text-align: center;
+    font-size: 24px;
+    line-height: 24px;
+    color: #fff;
+    padding: 5px;
+    -webkit-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+}
+#header a.top-navHandler {
+    float: right;
+    text-align: center;
+    font-size: 24px;
+    line-height: 24px;
+    padding-top: 13px;
+    height: 50px;
+    width: 24px;
+    color: #fff;
+    margin-right: 15px;
+    text-decoration: none;
+}
+a.top-navHandler.active {
+    text-shadow: 0 0 10px #fff;
+}
+.no-touch a.top-navHandler:hover {
+    text-decoration: none;
+    color: #fff;
+}
+#transportationUI, 
+#supermarketsUI, 
+#schoolsUI, 
+#librariesUI, 
+#pharmaciesUI, 
+#hospitalsUI {
+    background-color: #fff;
+    color: #333;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.13);
+    cursor: pointer;
+    margin-bottom: 7px;
+    text-align: center;
+}
+#transportationUI.active {
+    color: #e9573f;
+}
+#supermarketsUI.active {
+    color: #f6bb43;
+}
+#schoolsUI.active {
+    color: #8cc051;
+}
+#librariesUI.active {
+    color: #3baeda;
+}
+#pharmaciesUI.active {
+    color: #967bdc;
+}
+#hospitalsUI.active {
+    color: #d870ad;
+}
+#transportationIcon, 
+#supermarketsIcon, 
+#schoolsIcon, 
+#librariesIcon, 
+#pharmaciesIcon, 
+#hospitalsIcon {
+    font-size: 16px;
+    line-height: 16px;
+    padding: 7px;
+}

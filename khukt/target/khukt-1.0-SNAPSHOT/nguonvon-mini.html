@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        #resultsList__nguonvon {
+            padding-top: 0px;
+            padding-left: 5px;
+        }
+    </style>
+
+    <script>
+        var changeinnerWidth_nguon_von
+    </script>
+</head>
+
+<body>
+
+
+    <div class="doanhnghiep_title doanhnghiep_titlegrid">
+        <h3>Nguồn vốn</h3>
+
+        <a class="doanhnghiep_close" href="#"><span class="fa fa-angle-right arrowRight"></span><span
+                class="fa fa-angle-right arrowRight"></span></a>
+
+    </div>
+
+    <div class="alert alert-success" id="nguonvon-success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong> <i class="fa fa-check" aria-hidden="true"></i>Bạn đã cập nhật dữ liệu thành công! </strong>
+    </div>
+
+
+
+
+    <div class="resultsList" id="resultsList__nguonvon">
+        <div class="row" id="row">
+            <div class="mapView__table col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="resultsList__button resultsList__nguonvon" id="download-hn"><button id="button_nguon_von"
+                        class="button-3"></button></div>
+                <div id="example">
+                    <div id="hot_nguonvon"></div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        $("#nguonvon-success-alert").hide();
+        var button = document.getElementById("button_nguon_von");
+        button.innerHTML = "<i class='fa-floppy-o fa fa-floppy-disk'></i>";
+
+        let data_nguonvon = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/nguonvondautu/nguonvondautus/');
+            Object.keys(dataResponse).forEach(function (key) {
+                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                var res = {};
+                res.id = element.id;
+                if (element.nguonvon === null)
+                    res.nguonvon = "";
+                else
+                    res.nguonvon = element.nguonvon;
+
+                data_nguonvon.push(res);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+
+
+        var hotElementDN = document.querySelector('#hot_nguonvon');
+        var hotSettingsDN = {
+            data: data_nguonvon,
+            columns: [
+                {
+                    data: 'id',
+                    type: 'text',
+                    width: 40
+                },
+                {
+                    data: 'nguonvon',
+                    type: 'text'
+                }
+            ],
+            stretchH: 'all',
+            width: $('#content').width() - 20,
+            autoWrapRow: true,
+            height: $('#content').height() - 150,
+            manualRowResize: true,
+            manualColumnResize: true,
+            rowHeaders: true,
+            colHeaders: [
+                'ID',
+                'Nguồn vốn',
+
+            ],
+
+            afterGetColHeader: function (col, TH) {
+                var TR = TH.parentNode;
+                var THEAD = TR.parentNode;
+                var headerLevel = (-1) * THEAD.childNodes.length + Array.prototype.indexOf.call(THEAD.childNodes, TR);
+
+                function applyClass(elem, className) {
+                    if (!Handsontable.dom.hasClass(elem, className)) {
+                        Handsontable.dom.addClass(elem, className);
+                    }
+                }
+
+                if (col < 0) {
+                    TH.innerHTML = 'STT'
+                }
+
+
+            },
+
+            manualRowMove: true,
+            manualColumnMove: true,
+            contextMenu: true,
+            filters: true,
+            dropdownMenu: true,
+            hiddenColumns: {
+                columns: [0],
+                indicators: true
+            },
+
+        };
+        hotnv = new Handsontable(hotElementDN, hotSettingsDN);
+        hotnv.updateSettings({
+            filters: true,
+            dropdownMenu: ['filter_by_value', 'filter_action_bar'],
+            contextMenu: {
+                items: {
+
+                    "row_above": {
+                        name: 'Chèn thêm dòng vào phía trên',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "row_below": {
+                        name: 'Chèn thêm dòng vào phía dưới',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "remove_row": {
+                        name: 'Xóa dòng',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "undo": {
+                        name: 'Lùi lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "redo": {
+                        name: 'Lặp lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "copy": {
+                        name: 'Sao chép',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "cut": {
+                        name: 'Xóa',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotnv.getSelected() && hotnv.getSelected()[0] === 0)
+                        }
+                    },
+
+                }
+            },
+
+        });
+
+        // tat ca cac id da thay doi null bi trung
+        var arrID_Change = [];
+        var arrRow_Change = [];
+
+
+        hotnv.addHook('afterChange', (changes) => {
+            changes.forEach(([row, prop, oldValue, newValue]) => {
+                var id_check = hotnv.getData()[row][0];
+                if (!arrID_Change.includes(id_check) && id_check !== null) {
+                    arrID_Change.push(id_check);
+                    arrRow_Change.push(row);
+                }
+            });
+        });
+
+        var arrID_Delete = [];
+        var index;
+
+
+        hotnv.addHook('beforeRemoveRow', (index, amount) => {
+            console.log(index)
+            console.log(amount)
+            for (var i = 0; i < amount; i++) {
+                arrID_Delete.push(hotnv.getData()[index + i][0]);
+                console.log(hotnv.getData()[index + i][1])
+            }
+
+        });
+
+
+        button.addEventListener("click", function () {
+            var dulieu = hotnv.getData();
+
+            var changed = 0;
+            var checkDelete = 1;
+            var checkUpdate = 1;
+            var checkAdd = 1;
+            //bước 1. xóa dữ liệu
+            if (arrID_Delete.length > 0) {
+                //console.log('delete:' + arrID_Delete.toString());
+                for (i = 0; i < arrID_Delete.length; i++) {
+                    $.ajax({
+                        url: "http://" + hostname + ":" + port + "/nguonvondautu/nguonvondautu/" + arrID_Delete[i],
+                        type: 'DELETE',
+                        async: false,
+                        success: function (result) {
+                            changed = 1;
+                        },
+                        error: function () {
+                            checkDelete = 0;
+                        }
+                    });
+                }
+                arrID_Delete = [];
+            }
+
+            //bước 2. thêm dữ liệu mới
+            for (i = 0; i < dulieu.length; i++) {
+                if (dulieu[i][0] === null) {
+                    var obj = {};
+                    if (dulieu[i][1] !== '' && dulieu[i][1] !== null)
+                        obj["nguonvon"] = dulieu[i][1];
+
+                    // Biến cờ hiệu
+                    var flag = true;
+                    if (dulieu[i][1] === '' || dulieu[i][1] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập nguồn vốn');
+                        flag = false;
+                    }
+
+
+
+
+                    if (flag === true) {
+                        changed = 1;
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: 'POST',
+                            async: false,
+                            url: "http://" + hostname + ":" + port + "/nguonvondautu/nguonvondautu/",
+                            data: JSON.stringify(obj),
+                            dataType: 'json',
+                        }).done(function (data) {
+
+                        })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                                checkAdd = 0;
+                            });
+                    }
+                    else {
+                        checkAdd = 0;
+                    }
+                }
+            }
+            //bước 3. sửa dữ liệu
+            //console.log('changes:' + arrID_Change.toString());
+            for (i = 0; i < arrRow_Change.length; i++) {
+                console.log(arrRow_Change[i])
+                var obj = {};
+                if (dulieu[arrRow_Change[i]][1] !== '' && dulieu[arrRow_Change[i]][1] !== null)
+                    obj["nguonvon"] = dulieu[arrRow_Change[i]][1];
+
+                // Biến cờ hiệu
+                var flag = true;
+                if (dulieu[arrRow_Change[i]][1] === '') {
+                    alert('Dòng ' + i + ' chưa nhập nguồn vốn');
+                    flag = false;
+                }
+
+
+                if (flag === true) {
+                    changed = 1;
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: 'PUT',
+                        async: false,
+                        url: "http://" + hostname + ":" + port + "/nguonvondautu/nguonvondautu/" + arrID_Change[i],
+                        data: JSON.stringify(obj),
+                        dataType: 'json'
+                    }).done(function (data) {
+
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                            checkUpdate = 0;
+                        });
+                }
+                else {
+                    checkUpdate = 0;
+                }
+            }
+            arrID_Change = [];
+            arrRow_Change = [];
+            if (changed === 1 && checkAdd === 1 && checkDelete === 1 && checkUpdate === 1) {
+                
+                $("#nguonvon-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#nguonvon-success-alert").slideUp(500);
+                });
+            }
+            //                        
+        });
+
+
+        $(document).ready(function () {
+
+
+
+            $('.doanhnghiep_close').click(function () {
+                event.preventDefault();
+                $('.doanhnghiep_close').addClass('active');
+                if ($('.doanhnghiep_close').hasClass("active")) {
+
+                    $(".mob-min").css("width", "0%");
+                    $(".mob-max").css("width", "100%");
+                    $(".doanhnghiep_open").css("display", "flex");
+
+
+
+                } else {
+
+                    $(".doanhnghiep_open").css("display", "none");
+
+                }
+            });
+
+
+
+
+
+            changeinnerWidth_nguon_von = function () {
+                $('#mapView').css("width", "70%");
+                $('#content').css("width", "30%");
+
+                loadHtml('window_nguonvon_mini', 'nguonvon-mini.html');
+            }
+        });
+    </script>
+</body>
+
+</html>

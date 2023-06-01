@@ -1,0 +1,106 @@
+.mapView
+{
+   
+}
+
+.mapView
+{
+      &__show 
+     {
+        position: absolute;
+        left: 220px;
+        top: 50%;
+        z-index: 999;
+        .btn-group
+        {
+            > a 
+            {
+                background: transparent;
+                &:hover 
+                {
+                    background-color: transparent !important;
+                }
+                > span 
+                {
+                    color: #0eaaa6;
+                    font-size: 30px;
+                    background: white;
+                }
+            }
+        }
+
+    
+     }
+
+     &__icons
+     {
+        clear: both; padding-right: 10px; z-index: 0; left: 100px;position: absolute; bottom: 14px; right: auto;
+        @media(max-width:991px)
+        {
+            left: 30px;
+        }
+     }
+
+     &__pagination
+     {
+         margin-top: 20px;
+     }
+}
+
+.top-nav
+{
+    @media(max-width:991px)
+    {
+        display:none;
+        width: 100%;
+        margin-right: 0px !important;
+        .menu-top-menu-container
+        {
+            float: none;
+            width: 100%;
+        }
+        #menu-top-menu
+        {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+            background-color: white;
+        }
+
+        .sub-menu
+        {
+            position: unset;
+            box-shadow: unset!important;
+            border: unset!important;
+            width: 100%;
+        }
+    }
+}
+.top-nav.active
+{
+  display:block;
+}
+
+
+
+.handsontable .htCore  tbody tr  td{
+    height: 45px;
+    text-align: left !important;width: 100% !important;
+}
+
+.handsontable   .htCore tbody th
+{
+    width: 10px;
+}
+.wtHolder ,.wtSpreader
+{
+    width: 100% !important;
+}
+
+// #example2 
+// {
+//     &::-webkit-scrollbar-thumb {
+//         border: 3px solid red;
+//       }
+// }

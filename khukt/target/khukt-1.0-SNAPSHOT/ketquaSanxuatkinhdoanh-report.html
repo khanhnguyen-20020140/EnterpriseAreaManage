@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Báo cáo Kết quả Sản xuất kinh doanh</title>
+    <style>
+        #window_baocaoketquadautusanxuat .zoomin {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="kqsxkd-report-all">
+        <div id="kqdtsx-pagereport">
+            <div style="position: absolute; right: 0;top: 0;z-index: 99;" onclick=kqdtsxreportback()>
+                <div class="button-3">
+                    <span class="glyphicon glyphicon-remove"></span></p>
+                </div>
+            </div>
+            <!--            <div  class="button-3" onclick = kqdtsxreportexceldownload()><i class="glyphicon glyphicon-cloud-download"></i></div>-->
+        </div>
+        <div id="kqsxkd_typereport">
+            <div id="kqdtsx_type_report" class="kqsxkd_typereport_element">
+                <select id="kqsxkd_typereport_result">
+                    <option value="default">Chọn loại báo cáo:</option>
+                    <option value="1">Theo dự án</option>
+                    <option value="2">Theo khu chuyên ngành</option>
+                    <option value="3">Theo doanh nghiệp</option>
+                    <option value="4">Trên toàn tỉnh</option>
+                </select>
+            </div>
+            <div id="kqdtsx_type_report_kcn" class="kqsxkd_typereport_element">
+                <select id="KQDTSX-kcn-report" class="custom-select">
+                    <option value="-1">Chọn khu chuyên ngành</option>
+                </select>
+            </div>
+            <div id="kqdtsx_type_report_tda" class="kqsxkd_typereport_element">
+                <select id="KQDTSX-tda-report" class="custom-select">
+                    <option value="-1">Chọn dự án</option>
+                </select>
+            </div>
+            <div id="kqdtsx_type_report_dn" class="kqsxkd_typereport_element">
+                <select id="KQDTSX-dn-report" class="custom-select">
+                    <option value="-1">Chọn doanh nghiệp</option>
+                </select>
+            </div>
+            <div id="kqdtsx_type_report_column">
+                <form id="kqdtsx_columnselect" onsubmit="return false">
+                    <div class="kqdtsx_multiselect">
+                        <div id="kqdtsx_selectBox" class="kqsxkd_typereport_element" onclick="kqdtsx_showCheckboxes()">
+                            <select>
+                                <option>Chọn cột hiển thị</option>
+                            </select>
+                            <div class="kqdtsx_overSelect"></div>
+                        </div>
+                        <div id="kqdtsx_checkboxes">
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="tenduan" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Tên dự án
+                                </label>
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="doanhthu" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Doanh thu
+                            </span>
+                            <input type="checkbox" id="mocbaocao" /></input>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="ngansach" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Ngân sách
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="tongso" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Tổng số nhân công
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="nam" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số nhân công nam
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="nu" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số nhân công nữ
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="tuoitrungbinh" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Tuổi trung bình
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="trungcap" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số nhân công trung cấp
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="caodang" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số nhân công cao đẳng
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="daihoc" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số nhân công đại học
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="trendaihoc" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Số nhân công trên đại học
+                            </span>
+                            <span class="bigcheck">
+                                <label class="bigcheck">
+                                    <input type="checkbox" class="bigcheck" id="luongtrungbinh" checked value="yes" />
+                                    <span class="bigcheck-target"></span>
+                                    Lương trung bình
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="kqdtsx_type_report_date">
+                <div id="startDay">
+                    <label for="ngaybatdau">Từ :</label>
+                    <input type="date" class="form-control" id="ngaybatdau" placeholder="Ngày bắt đầu"
+                        name="ngaybatdau">
+                </div>
+                <div id="endDay">
+                    <label for="ngayketthuc">Tới :</label>
+                    <input type="date" class="form-control" id="ngayketthuc" placeholder="Ngày kết thúc"
+                        name="ngayketthuc">
+                </div>
+                <span class="resultsList__error" id="date_error"></span>
+            </div>
+            <div id="kqdtsx_type_report_render" onclick="kqdtsx_renderReport()">
+                <div class="button-3">
+
+                    <i class="glyphicon glyphicon-file"></i>
+                </div>
+            </div>
+            <div class="button-3" id="kqdtsx_report_reload" onclick=kqdtsxreportreload()>
+
+                <i class="glyphicon glyphicon-refresh"></i>
+            </div>
+            <ul id="accordion" class="accordion">
+                <li>
+                    <div class="link"><i class="fa fa-download" aria-hidden="true"></i>Tải xuống<i
+                            class="fa fa-chevron-down"></i></div>
+                    <ul class="submenu">
+                        <li id="download-kqdtsx-excel">
+                        </li>
+                        <li id="download-kqdtsx-word">
+                        </li>
+                        <li id="download-kqdtsx-pdf">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="alert alert-success" id="kqdtsx-report-success-alert">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <div id="kqdtsx-report-success-alert-appear">
+            </div>
+        </div>
+        <div class="loader-wrapper" id="loader-wrapper">
+            <span class="loader"><span class="loader-inner"></span></span>
+        </div>
+        <div id="getKQDTSXreport" width="100%" height="600px"></div>
+    </div>
+</body>
+<script>
+    // document.getElementById("ketquadautusanxuat-header").innerHTML = "<h1>BÁO CÁO THỐNG KÊ TÌNH HÌNH SẢN XUẤT CỦA CÁC DOANH NGHIỆP ĐẦU TƯ TẠI CÁC KHU KINH TẾ TỈNH NGHỆ AN</h1>"
+    $("#kqdtsx-report-success-alert").hide();
+    $(function () {
+        var Accordion = function (el, multiple) {
+            this.el = el || {};
+            this.multiple = multiple || false;
+            // Variables privadas
+            var links = this.el.find('.link');
+            // Evento
+            links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown)
+        }
+        Accordion.prototype.dropdown = function (e) {
+            var $el = e.data.el;
+            $this = $(this),
+                $next = $this.next();
+            $next.slideToggle();
+            $this.parent().toggleClass('open');
+            if (!e.data.multiple) {
+                $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+            };
+        }
+        var accordion = new Accordion($('#accordion'), false);
+    });
+    $(window).on("load", function () {
+        $("#loader-wrapper").fadeOut("slow");
+    });
+    var url_select = "";
+    var type_picked = "";
+    var expanded = false;
+    function kqdtsx_showCheckboxes() {
+        var checkboxes = document.getElementById("kqdtsx_checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
+    loadCbHtml('KQDTSX-tda-report', 'http://' + hostname + ':' + port + '/duandautusanxuat/duandautusanxuats/', -1);
+    loadCbHtml('KQDTSX-kcn-report', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+    loadCbHtml('KQDTSX-dn-report', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+    $('#kqsxkd_typereport_result').on('change', function () {
+        if ($("#kqsxkd_typereport_result").val() === '1') {
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'none';
+            //                document.getElementById("kqsxkd_typereport").style.display = 'none';
+        } else if ($("#kqsxkd_typereport_result").val() === '2') {
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'none';
+            //                document.getElementById("kqsxkd_typereport").style.display = 'none';
+        } else if ($("#kqsxkd_typereport_result").val() === '3') {
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'none';
+            //                document.getElementById("kqsxkd_typereport").style.display = 'none';
+        } else if ($("#kqsxkd_typereport_result").val() === '4') {
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_column").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'block';
+            document.getElementById("kqdtsx_report_reload").style.display = 'block';
+            document.getElementById("accordion").style.display = 'block';
+        } else {
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_column").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'none';
+            document.getElementById("accordion").style.display = 'none';
+            document.getElementById("kqdtsx_report_reload").style.display = 'none';
+        }
+    });
+    $('#KQDTSX-tda-report').on('change', function () {
+        console.log($("#KQDTSX-tda-report").val())
+        if ($("#KQDTSX-tda-report").val() === '-1') {
+            document.getElementById("kqdtsx_type_report_column").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'none';
+            document.getElementById("accordion").style.display = 'none';
+            document.getElementById("kqdtsx_report_reload").style.display = 'none';
+        } else {
+            console.log("display : none ?")
+            document.getElementById("kqdtsx_type_report_column").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'block';
+            document.getElementById("accordion").style.display = 'block';
+            document.getElementById("kqdtsx_report_reload").style.display = 'block';
+        }
+    });
+    $('#KQDTSX-kcn-report').on('change', function () {
+        if ($("#KQDTSX-kcn-report").val() === '-1') {
+            document.getElementById("kqdtsx_type_report_column").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'none';
+            document.getElementById("accordion").style.display = 'none';
+            document.getElementById("kqdtsx_report_reload").style.display = 'none';
+        } else {
+            console.log("display : none ?")
+            document.getElementById("kqdtsx_type_report_column").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'block';
+            document.getElementById("accordion").style.display = 'block';
+            document.getElementById("kqdtsx_report_reload").style.display = 'block';
+        }
+    });
+    $('#KQDTSX-dn-report').on('change', function () {
+        if ($("#KQDTSX-dn-report").val() === '-1') {
+            document.getElementById("kqdtsx_type_report_column").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'none';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'none';
+            document.getElementById("accordion").style.display = 'none';
+            document.getElementById("kqdtsx_report_reload").style.display = 'none';
+        } else {
+            console.log("display : none ?")
+            document.getElementById("kqdtsx_type_report_column").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_date").style.display = 'flex';
+            document.getElementById("kqdtsx_type_report_render").style.display = 'block';
+            document.getElementById("accordion").style.display = 'block';
+            document.getElementById("kqdtsx_report_reload").style.display = 'block';
+        }
+    });
+    function kqdtsx_getLoaibaocao() {
+        console.log($("#kqsxkd_typereport_result").val());
+        //            loadCbHtml('KQDTSX-tda-report', 'http://' + hostname + ':' + port + '/duandautusanxuat/duandautusanxuats/', -1);
+        if ($("#kqsxkd_typereport_result").val() === '1') {
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'block';
+            //                document.getElementById("kqsxkd_typereport").style.display = 'none';
+        }
+        if ($("#kqsxkd_typereport_result").val() === '2') {
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'block';
+            //                document.getElementById("kqsxkd_typereport").style.display = 'none';
+        }
+        if ($("#kqsxkd_typereport_result").val() === '3') {
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'block';
+            //                document.getElementById("kqsxkd_typereport").style.display = 'none';
+        }
+    }
+    function kqdtsx_backLoaibaocao() {
+        $('#ngayketthuc_error').text('');
+        $('#ngaybatdau_error').text('');
+        document.getElementById("kqdtsx_column").style.display = 'none';
+        document.getElementById("kqdtsx_type_report_kcn").style.display = 'none';
+        document.getElementById("kqdtsx_type_report_tda").style.display = 'none';
+        document.getElementById("kqdtsx_type_report_dn").style.display = 'none';
+        document.getElementById("kqsxkd_typereport").style.display = 'block';
+    }
+    function kqdtsx_kcn_selectcolumn() {
+        if ($("#KQDTSX-kcn-report").val() != '-1') {
+            document.getElementById("kqdtsx_type_report_kcn").style.display = 'none';
+            document.getElementById("kqdtsx_column").style.display = 'block';
+        }
+    }
+    function kqdtsx_tda_selectcolumn() {
+        if ($("#KQDTSX-tda-report").val() != '-1') {
+            console.log("???wwtf");
+            document.getElementById("kqdtsx_type_report_tda").style.display = 'none';
+            document.getElementById("kqdtsx_column").style.display = 'block';
+        }
+    }
+    function kqdtsx_dn_selectcolumn() {
+        if ($("#KQDTSX-dn-report").val() != '-1') {
+            document.getElementById("kqdtsx_type_report_dn").style.display = 'none';
+            document.getElementById("kqdtsx_column").style.display = 'block';
+        }
+    }
+    Number.prototype.padLeft = function (base, chr) {
+        var len = (String(base || 10).length - String(this).length) + 1;
+        return len > 0 ? new Array(len).join(chr || '0') + this : this;
+    }
+    function kqdtsx_renderReport() {
+        var str_nbd = $("#ngaybatdau").val();
+        var str_nkt = $("#ngayketthuc").val();
+        console.log("???")
+        console.log(str_nbd)
+        if (str_nkt === '' || str_nbd === '') {
+            if (str_nkt === '') {
+                document.getElementById("kqdtsx-report-success-alert-appear").innerHTML = "<strong> <i class='fas fa-exclamation-triangle' aria-hidden='true'></i>Thời điểm kết thúc đang trống </strong>"
+                $("#kqdtsx-report-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#kqdtsx-report-success-alert").slideUp(500);
+                });
+                // $('#ngayketthuc_error').text('Chưa nhập thời điểm cuối mốc báo cáo *');
+            }
+            if (str_nbd === '') {
+                document.getElementById("kqdtsx-report-success-alert-appear").innerHTML = "<strong> <i class='fas fa-exclamation-triangle' aria-hidden='true'></i>Thời điểm ban đầu đang trống </strong>"
+                // $('#ngaybatdau_error').text('Chưa nhập thời điểm đầu mốc báo cáo *');
+                $("#kqdtsx-report-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#kqdtsx-report-success-alert").slideUp(500);
+                });
+            }
+        } else if (str_nkt < str_nbd) {
+            document.getElementById("kqdtsx-report-success-alert-appear").innerHTML = "<strong> <i class='fas fa-exclamation-triangle' aria-hidden='true'></i>Thời điểm đầu mốc báo cáo phải nhỏ hơn thời điểm cuối mốc báo cáo</strong>"
+            $("#kqdtsx-report-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                $("#kqdtsx-report-success-alert").slideUp(500);
+            });
+        } else {
+            document.getElementById("loader-wrapper").style.display = 'flex';
+            type_picked = "";
+            if ($("#kqsxkd_typereport_result").val() === '1') {
+                type_picked = "duan/";
+                type_picked = type_picked.concat($("#KQDTSX-tda-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/ketquasanxuatkinhdoanhreport/render/report/";
+                url_select = url_select.concat('duan/');
+                url_select = url_select.concat($("#KQDTSX-tda-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            if ($("#kqsxkd_typereport_result").val() === '2') {
+                type_picked = "khuchuyennganh/";
+                type_picked = type_picked.concat($("#KQDTSX-kcn-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/ketquasanxuatkinhdoanhreport/render/report/";
+                url_select = url_select.concat('khuchuyennganh/');
+                url_select = url_select.concat($("#KQDTSX-kcn-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            if ($("#kqsxkd_typereport_result").val() === '3') {
+                type_picked = "doanhnghiep/";
+                type_picked = type_picked.concat($("#KQDTSX-dn-report").val());
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/ketquasanxuatkinhdoanhreport/render/report/";
+                url_select = url_select.concat('doanhnghiep/');
+                url_select = url_select.concat($("#KQDTSX-dn-report").val());
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            if ($("#kqsxkd_typereport_result").val() === '4') {
+                type_picked = "toantinh/";
+                type_picked = type_picked.concat("0");
+                url_select = "http://" + hostname + ":" + portweb + "/khukt/ketquasanxuatkinhdoanhreport/render/report/";
+                url_select = url_select.concat('toantinh/');
+                url_select = url_select.concat("0");
+                url_select = url_select.concat('/');
+                console.log(url_select)
+            }
+            str_nbd = $("#ngaybatdau").val();
+            console.log(str_nbd);
+            const dateFormat_nbd = str_nbd.split("T");
+            str_nbd = dateFormat_nbd[0];
+            str_nkt = $("#ngayketthuc").val();
+            console.log(str_nkt);
+            const dateFormat_nkt = str_nkt.split("T");
+            str_nkt = dateFormat_nkt[0];
+            columnDownloadKQSXKD = '/';
+            $('form#kqdtsx_columnselect').find(':checkbox').each(function () {
+                if (this.checked) {
+                    columnDownloadKQSXKD = columnDownloadKQSXKD.concat(this.id);
+                    columnDownloadKQSXKD = columnDownloadKQSXKD.concat('/');
+                    url_select = url_select.concat(this.id);
+                    url_select = url_select.concat('/');
+                } else {
+                    columnDownloadKQSXKD = columnDownloadKQSXKD.concat('none/');
+                    url_select = url_select.concat('none/');
+                }
+            });
+            url_select = url_select.concat(str_nbd);
+            url_select = url_select.concat('/');
+            url_select = url_select.concat(str_nkt);
+            url_select = url_select.concat('/');
+            columnDownloadKQSXKD = columnDownloadKQSXKD.concat(str_nbd);
+            columnDownloadKQSXKD = columnDownloadKQSXKD.concat('/');
+            columnDownloadKQSXKD = columnDownloadKQSXKD.concat(str_nkt);
+            columnDownloadKQSXKD = columnDownloadKQSXKD.concat('/');
+            var d = new Date,
+                dformat = [(d.getMonth() + 1).padLeft(),
+                d.getDate().padLeft(),
+                d.getFullYear()].join('-') + '_' +
+                    [d.getHours().padLeft(),
+                    d.getMinutes().padLeft(),
+                    d.getSeconds().padLeft()].join('-');
+            console.log(dformat);
+            url_select = url_select.concat('ketquasanxuatkinhdoanh')
+            url_select = url_select.concat(dformat);
+            url_select = url_select.concat('/');
+            destFileKQSXKD = '';
+            destFileKQSXKD = 'reports/ketquasanxuatkinhdoanh' + dformat + '.pdf';
+            console.log(url_select)
+            $.ajax({
+                url: url_select,
+                type: 'GET',
+            });
+            setTimeout(() => {
+                var input_download = document.getElementById("download-kqdtsx-excel");
+                // <i class="fa fa-file-excel-o" style="font-size:24px"></i>Tải excel </a>
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/ketquasanxuatkinhdoanhreport/download/xls/' + type_picked + '/' + columnDownloadKQSXKD + '"' +
+                    '><i class="fa fa-file-excel-o" style="font-size:24px"></i>Excel </a>';
+                input_download = document.getElementById("download-kqdtsx-word");
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/ketquasanxuatkinhdoanhreport/download/doc/' + type_picked + '/' + columnDownloadKQSXKD + '"' +
+                    '><i class="fa fa-file-word-o" style="font-size:24px"></i>Word</a>';
+                input_download = document.getElementById("download-kqdtsx-pdf");
+                input_download.innerHTML = '<a href="' + "http://" + hostname + ":" + portweb + '/khukt/ketquasanxuatkinhdoanhreport/download/pdf/' + type_picked + '/' + columnDownloadKQSXKD + '"' +
+                    '><i class="fa fa-file-pdf-o" style="font-size:24px"></i>PDF</a>';
+                document.getElementById("loader-wrapper").style.display = 'none';
+                $('#getKQDTSXreport').load('ketquaSanxuatkinhdoanh-report-pdf.html');
+            }
+                , 4000);
+        }
+    }
+    function kqdtsxreportreload() {
+        $('#getKQDTSXreport').load('ketquaSanxuatkinhdoanh-report-pdf.html');
+    }
+    function kqdtsxreportback() {
+        console.log("?/")
+        $(".mob-min").css("width", "0%");
+        $(".mob-max").css("width", "100%");
+        $(".doanhnghiep_open").css("display", "flex");
+    }
+</script>
+
+</html>

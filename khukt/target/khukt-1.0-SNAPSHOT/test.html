@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+    <style>
+        .loader {
+            display: none;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid blue;
+            border-bottom: 16px solid blue;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <html>
+
+
+    <h2>How To Create A Loader</h2>
+    <button onclick="load()">hiiii</button>
+
+    <div class="loader"></div>
+
+    
+    <script src="webjars/jquery/1.12.4/jquery.min.js"></script>
+        <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="js/jquery-ui-touch-punch.js"></script>
+        <script src="js/jquery.placeholder.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/jquery.touchSwipe.min.js"></script>
+        <script src="js/jquery.slimscroll.min.js"></script>
+        <script src="js/jquery.visible.js"></script>        
+    <script>
+        function load(){
+            $('<div></div>').appendTo('body').html('<div><h6>Bạn chắc chắn muốn xóa dữ liệu này?</h6></div>');
+        }
+
+    </script>
+
+
+
+    </html>
+</body>
+
+</html>

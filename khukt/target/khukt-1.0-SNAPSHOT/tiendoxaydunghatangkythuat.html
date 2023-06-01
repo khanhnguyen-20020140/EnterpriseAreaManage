@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            color: black;
+        }
+    </style>
+    <script>
+        var changeinnerWidth_tiendoXDHT;
+    </script>
+</head>
+
+<body>
+
+
+
+
+
+
+
+    <div class="filter">
+        <div class="filter__around">
+            <div id="tiendoXDHT-header">
+                <h1>Tiến độ xây dựng hạ tầng kỹ thuật</h1>
+            </div>
+
+            <div class="filter__click">
+                <button onclick="changeinnerWidth_tiendoXDHT()"><span
+                        class="glyphicon glyphicon-resize-small"></span></button>
+                <a href="#" class="handleFilter doanhnghiep_closegrid"><span
+                        class="fa fa-angle-right arrowRight"></span><span
+                        class="fa fa-angle-right arrowRight"></span></a>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <form class="filterForm">
+        </form>
+    </div>
+
+
+    <div class="alert alert-success" id="tiendoXDHT-success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong> <i class="fa fa-check" aria-hidden="true"></i>Bạn đã cập nhật dữ liệu thành công! </strong>
+    </div>
+
+
+
+    <div class="resultsList" id="resultsList_tiendoXDHT">
+        <div class="row" id="row">
+            <div class="mapView__table col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="resultsList__button">
+
+                    <div id="example-tiendoXDHT" style="display: flex;">
+                        <div id="hot_1" style="margin-right: 2%;display: block;">
+                            <button id="button-tiendoXDHT" class="button-3"></button>
+                            <div id="hot_tiendoXDHT"></div>
+                        </div>
+                        <div id="hot_2" style="display:none">
+                            <button id="button-tiendoXDHTChitiet" class="button-3"></button>
+                            <div id="hot_tiendoXDHT_Chitiet"></div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div id="download-tiendoXDHT"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="tiendoXDHT-report" id="tiendoXDHT-report" width="100%" height="600px">
+    </div>
+
+    <script>
+
+        
+
+
+        var foo = [];
+        var i = 0;
+        var checkLoop = 0;
+        var input_download = document.getElementById("download-tiendoXDHT");
+        var button_chitiet = document.getElementById("button-tiendoXDHTChitiet");
+
+
+        //bước 1. lấy danh sách lĩnh vực sản xuất kinh doanh
+
+        var str_duanXaydunghatangs = [];
+        var id_duanXaydunghatangs = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/duanXaydunghatang/duanXaydunghatangs/');
+            Object.keys(dataResponse).forEach(function (key) {
+                var json = JSON.parse(JSON.stringify(dataResponse[key]));
+                str_duanXaydunghatangs.push(json.ten);
+                id_duanXaydunghatangs.push(json.id);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+
+        var oldValue = -1;
+
+        //bước 3. lấy danh sách doanh nghiệp
+        var data_tiendoXDHT = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/tiendoXDHT/tiendoXDHTs');
+            Object.keys(dataResponse).forEach(function (key) {
+                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                var res = {};
+
+                res.id = element.id;
+
+
+                if (element.ngaybaocao === null)
+                    res.ngaybaocao = "";
+                else {
+
+                    const myArray = element.ngaybaocao.split("-");
+                    var newDate = "";
+                    newDate = newDate.concat(myArray[2]);
+                    newDate = newDate.concat("/");
+                    newDate = newDate.concat(myArray[1]);
+                    newDate = newDate.concat("/");
+
+                    newDate = newDate.concat(myArray[0]);
+
+
+                    res.ngaybaocao = newDate;
+                }
+
+
+
+                if (element.duanXdhtId === null)
+                    res.duanXdhtId = "";
+                else
+                    res.duanXdhtId = element.duanXdhtId.ten;
+
+                res.comesInBlack = 'no';
+
+                if (element.duanXdhtId === null)
+                    res.IDduanXdht = "";
+                else
+                    res.IDduanXdht = element.duanXdhtId.id;
+
+
+                data_tiendoXDHT.push(res);
+            });
+        } catch (e) {
+
+            console.log(e);
+        }
+
+        console.log(data_tiendoXDHT)
+
+        //khởi tạo grid
+        var hotElementTiendo = document.querySelector('#hot_tiendoXDHT');
+        var hotSettingsTiendo = {
+            data: data_tiendoXDHT,
+            columns: [
+
+                {
+                    data: 'id',
+                    type: 'text',
+                    width: 40
+                },
+
+
+                {
+                    data: 'duanXdhtId',
+                    type: 'dropdown',
+                    source: str_duanXaydunghatangs,
+                    width: 80
+                },
+
+                {
+                    data: 'ngaybaocao',
+                    type: 'date',
+                    dateFormat: 'DD/MM/YYYY'
+                },
+                {
+                    data: 'comesInBlack',
+                    type: 'checkbox',
+                    checkedTemplate: 'yes',
+                    uncheckedTemplate: 'no'
+                },
+                {
+                    data: 'IDduanXdht',
+                    type: 'text',
+                    width: 40
+                }
+
+            ],
+            stretchH: 'all',
+            width: $('#content').width() / 3,
+            autoWrapRow: true,
+            height: $('#content').height() - 150,
+            manualRowResize: true,
+            manualColumnResize: true,
+            rowHeaders: true,
+            colHeaders: true,
+
+            //                colWidths: [10, 185, 90, 90, 30, 30, 40, 70, 70, 70, 80, 50, 70],
+            // contextMenu: true,
+
+            licenseKey: 'non-commercial-and-evaluation',
+            contextMenu: true,
+            allowInsertColumn: false,
+            allowRemoveColumn: false,
+
+            colHeaders: [
+                'ID',
+                'Tên dự án',
+                'Ngày báo cáo',
+                'Chi tiết',
+                'ID dự án'
+            ],
+
+            afterChange: function (source, changes) {
+                if (changes === 'edit') {
+                    if (source[0][1] === 'comesInBlack') {
+                        console.log('row: ' + source[0][0]);
+                        console.log('col: ' + source[0][1]);
+                        console.log('old value: ' + source[0][2]);
+                        console.log('new value: ' + source[0][3])
+
+
+                        console.log(this.getDataAtCell(source[0][0], 3))
+                        if (this.getDataAtCell(source[0][0], 3) === 'yes') {
+                            if (oldValue !== -1) {
+                                this.setDataAtCell(oldValue, 3, 'no');
+
+                            }
+                            $('#hot_tiendoXDHT_Chitiet').load('tiendoxaydunghatangkythuat-selected.html');
+                            idduanHTKTbytiendo = this.getDataAtCell(source[0][0], 4)
+                            console.log(idduanHTKTbytiendo)
+                            idtiendoChitiet = this.getDataAtCell(source[0][0], 0)
+                        }
+
+
+
+
+
+                        oldValue = source[0][0];
+                    }
+
+                }
+            },
+
+            afterGetColHeader: function (col, TH) {
+                var TR = TH.parentNode;
+                var THEAD = TR.parentNode;
+                var headerLevel = (-1) * THEAD.childNodes.length + Array.prototype.indexOf.call(THEAD.childNodes, TR);
+
+                function applyClass(elem, className) {
+                    if (!Handsontable.dom.hasClass(elem, className)) {
+                        Handsontable.dom.addClass(elem, className);
+                    }
+                }
+
+                if (col < 0) {
+                    TH.innerHTML = 'STT'
+                }
+
+
+            },
+
+            manualRowMove: true,
+            manualColumnMove: true,
+            contextMenu: true,
+            filters: true,
+            dropdownMenu: true,
+            hiddenColumns: {
+                columns: [ 0,4],
+                indicators: true
+            },
+            // cells: function (row, col, prop) {
+            //     var cellProperties = {};
+
+            //     cellProperties.renderer = customRenderer;
+
+            //     return cellProperties;
+            // },
+        };
+        hottiendoXDHT = new Handsontable(hotElementTiendo, hotSettingsTiendo);
+
+        hottiendoXDHT.updateSettings({
+            contextMenu: {
+                items: {
+                    "row_above": {
+                        name: 'Chèn thêm dòng vào phía trên',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "row_below": {
+                        name: 'Chèn thêm dòng vào phía dưới',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "remove_row": {
+                        name: 'Xóa dòng',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "undo": {
+                        name: 'Lùi lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "redo": {
+                        name: 'Lặp lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "copy": {
+                        name: 'Sao chép',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "cut": {
+                        name: 'Xóa',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hottiendoXDHT.getSelected() && hottiendoXDHT.getSelected()[0] === 0)
+                        }
+                    },
+
+                }
+            }
+        })
+
+
+        var arrID_Change = [];
+        var arrRow_Change = [];
+
+        //lấy tất cả những tg đã thay đổi            
+        hottiendoXDHT.addHook('afterChange', (changes) => {
+            changes.forEach(([row, prop, oldValue, newValue]) => {
+                console.log(row)
+                console.log(prop)
+                if (prop !== 'comesInBlack') {
+                    var id_check = hottiendoXDHT.getData()[row][0];
+                    if (!arrID_Change.includes(id_check) && id_check !== null) {
+                        arrID_Change.push(id_check);
+                        arrRow_Change.push(row);
+
+                        console.log("nani " + id_check + "  " + row)
+                    }
+                }
+            });
+        });
+
+        //lấy tất cả id đã bị xóa
+        var arrID_Delete = [];
+
+
+        hottiendoXDHT.addHook('beforeRemoveRow', (index, amount) => {
+            console.log(index)
+            for (var i = 0; i < amount; i++) {
+                arrID_Delete.push(hottiendoXDHT.getData()[index + i][0]);
+                //                    console.log(hottiendoXDHT.getData()[index + i][1])
+            }
+
+        });
+
+        function loadGridSanxuatkinhdoanh() {
+            data_tiendoXDHT = [];
+            try {
+                dynamicSQL('http://' + hostname + ':' + port + '/tiendoXDHT/tiendoXDHTs/');
+                Object.keys(dataResponse).forEach(function (key) {
+                    var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                    // console.log(element.ten);
+                    var res = {};
+
+                    res.id = element.id;
+
+
+                    if (element.ngaybaocao === null)
+                        res.ngaybaocao = "";
+                    else {
+
+                        const myArray = element.ngaybaocao.split("-");
+                        var newDate = "";
+                        newDate = newDate.concat(myArray[2]);
+                        newDate = newDate.concat("/");
+                        newDate = newDate.concat(myArray[1]);
+                        newDate = newDate.concat("/");
+
+                        newDate = newDate.concat(myArray[0]);
+
+
+                        res.ngaybaocao = newDate;
+                    }
+
+
+
+                    if (element.duanXdhtId === null)
+                        res.duanXdhtId = "";
+                    else {
+                        res.duanXdhtId = element.duanXdhtId.ten;
+                    }
+
+
+
+                    data_tiendoXDHT.push(res);
+                });
+
+            } catch (e) {
+                console.log(e);
+            }
+
+            hottiendoXDHT.updateSettings({
+                data: data_tiendoXDHT
+            });
+        }
+        ;
+
+        $("#tiendoXDHT-success-alert").hide();
+
+        var loadedtiendoXDHT = 0;
+
+        button = document.getElementById("button-tiendoXDHT");
+        button.innerHTML = "<i class='fa-floppy-o fa fa-floppy-disk'></i>";
+        loadCbHtml('hot_tiendoXDHT_select', 'http://' + hostname + ':' + port + '/duanXaydunghatang/duanXaydunghatangs/', -1);
+
+
+        $(document).ready(function () {
+            changeinnerWidth_tiendoXDHT = function () {
+
+                $('#mapView').css("width", "70%");
+                $('#content').css("width", "30%");
+                loadHtml('window_tiendoxaydunghatangkythuat_mini', 'window_tiendoxaydunghatangkythuat-mini.html');
+            }
+        });
+
+        $('.doanhnghiep_closegrid').click(function () {
+            event.preventDefault();
+            $('.doanhnghiep_closegrid').addClass('active');
+            if ($('.doanhnghiep_closegrid').hasClass("active")) {
+                $(".mob-min").css("width", "0%");
+                $(".mob-max").css("width", "100%");
+                $(".doanhnghiep_open").css("display", "flex");
+            } else {
+                $(".doanhnghiep_open").css("display", "none");
+            }
+        });
+
+        // tat ca cac id da thay doi null bi trung
+
+
+        //console.log(hottiendoXDHT.getData())
+
+        //cập nhật dữ liệu
+
+        let str_dmtrangthais = [];
+        let id_dmtrangthais = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/dmtrangthai/dmtrangthais/');
+            Object.keys(dataResponse).forEach(function (key) {
+                let json = JSON.parse(JSON.stringify(dataResponse[key]));
+                str_dmtrangthais.push(json.trangthai);
+                id_dmtrangthais.push(json.id);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+        button.addEventListener("click", function () {
+            var dulieu = hottiendoXDHT.getData();
+
+            var changed = 0;
+            var checkDelete = 1;
+            var checkUpdate = 1;
+            var checkAdd = 1;
+
+
+            //bước 1. xóa dữ liệu
+            if (arrID_Delete.length > 0) {
+
+                for (i = 0; i < arrID_Delete.length; i++) {
+                    //lay id delete
+                    var id_delete = arrID_Delete[i];
+                    //                        console.log(i)
+                    $.ajax({
+                        url: "http://" + hostname + ":" + port + "/tiendoXDHT/tiendoXDHT/" + id_delete,
+                        type: 'DELETE',
+                        async: false,
+                        success: function (result) {
+                            changed = 1;
+                            var tiendoXDHT_deleted = document.getElementById("element_tiendoXDHTChitiet__newrow__" + id_delete);
+
+                            
+
+                            if (tiendoXDHT_deleted !== null){
+                                tiendoXDHT_deleted.remove();
+                            }
+
+                        },
+                        error: function () {
+                            console.log("loi")
+                            checkDelete = 0;
+                        }
+                    });
+                }
+                arrID_Delete = [];
+            }
+
+
+            console.log(dulieu)
+            
+            for (i = 0; i < dulieu.length; i++) {
+                //                    console.log(i)
+                if (dulieu[i][0] === null) {
+
+                    console.log("wwtf  +  " + i)
+
+                    var obj = {};
+
+
+                    if (dulieu[i][1] !== '' && dulieu[i][1] !== null) {
+                        for (var j = 0; j < str_duanXaydunghatangs.length; j++) {
+                            if (str_duanXaydunghatangs[j] === dulieu[i][1]) {
+
+                                obj["duanXdhtId"] = id_duanXaydunghatangs[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    if (dulieu[i][2] !== '' && dulieu[i][2] !== null) {
+                        const myArray = dulieu[i][2].split("/");
+                        var newDate = "";
+                        newDate = newDate.concat(myArray[2]);
+                        newDate = newDate.concat("-");
+                        newDate = newDate.concat(myArray[1]);
+                        newDate = newDate.concat("-");
+                        newDate = newDate.concat(myArray[0]);
+                        obj["ngaybaocao"] = newDate;
+                    }
+
+
+
+                    // Biến cờ hiệu
+                    var flag = true;
+                    if (dulieu[i][1] === '' || dulieu[i][1] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tên dự án');
+                        flag = false;
+                    }
+                    if (dulieu[i][2] === '' || dulieu[i][2] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập ngày báo cáo');
+                        flag = false;
+                    }
+
+
+
+                    if (flag === true) {
+                        changed = 1;
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'type': 'POST',
+                            'async': false,
+                            'url': "http://" + hostname + ":" + port + "/tiendoXDHT/tiendoXDHT/",
+                            'data': JSON.stringify(obj),
+                            'dataType': 'json',
+                        }).done(function (data) {
+
+
+                            checkLoop++;
+                            console.log("check " + checkLoop)
+                            var jsonData = JSON.parse(JSON.stringify(data));
+                            // console.log(jsonData)
+                            var res = {};
+                            res.id = jsonData.id;
+                            var dateFormat;
+
+
+                            if (jsonData.duanXdhtId === null)
+                                res.duanXdhtId = "";
+                            else
+                                res.duanXdhtId = dulieu[i][1];
+
+                            if (jsonData.ngaybaocao === null)
+                                res.ngaybaocao = "";
+                            else {
+                                res.ngaybaocao = jsonData.ngaybaocao;
+                                dateFormat = res.ngaybaocao.split("T");
+                                res.ngaybaocao = dateFormat[0];
+                                const myArray = res.ngaybaocao.split("-");
+                                var newDate = "";
+                                newDate = newDate.concat(myArray[2]);
+                                newDate = newDate.concat("/");
+                                newDate = newDate.concat(myArray[1]);
+                                newDate = newDate.concat("/");
+
+                                newDate = newDate.concat(myArray[0]);
+                                res.ngaybaocao = newDate
+                            }
+
+                            console.log("???")
+                            console.log(res)
+                            console.log(jsonData)
+
+
+                            var changes = [
+                                [i, 'id', res.id],
+                                // [i, 'tenDuan', res.tenDuan],
+
+                                [i, 'duanXdhtId', res.duanXdhtId],
+                                [i, 'ngaybaocao', res.ngaybaocao],
+                                [i, 'IDduanXdht', jsonData.duanXdhtId.id],
+
+                            ];
+
+                            
+                                                           console.log(changes);
+                            hottiendoXDHT.setDataAtRowProp(changes);
+
+                            var newrow = document.createElement("div");
+                            newrow.classList.add("element_tiendoXDHTChitiet__newrow");
+                            var idd = "element_tiendoXDHTChitiet__newrow__" + jsonData.id;
+                            newrow.setAttribute("id", idd);
+
+
+
+                            var tiendotext = `<div class="row">`;
+                            tiendotext += `<div id='ten' class='ten${jsonData.id}'>Tên dự án:` + dulieu[i][1] + `</div>`;
+
+                            tiendotext += `</div>`;
+
+                            tiendotext += `<div class="row">`;
+                            tiendotext += `<div class='ngaybaocao${jsonData.id}'>Ngày báo cáo:` + dateFormat[0] + `</div>`;
+
+                            tiendotext += `</div>`;
+
+                            tiendotext += '<div class="element_tiendoXDHTChitiet__button"><a href="#"><button  onclick=edittiendoXDHT(';
+                            tiendotext += (jsonData.id);
+
+                            tiendotext += ')><i class="fa fa-edit"></i> Sửa</button></a><a href="#"><button  onclick=deletetiendoXDHT(';
+                            tiendotext += (jsonData.id);
+                            tiendotext += ')><i class="fa fa-trash"></i> Xóa</button></a><a href="#"><button  onclick=add_tiendoXDHTChitiet(';
+                            tiendotext += (jsonData.id);
+                            tiendotext += ',';
+                            tiendotext += (jsonData.duanXdhtId.id);
+//676
+                            tiendotext += ')><i class="fa fa-plus"></i> </button></a>';
+                            tiendotext += '</div>';
+                            tiendotext += '</div>';
+
+                            var newrowdistance = document.createElement("div");
+                            newrowdistance.classList.add("element_tiendoXDHTChitiet__row__distance");
+                            var idd = "element_tiendoXDHTChitiet__row__distance" + jsonData.id;
+                            newrowdistance.setAttribute("id", idd);
+
+
+
+                            newrowdistance.innerHTML = tiendotext;
+                            newrow.appendChild(newrowdistance)
+                            document.getElementById("small_tiendoXDHTChitiet").appendChild(newrow);
+
+
+                        })
+                            .fail(function (jqXHR, textStatus, errorThrown) {
+                                checkAdd = 0;
+                            });
+                    } else {
+                        checkAdd = 0;
+                    }
+                }
+            }
+
+            //bước 3. sửa dữ liệu
+            //console.log('changes:' + arrID_Change.toString());
+
+            console.log(dulieu)
+            for (i = 0; i < arrRow_Change.length; i++) {
+                var obj = {};
+
+
+
+                if (dulieu[arrRow_Change[i]][1] !== '' && dulieu[arrRow_Change[i]][1] !== null) {
+                    for (var j = 0; j < str_duanXaydunghatangs.length; j++) {
+                        if (str_duanXaydunghatangs[j] === dulieu[arrRow_Change[i]][1]) {
+
+                            obj["duanXdhtId"] = id_duanXaydunghatangs[j];
+                            break;
+                        }
+                    }
+                }
+
+                if (dulieu[arrRow_Change[i]][2] !== '' && dulieu[arrRow_Change[i]][2] !== null) {
+                    const myArray = dulieu[arrRow_Change[i]][2].split("/");
+                    var newDate = "";
+                    newDate = newDate.concat(myArray[2]);
+                    newDate = newDate.concat("-");
+                    newDate = newDate.concat(myArray[1]);
+                    newDate = newDate.concat("-");
+                    newDate = newDate.concat(myArray[0]);
+                    obj["ngaybaocao"] = newDate;
+                }
+
+
+                var flag = true;
+
+                var flag = true;
+                if (dulieu[arrRow_Change[i]][1] === '' || dulieu[arrRow_Change[i]][1] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tên dự án');
+                    flag = false;
+                }
+                if (dulieu[arrRow_Change[i]][2] === '' || dulieu[arrRow_Change[i]][2] === null) {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập ngày báo cáo');
+                    flag = false;
+                }
+
+
+                if (flag === true) {
+                    changed = 1;
+                    jQuery.ajax({
+
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: 'PUT',
+                        url: "http://" + hostname + ":" + port + "/tiendoXDHT/tiendoXDHT/" + arrID_Change[i],
+                        data: JSON.stringify(obj),
+                        dataType: 'json'
+                    }).done(function (data) {
+
+
+                        $.ajax({
+                            url: "http://" + hostname + ":" + port + "/tiendoXDHT/tiendoXDHT/" + data.id,
+                            type: 'GET',
+                            success: function (response) {
+
+
+                                const dateFormat = response.ngaybaocao.split("T");
+                                response.ngaybaocao = dateFormat[0];
+
+                                var tiendoXDHTChitiet_changed = document.getElementById("element_tiendoXDHTChitiet__row__distance__" + response.id);
+                                tiendoXDHTChitiet_changed.innerHTML = "";
+
+
+                                var tiendotext = `<div class="row">`;
+                                tiendotext += `<div id='ten' class='ten${response.id}'>Tên dự án:` + response.duanXdhtId.ten + `</div>`;
+
+                                tiendotext += `</div>`;
+
+
+                                tiendotext += `<div class="row">`;
+                                tiendotext += `<div class='ngaybaocao${response.id}'>Ngày báo cáo: ${response.ngaybaocao} </div>`;
+
+                                tiendotext += `</div>`;
+
+                                tiendotext += '<div class="element_tiendoXDHTChitiet__button"><a href="#"><button  onclick=edittiendoXDHT(';
+                                tiendotext += (response.id);
+
+                                tiendotext += ')><i class="fa fa-edit"></i> Sửa</button></a><a href="#"><button  onclick=deletetiendoXDHT(';
+                                tiendotext += (response.id);
+                                tiendotext += ')><i class="fa fa-trash"></i> Xóa</button></a><a href="#"><button  onclick=add_tiendoXDHTChitiet(';
+                                tiendotext += (response.id);
+                                tiendotext += ',';
+                                tiendotext += (response.duanXdhtId.id);
+//676
+                                tiendotext += ')><i class="fa fa-plus"></i> </button></a>';
+                                tiendotext += '</div>';
+                                tiendotext += '</div>';
+
+                                tiendoXDHTChitiet_changed.innerHTML = tiendotext;
+                            }
+                        })
+
+
+                    })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            checkUpdate = 0;
+                        });
+
+                } else {
+                    checkUpdate = 0;
+                }
+            }
+            arrID_Change = [];
+            arrRow_Change = [];
+
+
+
+            if (changed === 1 && checkAdd === 1 && checkDelete === 1 && checkUpdate === 1) {
+
+                $("#tiendoXDHT-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#tiendoXDHT-success-alert").slideUp(500);
+                });
+            }
+        });
+
+        var arrID_chitiet_Delete = [];
+        var arrID_tiendoChitiet_Change = [];
+        var arrRow_tiendoChitiet_Change = [];
+
+
+        button_chitiet.addEventListener("click", function () {
+            var dulieu = hottiendoXDHTChitiet.getData();
+
+            var changed = 0;
+            var checkDelete = 1;
+            var checkUpdate = 1;
+            var checkAdd = 1;
+
+
+            //bước 1. xóa dữ liệu
+            if (arrID_chitiet_Delete.length > 0) {
+
+                for (i = 0; i < arrID_chitiet_Delete.length; i++) {
+                    //lay id delete
+                    var id_delete = arrID_chitiet_Delete[i];
+                    //                        console.log(i)
+                    $.ajax({
+                        url: "http://" + hostname + ":" + port + "/tiendoXDHTChitiet/tiendoXDHTChitiet/" + id_delete,
+                        type: 'DELETE',
+                        async: false,
+                        success: function (result) {
+                            changed = 1;
+                            var tiendoXDHTChitiet_deleted = document.getElementById("element_tiendoXDHTChitiet__row__" + id_delete);
+
+                            tiendoXDHTChitiet_deleted.remove();
+
+                        },
+                        error: function () {
+                            console.log("loi")
+                            checkDelete = 0;
+                        }
+                    });
+                }
+                arrID_chitiet_Delete = [];
+            }
+
+
+            console.log(dulieu)
+           
+            for (i = 0; i < dulieu.length; i++) {
+                //                    console.log(i)
+                if (dulieu[i][0] === null) {
+
+                    console.log("wwtf  +  " + i)
+
+                    var obj = {};
+
+                    obj["idTiendo"] = idtiendoChitiet;
+
+
+
+                    if (dulieu[i][1] !== '' && dulieu[i][1] !== null) {
+
+                        obj["thanhphan"] = dulieu[i][1];
+                    }
+
+                    if (dulieu[i][2] !== '' && dulieu[i][2] !== null) {
+                        dulieu[i][2] = parseFloat(dulieu[i][2], 10);
+                        obj["tiendoCapvon"] = dulieu[i][2];
+                    }
+
+                    if (dulieu[i][3] !== '' && dulieu[i][3] !== null) {
+
+                        obj["tiendoGiaingan"] = dulieu[i][3];
+                    }
+
+
+
+                    if (dulieu[i][4] !== '' && dulieu[i][4] !== null) {
+                        dulieu[i][4] = parseFloat(dulieu[i][4], 10);
+                        obj["khoiluongHoanthanh"] = dulieu[i][4];
+                    }
+
+
+                    if (dulieu[i][5] !== '' && dulieu[i][5] !== null) {
+
+
+                        for (var j = 0; j < str_dmtrangthais.length; j++) {
+                            if (str_dmtrangthais[j] === dulieu[i][5]) {
+
+                                obj["idTrangthai"] = id_dmtrangthais[j];
+                                break;
+                            }
+                        }
+                    }
+
+
+
+
+                    // Biến cờ hiệu
+                    var flag = true;
+                    if (dulieu[i][1] === '' || dulieu[i][1] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tên thành phần');
+                        flag = false;
+                    }
+                    if (dulieu[i][2] === '' || dulieu[i][2] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tiến độ cấp vốn');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][3] === '' || dulieu[i][3] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tiến độ giải ngân');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][4] === '' || dulieu[i][4] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập khối lượng hoàn thành');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][5] === '' || dulieu[i][5] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập trạng thái');
+                        flag = false;
+                    }
+
+
+                    if (Object.is(dulieu[i][3], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' tiến độ giải ngân phải là số');
+                        flag = false;
+
+                    }
+
+
+                    if (Object.is(dulieu[i][4], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' khối lượng hoàn thành phải là số');
+                        flag = false;
+
+                    }
+
+
+                    if (Object.is(dulieu[i][2], NaN)) {
+                        alert('Dòng ' + (i + 1) + ' tiến độ cấp vốn phải là số');
+                        flag = false;
+
+                    }
+
+                    if (flag === true) {
+                        changed = 1;
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'type': 'POST',
+                            'async': false,
+                            'url': "http://" + hostname + ":" + port + "/tiendoXDHTChitiet/tiendoXDHTChitiet/",
+                            'data': JSON.stringify(obj),
+                            'dataType': 'json',
+                        }).done(function (data) {
+                            console.log("success" + $('#hot_tiendoXDHTChitiet_select option:selected').text())
+
+                            checkLoop++;
+                            console.log("check " + checkLoop)
+                            var jsonData = JSON.parse(JSON.stringify(data));
+                            // console.log(jsonData)
+                            var res = {};
+                            res.id = jsonData.id;
+
+                            if (jsonData.thanhphan === null)
+                                res.thanhphan = "";
+                            else
+                                res.thanhphan = jsonData.thanhphan;
+
+                            if (jsonData.tiendoCapvon === null)
+                                res.tiendoCapvon = "";
+                            else
+                                res.tiendoCapvon = jsonData.tiendoCapvon;
+
+                            if (jsonData.tiendoGiaingan === null)
+                                res.tiendoGiaingan = "";
+                            else
+                                res.tiendoGiaingan = jsonData.tiendoGiaingan;
+
+
+
+                            if (jsonData.khoiluongHoanthanh === null)
+                                res.khoiluongHoanthanh = "";
+                            else
+                                res.khoiluongHoanthanh = jsonData.khoiluongHoanthanh;
+
+                            if (jsonData.idTrangthai === null)
+                                res.idTrangthai = "";
+                            else
+                                res.idTrangthai = dulieu[i][5];
+
+
+
+                            console.log(res)
+
+
+                            var changes = [
+                                [i, 'id', res.id],
+                                // [i, 'tenDuan', res.tenDuan],
+
+                                [i, 'thanhphan', res.thanhphan],
+                                [i, 'tiendoCapvon', res.tiendoCapvon],
+                                [i, 'tiendoGiaingan', res.tiendoGiaingan],
+
+                                [i, 'khoiluongHoanthanh', res.khoiluongHoanthanh],
+
+
+                                [i, 'idTrangthai', res.idTrangthai],
+                            ];
+
+                            console.log("success")
+                            newrow = document.createElement("div");
+                            newrow.classList.add("element_tiendoXDHTChitiet__row");
+                            var idd = "element_tiendoXDHTChitiet__row__" + jsonData.id;
+                            newrow.setAttribute("id", idd);
+
+
+                            posttiendoXDHTChitiet = "";
+
+
+                            posttiendoXDHTChitiet += `<div class="row">`;
+                            posttiendoXDHTChitiet += `<div class="col-xs-7"><div class='tenthanhphan${jsonData.id}'>Tên thành phần:</div></div>`;
+                            if (jsonData.ten === null)
+                                posttiendoXDHTChitiet += `<div class="col-xs-5"></div>`;
+                            else
+                                posttiendoXDHTChitiet += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.thanhphan}</div>`;
+                            posttiendoXDHTChitiet += `</div>`;
+
+
+                            posttiendoXDHTChitiet += `<div class="row">`;
+                            posttiendoXDHTChitiet += `<div class="col-xs-7"><div class='trangthai${jsonData.id}'>Trạng thái:</div></div>`;
+                            if (jsonData.idTrangthai === null)
+                                posttiendoXDHTChitiet += `<div class="col-xs-5"></div>`;
+                            else
+                                posttiendoXDHTChitiet += `<div class="col-xs-5" style="text-indent: 0px;">` + dulieu[i][5] + `</div>`;
+                            posttiendoXDHTChitiet += `</div>`;
+
+
+
+                            posttiendoXDHTChitiet += `<div class="row">`;
+                            posttiendoXDHTChitiet += `<div class="col-xs-7"><div class='tiendocapvon${jsonData.id}'>Tiến độ cấp vốn:</div></div>`;
+                            if (jsonData.tiendoCapvon === null)
+                                posttiendoXDHTChitiet += `<div class="col-xs-5"></div>`;
+                            else
+                                posttiendoXDHTChitiet += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tiendoCapvon}</div>`;
+                            posttiendoXDHTChitiet += `</div>`;
+
+
+
+
+                            posttiendoXDHTChitiet += `<div class="row">`;
+                            posttiendoXDHTChitiet += `<div class="col-xs-7"><div class='tiendogiaingan${jsonData.id}'>Tiến độ giải ngân:</div></div>`;
+                            if (jsonData.tiendoGiaingan === null)
+                                posttiendoXDHTChitiet += `<div class="col-xs-5"></div>`;
+                            else
+                                posttiendoXDHTChitiet += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tiendoGiaingan}</div>`;
+                            posttiendoXDHTChitiet += `</div>`;
+
+                            posttiendoXDHTChitiet += `<div class="row">`;
+                            posttiendoXDHTChitiet += `<div class="col-xs-7"><div class='khoiluonghoanthanh${jsonData.id}'>Khối lượng hoàn thành:</div></div>`;
+                            if (jsonData.khoiluongHoanthanh === null)
+                                posttiendoXDHTChitiet += `<div class="col-xs-5"></div>`;
+                            else
+                                posttiendoXDHTChitiet += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.khoiluongHoanthanh}</div>`;
+                            posttiendoXDHTChitiet += `</div>`;
+
+
+
+                            var choice = '<div class="enterprise__button"><a href="#"><button onclick=edittiendoXDHTChitiet(';
+                            choice += jsonData.id;
+                            choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deletetiendoXDHTChitiet(';
+                            choice += jsonData.id;
+                            choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                            posttiendoXDHTChitiet += `<div class="row">`;
+                            posttiendoXDHTChitiet += choice;
+                            posttiendoXDHTChitiet += `</div>`;
+
+
+                            newrow.innerHTML = posttiendoXDHTChitiet;
+
+                            var tiendonewrow =document.getElementById("element_tiendoXDHTChitiet__newrow__" + idtiendoChitiet);
+
+                            if (tiendonewrow !== null){
+                                document.getElementById("element_tiendoXDHTChitiet__newrow__" + idtiendoChitiet).appendChild(newrow);
+                            }
+
+                            
+
+                        })
+                            .fail(function (jqXHR, textStatus, errorThrown) {
+                                checkAdd = 0;
+                            });
+                    } else {
+                        checkAdd = 0;
+                    }
+                }
+            }
+
+            //bước 3. sửa dữ liệu
+            //console.log('changes:' + arrID_tiendoChitiet_Change.toString());
+
+            console.log(dulieu)
+            for (i = 0; i < arrRow_tiendoChitiet_Change.length; i++) {
+                var obj = {};
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][1] !== '' && dulieu[arrRow_tiendoChitiet_Change[i]][1] !== null) {
+
+                    obj["thanhphan"] = dulieu[arrRow_tiendoChitiet_Change[i]][1];
+                }
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][2] !== '' && dulieu[arrRow_tiendoChitiet_Change[i]][2] !== null) {
+                    dulieu[arrRow_tiendoChitiet_Change[i]][2] = parseFloat(dulieu[arrRow_tiendoChitiet_Change[i]][2], 10);
+                    obj["tiendoCapvon"] = dulieu[arrRow_tiendoChitiet_Change[i]][2];
+                }
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][3] !== '' && dulieu[arrRow_tiendoChitiet_Change[i]][3] !== null) {
+
+                    obj["tiendoGiaingan"] = dulieu[arrRow_tiendoChitiet_Change[i]][3];
+                }
+
+
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][4] !== '' && dulieu[arrRow_tiendoChitiet_Change[i]][4] !== null) {
+                    dulieu[arrRow_tiendoChitiet_Change[i]][4] = parseFloat(dulieu[arrRow_tiendoChitiet_Change[i]][4], 10);
+                    obj["khoiluongHoanthanh"] = dulieu[arrRow_tiendoChitiet_Change[i]][4];
+                }
+
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][5] !== '' && dulieu[arrRow_tiendoChitiet_Change[i]][5] !== null) {
+
+
+                    for (var j = 0; j < str_dmtrangthais.length; j++) {
+                        if (str_dmtrangthais[j] === dulieu[arrRow_tiendoChitiet_Change[i]][5]) {
+
+                            obj["idTrangthai"] = id_dmtrangthais[j];
+                            break;
+                        }
+                    }
+                }
+
+                // Biến cờ hiệu
+                var flag = true;
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][1] === '' || dulieu[arrRow_tiendoChitiet_Change[i]][1] === null) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' chưa nhập tên thành phần');
+                    flag = false;
+                }
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][2] === '' || dulieu[arrRow_tiendoChitiet_Change[i]][2] === null) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' chưa nhập tiến độ cấp vốn');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][3] === '' || dulieu[arrRow_tiendoChitiet_Change[i]][3] === null) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' chưa nhập tiến độ giải ngân');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][4] === '' || dulieu[arrRow_tiendoChitiet_Change[i]][4] === null) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' chưa nhập khối lượng hoàn thành');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_tiendoChitiet_Change[i]][5] === '' || dulieu[arrRow_tiendoChitiet_Change[i]][5] === null) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' chưa nhập trạng thái');
+                    flag = false;
+                }
+
+
+                if (Object.is(dulieu[arrRow_tiendoChitiet_Change[i]][3], NaN)) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' tiến độ giải ngân phải là số');
+                    flag = false;
+
+                }
+
+
+                if (Object.is(dulieu[arrRow_tiendoChitiet_Change[i]][4], NaN)) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' khối lượng hoàn thành phải là số');
+                    flag = false;
+
+                }
+
+
+                if (Object.is(dulieu[arrRow_tiendoChitiet_Change[i]][2], NaN)) {
+                    alert('Dòng ' + (arrRow_tiendoChitiet_Change[i] + 1) + ' tiến độ cấp vốn phải là số');
+                    flag = false;
+
+                }
+
+
+                if (flag === true) {
+                    changed = 1;
+                    jQuery.ajax({
+
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: 'PUT',
+                        url: "http://" + hostname + ":" + port + "/tiendoXDHTChitiet/tiendoXDHTChitiet/" + arrID_tiendoChitiet_Change[i],
+                        data: JSON.stringify(obj),
+                        dataType: 'json'
+                    }).done(function (data) {
+
+
+                        $.ajax({
+                            url: "http://" + hostname + ":" + port + "/tiendoXDHTChitiet/tiendoXDHTChitiet/" + data.id,
+                            type: 'GET',
+                            success: function (jsonData) {
+                                var tiendoXDHTChitiet_changed = document.getElementById("element_tiendoXDHTChitiet__row__" + jsonData.id);
+                                tiendoXDHTChitiet_changed.innerHTML = "";
+
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="row">`;
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-7"><div class='tenthanhphan${jsonData.id}'>Tên thành phần:</div></div>`;
+                                if (jsonData.ten === null)
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.thanhphan}</div>`;
+                                tiendoXDHTChitiet_changed.innerHTML += `</div>`;
+
+
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="row">`;
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-7"><div class='trangthai${jsonData.id}'>Trạng thái:</div></div>`;
+                                if (jsonData.idTrangthai === null)
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.idTrangthai.trangthai}</div>`;
+                                tiendoXDHTChitiet_changed.innerHTML += `</div>`;
+
+
+
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="row">`;
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-7"><div class='tiendocapvon${jsonData.id}'>Tiến độ cấp vốn:</div></div>`;
+                                if (jsonData.tiendoCapvon === null)
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tiendoCapvon}</div>`;
+                                tiendoXDHTChitiet_changed.innerHTML += `</div>`;
+
+
+
+
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="row">`;
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-7"><div class='tiendogiaingan${jsonData.id}'>Tiến độ giải ngân:</div></div>`;
+                                if (jsonData.tiendoGiaingan === null)
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.tiendoGiaingan}</div>`;
+                                tiendoXDHTChitiet_changed.innerHTML += `</div>`;
+
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="row">`;
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-7"><div class='khoiluonghoanthanh${jsonData.id}'>Khối lượng hoàn thành:</div></div>`;
+                                if (jsonData.khoiluongHoanthanh === null)
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                                else
+                                    tiendoXDHTChitiet_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.khoiluongHoanthanh}</div>`;
+                                tiendoXDHTChitiet_changed.innerHTML += `</div>`;
+
+
+
+
+
+
+                                //chu y cho edit vs delete nay la edittiendoXDHTChitiet vs deletetiendoXDHTChitiet
+                                var choice = '<div class="enterprise__button"><a href="#"><button onclick=edittiendoXDHTChitiet(';
+                                choice += (jsonData.id);
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deletetiendoXDHTChitiet(';
+                                choice += (jsonData.id);
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                tiendoXDHTChitiet_changed.innerHTML += `<div class="row">`;
+                                tiendoXDHTChitiet_changed.innerHTML += choice;
+                                tiendoXDHTChitiet_changed.innerHTML += `</div>`;
+                            }
+                        })
+
+
+                    })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            checkUpdate = 0;
+                        });
+
+                } else {
+                    checkUpdate = 0;
+                }
+            }
+            arrID_tiendoChitiet_Change = [];
+            arrRow_tiendoChitiet_Change = [];
+
+
+
+            if (changed === 1 && checkAdd === 1 && checkDelete === 1 && checkUpdate === 1) {
+
+
+                $("#tiendoXDHT-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#tiendoXDHT-success-alert").slideUp(500);
+                });
+            }
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>

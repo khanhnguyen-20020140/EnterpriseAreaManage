@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Quyền của tài khoản: Giám đốc Samsung</title>
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/simple-line-icons.css" rel="stylesheet">
+    <link href="css/datepicker.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/app-index.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/menu.css" rel="stylesheet">
+    <link href="lib/maplibre-gl.css" rel="stylesheet">
+    <link rel="stylesheet" media="screen" href="css/handsontable.full.min.css">
+    <script src="js/w3color.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- jQuery and jQuery UI (REQUIRED) -->
+    <link rel="stylesheet" type="text/css" href="webjars/jquery-ui-themes/1.11.4/smoothness/jquery-ui.min.css">
+    <!-- elFinder CSS (REQUIRED) -->
+    <link rel="stylesheet" type="text/css" href="webjars/elfinder/2.1.59/css/elfinder.min.css">
+    <link rel="stylesheet" type="text/css" href="webjars/elfinder/2.1.59/css/theme.css">
+    <script>
+        var getSource;
+        var getMapQuyhoachPolygon, getMapQuyhoachLine, getMapQuyhoachPoint;
+        var changeColorLayer, changeOpacityLayer;
+        var getFeatures_QHPolygonHighlight;
+        var loadCbHtml, dynamicSQL, reloadHtml, switchMap;
+        //var onload_chitietDAXDHT, onload_editDAXDHT;      
+        var loadDoanhnghiep, loadKhucn;
+        var loadGridDoanhnghiep;
+        var loadDuanXDHT, loadDuanDTSX;
+    </script>
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+    <style>
+        .tableusers .mob-max {
+            display: none;
+        }
+
+        .tableusers .mob-min {
+            width: calc(100% - 131px) !important;
+        }
+
+        .tableusers__innner .table-overflow {
+            padding: 10px 20px;
+        }
+
+        .tableusers__innner .mapView__table button {
+            margin-left: 0px;
+            margin-bottom: 15px;
+            margin-top: 5px;
+        }
+
+        .tableusers__innner td a,
+        .tableusers__innner td:hover a {
+            background-color: #0eaaa6;
+            color: #fff;
+            padding: 8px 18px;
+            font-size: 14px;
+            line-height: 15px;
+            border: unset;
+            border-radius: 5px;
+            margin: 0px 0px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .tableusers__innner thead>tr>th {
+            font-size: 15px;
+        }
+
+        .tableusers__innner thead>tr>th:nth-child(1) {
+            width: 50px;
+        }
+
+        @media(min-width:991px) {
+            .tableusers__innner .table {
+                max-width: 100%;
+            }
+        }
+
+        .tableusers__innner thead tr th:last-child {
+            width: 130px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+    </style>
+</head>
+
+<body class="notransition">
+    <!-- Header -->
+    <div id="header">
+        <div class="logo">
+            <a href="index.html">
+                <span class="fa fa-home marker"></span>
+                <span class="logoText">KKT</span>
+            </a>
+        </div>
+        <a href="#" class="navHandler"><span class="fa fa-bars"></span></a>
+        <div class="search">
+            <span class="searchIcon icon-magnifier"></span>
+            <input type="text" placeholder="Tìm kiếm...">
+        </div>
+        <!-- menu -->
+        <div class="top-nav" style="height: auto;">
+            <div class="menu-top-menu-container">
+                <ul id="menu-top-menu" class="menu">
+                    <li id="menu-item-225"
+                        class="xxx menu-item menu-item-type-post_type menu-item-object-page menu-item-225"><a
+                            href="index.html">Trang chủ</a></li>
+                    <li id="menu-item-10874"
+                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-10874">
+                        <a href="#">Bản đồ nền&nbsp;&nbsp;<span class="fa fa-angle-down"></span></a>
+                        <ul class="sub-menu">
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#"
+                                    onclick="switchMap('basic');">Bản đồ cơ bản</a></li>
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#"
+                                    onclick="switchMap('topo');">Bản đồ địa hình</a></li>
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#"
+                                    onclick="switchMap('street');">Bản đồ đường phố</a></li>
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#"
+                                    onclick="switchMap('Outdoor');">Bản đồ ngoài trời</a></li>
+                            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#"
+                                    onclick="switchMap('hybrid');">Bản đồ vệ tinh</a></li>
+                        </ul>
+                    </li>
+                    <li id="menu-item-519"
+                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-519"><a href="#">Liên
+                            hệ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mapHandlermobile"><a href="#" class="mapHandlermobilegg"><span class="icon-map"></span></a></div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- Left Side Navigation -->
+    <div id="leftSide" style="height: 595px;">
+        <nav class="leftNav scrollable">
+            <ul>
+                <li class="hasSub">
+                    <a href="#"><span class="navIcon icon-menu"></span><span class="navLabel">HẠ TẦNG KỸ
+                            THUẬT</span><span class="fa fa-angle-left arrowRight"></span></a>
+                    <ul>
+                        <li><a id="dm_duanxaydunghatang" href="#">Các dự án</a></li>
+                        <li><a id="dm_duanxaydunghatang_create" href="#">Đăng ký dự án mới</a></li>
+                    </ul>
+                </li>
+                <li class="hasSub">
+                    <a href="#"><span class="navIcon icon-menu"></span><span class="navLabel">ĐẦU TƯ SẢN
+                            XUẤT</span><span class="fa fa-angle-left arrowRight"></span></a>
+                    <ul>
+                        <li><a id="dm_duandautusanxuat" href="#">Các dự án</a></li>
+                        <li><a href="#" onclick="taoduan_dautusanxuat = 1;return false;">Đăng ký dự án mới</a></li>
+                    </ul>
+                </li>
+                <li class="hasSub">
+                    <a href="#"><span class="navIcon icon-menu"></span><span class="navLabel">TÌNH HÌNH SẢN
+                            XUẤT</span><span class="fa fa-angle-left arrowRight"></span></a>
+                    <ul>
+                        <li><a id="dm_ketquadautusanxuat" href="#">Tình hình sản xuất của các doanh nghiệp</a></li>
+                    </ul>
+                </li>
+                <li class="hasSub">
+                    <a href="#"><span class="navIcon icon-menu"></span><span class="navLabel">DANH MỤC</span><span
+                            class="fa fa-angle-left arrowRight"></span></a>
+                    <ul>
+                        <li><a id="dm_khucn" href="#">Khu công nghiệp</a></li>
+                        <li><a id="dm_doanhnghiep" href="#">Doanh nghiệp</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="leftUserWraper dropup">
+            <a href="#" class="avatarAction dropdown-toggle" data-toggle="dropdown">
+                <img class="avatar" src="images/user.png" alt="avatar">
+                <div class="userBottom pull-left">
+                    <span class="bottomUserName">Tên người dùng</span> <span
+                        class="fa fa-angle-up pull-right arrowUp"></span>
+                </div>
+                <div class="clearfix"></div>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#"><span class="icon-user"></span>Hồ sơ cá nhân</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><span class="icon-power"></span>Đăng xuất</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="closeLeftSide"></div>
+    <div class="doanhnghiep_open">
+        <svg class="svg-inline--fa fa-angle-left fa-w-8 arrowRight" aria-hidden="true" focusable="false"
+            data-prefix="fa" data-icon="angle-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"
+            data-fa-i2svg="">
+            <path fill="currentColor"
+                d="M213.03 380.502C228.233 396.533 227.546 421.844 211.515 437.032C203.78 444.375 193.874 448 183.999 448C173.406 448 162.827 443.813 154.968 435.5L10.969 283.505C-3.656 268.099 -3.656 243.912 10.969 228.506L154.968 76.51C170.156 60.448 195.484 59.761 211.515 74.979C227.546 90.166 228.233 115.478 213.03 131.509L95.093 256.005L213.03 380.502Z">
+            </path>
+        </svg>
+        <svg class="svg-inline--fa fa-angle-left fa-w-8 arrowRight" aria-hidden="true" focusable="false"
+            data-prefix="fa" data-icon="angle-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"
+            data-fa-i2svg="">
+            <path fill="currentColor"
+                d="M213.03 380.502C228.233 396.533 227.546 421.844 211.515 437.032C203.78 444.375 193.874 448 183.999 448C173.406 448 162.827 443.813 154.968 435.5L10.969 283.505C-3.656 268.099 -3.656 243.912 10.969 228.506L154.968 76.51C170.156 60.448 195.484 59.761 211.515 74.979C227.546 90.166 228.233 115.478 213.03 131.509L95.093 256.005L213.03 380.502Z">
+            </path>
+        </svg>
+    </div>
+    <!-- Content -->
+    <div class="tableusers" id="wrapper">
+        <div id="mapView" class="mob-max">
+            <div id="zoomin" class="zoomin">
+                <img src="images/zoom-in.png" width="32" height="32" />
+            </div>
+            <div id="overview1" class="overview1">
+                <img src="images/winter-static-1024.webp" width="60" height="60" />
+            </div>
+            <div id="overview2" class="overview2" style="display:none">
+                <img id='img-layer-basic' src='images/basic-static-1024.png' alt="Basic" title="Basic" width='60'
+                    height='60' style='padding-bottom: 3px;' />
+                <img id='img-layer-street' src='images/streets-static-1024.png' alt="Street" title="Street" width='60'
+                    height='60' style='padding-bottom: 3px;' />
+                <img id='img-layer-outdoor' src='images/outdoor-static-1024.webp' alt="Outdoor" title="Outdoor"
+                    width='60' height='60' style='padding-bottom: 3px;' />
+                <img id='img-layer-topo' src='images/topo-static-1024.png' alt="Topo" width='60' title="Topo"
+                    height='60' style='padding-bottom: 3px;' />
+                <img id='img-layer-hybrid' src='images/hybrid-static-1024.webp' alt="Hybrid" title="Hybrid" width='60'
+                    height='60' />
+            </div>
+            <div id="chugiai" class="chugiai">
+                <img id='img-chugiai' src="images/map_legend.png" width="24" height="24" />
+            </div>
+            <div id="lopdulieu" class="lopdulieu">
+                <img id='img-layer' src="images/map_layer.png" width="24" height="24" />
+            </div>
+            <div id="bangchugiai" class="bangchugiai double-border" style="display:none"></div>
+        </div>
+        <div id="content" class="mob-min">
+            <div class="tableusers__innner">
+                <div class="filter">
+                    <div class="filter__around">
+                        <h1>Quyền của tài khoản: Giám đốc Samsung </h1>
+                    </div>
+                </div>
+                <div class="table-overflow">
+                    <div class="mapView__table">
+                        <button id="button" class="button-3"><i class="fa-floppy-o fa fa-floppy-disk"></i></button>
+                    </div>
+                    <div class="tabs">
+                        <div class="row">
+                            <div class="col-xs-5 col-sm-5">
+                                <table class="table" id="inboxTable">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th> Tên đăng nhập</th>
+                                            <th> Tên người dùng</th>
+                                            <th> Mật khẩu</th>
+
+                                            <th>Chi tiết</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table" id="real-table">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xs-7 col-sm-7" id="detail">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="webjars/jquery/1.12.4/jquery.min.js"></script>
+    <script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="js/jquery-ui-touch-punch.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.touchSwipe.min.js"></script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="js/jquery.visible.js"></script>
+    <script
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDCUprg4Vr1-pMFU7UYE07czxemvnJGOdE&amp;sensor=true&amp;libraries=geometry&amp;libraries=places"
+        type="text/javascript"></script>
+    <script src="js/infobox.js"></script>
+    <script src="js/jquery.tagsinput.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="lib/maplibre-gl.js"></script>
+    <script src="lib/proj4.js"></script>
+    <script src="js/global.js" type="text/javascript"></script>
+    <script src="js/handsontable.full.min.js"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/fontawesome6.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"
+        type="text/javascript"></script>
+    <!-- elFinder JS (REQUIRED) -->
+    <script src="webjars/elfinder/2.1.59/js/elfinder.min.js"></script>
+    <!-- elFinder translation (OPTIONAL)  -->
+    <script src="webjars/elfinder/2.1.59/js/i18n/elfinder.vi.js"></script>
+    <script>
+        var bLayerExpanded = false;
+        var bChugiaiExpanded = false;
+        windowWidth = $(window).width();
+        if (windowWidth > 767) {
+            $('.logo').addClass('expanded');
+            $('#leftSide').addClass('expanded');
+            if (windowWidth < 768) {
+                $('.closeLeftSide').show();
+            }
+            $('.hasSub').addClass('hasSubActive');
+            $('.leftNav').addClass('bigNav');
+            if (windowWidth > 767) {
+                $('.full').addClass('m-full');
+            }
+            navExpanded = true;
+        } else {
+            $('.logo').removeClass('expanded');
+            $('#leftSide').removeClass('expanded');
+            $('.closeLeftSide').hide();
+            $('.hasSub').removeClass('hasSubActive');
+            $('.bigNav').slimScroll({ destroy: true });
+            $('.leftNav').removeClass('bigNav');
+            $('.leftNav').css('overflow', 'visible');
+            $('.full').removeClass('m-full');
+            navExpanded = false;
+        }
+        if (windowWidth < 768) {
+            $('#overview1').css({ "left": 10 });
+            $('#overview2').css({ "left": 80 });
+            $('#chugiai').css({ "left": 80 });
+            $('#lopdulieu').css({ "left": 110 });
+            $('#bangchugiai').css({ "left": 10 });
+        } else {
+            let left1 = $("#leftSide").width() + 10;
+            let left2 = $("#leftSide").width() + 80;
+            let leftChugiai = $("#leftSide").width() + 80;
+            let leftLopdulieu = $("#leftSide").width() + 110;
+            let leftBangChugiai = $("#leftSide").width() + 10;
+            $('#overview1').css({ "left": left1 });
+            $('#overview2').css({ "left": left2 });
+            $('#chugiai').css({ "left": leftChugiai });
+            $('#lopdulieu').css({ "left": leftLopdulieu });
+            $('#bangchugiai').css({ "left": leftBangChugiai });
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "http://localhost:8086/dmnguoidung/dmnguoidungs",
+                type: "GET",
+                async: false,
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        var row = $("<tr>");
+                        $("<td>").text(item.id).appendTo(row);
+                        $("<td>").text(item.tendangnhap).appendTo(row);
+                        $("<td>").text(item.tennguoidung).appendTo(row);
+                        $("<td>").text(item.matkhau).appendTo(row);
+                        var idmain = "tab-" + item.id;
+
+                        var textdetail = ' <a class="tab_link" data-tab=' + idmain + ' href="#"><svg class="svg-inline--fa fa-eye fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eye" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M572.531 238.973C518.281 115.525 410.938 32 288 32S57.688 115.58 3.469 238.973C1.562 243.402 0 251.041 0 256C0 260.977 1.562 268.596 3.469 273.025C57.719 396.473 165.062 480 288 480S518.312 396.418 572.531 273.025C574.438 268.596 576 260.957 576 256C576 251.023 574.438 243.402 572.531 238.973ZM432 256.062C432 335.516 367.531 400 288.062 400H288C208.5 400 144 335.484 144 256S208.5 112 288 112S432 176.516 432 256V256.062ZM288 160H287.781C285.48 160.029 282.426 160.441 279.539 160.764C284.77 170.037 288 180.594 288 192C288 227.346 259.346 256 224 256C212.551 256 201.959 252.748 192.66 247.482C192.363 250.479 192 253.625 192 256C192 308.996 235.004 352 288 352S384 308.996 384 256S340.996 160 288 160Z"></path></svg>Chi tiết</a>';
+                        var editdetail = ' <a class="tab_update" data-tab=' + idmain + ' href="#"><svg class="svg-inline--fa fa-eye fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eye" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M572.531 238.973C518.281 115.525 410.938 32 288 32S57.688 115.58 3.469 238.973C1.562 243.402 0 251.041 0 256C0 260.977 1.562 268.596 3.469 273.025C57.719 396.473 165.062 480 288 480S518.312 396.418 572.531 273.025C574.438 268.596 576 260.957 576 256C576 251.023 574.438 243.402 572.531 238.973ZM432 256.062C432 335.516 367.531 400 288.062 400H288C208.5 400 144 335.484 144 256S208.5 112 288 112S432 176.516 432 256V256.062ZM288 160H287.781C285.48 160.029 282.426 160.441 279.539 160.764C284.77 170.037 288 180.594 288 192C288 227.346 259.346 256 224 256C212.551 256 201.959 252.748 192.66 247.482C192.363 250.479 192 253.625 192 256C192 308.996 235.004 352 288 352S384 308.996 384 256S340.996 160 288 160Z"></path></svg>Cập nhật</a>';
+
+
+                        $("<td>").html(editdetail).appendTo(row);
+                        $("<td>").html(textdetail).appendTo(row);
+
+                        var real_table = document.getElementById("real-table");
+                        row.appendTo(real_table);
+
+                        var tab = '<div id="tab-' + item.id + '" class="tab-content">';
+                        var tab_table = '<table class="table" id="inboxTable"><thead><tr><th>STT</th><th>Khu kinh tế</th><th>Khu chuyên ngành</th><th>Doanh nghiệp</th><th>Dự án đầu tư sản xuất</th><th>Quyền xem</th> <th>Quyền soạn thảo</th></tr> </thead><tbody class="table">';
+                        $.ajax({
+                            url: "http://localhost:8086/duandautusanxuat/duandautusanxuats",
+                            type: "GET",
+                            async: false,
+                            success: function (data) {
+                                $.each(data, function (index, duan) {
+
+                                    var duan_data = duan.ten;
+
+                                    const myArrayquyenxem = item.quyenxemthsx.split(",");;
+
+                                    const myArrayquyenchinh = item.quyensoanthaothsx.split(",");
+
+                                    console.log()
+
+
+                                    if (duan.idKhuChuyennganh !== null) {
+                                        // console.log(myArrayquyenxem +"  "+ duan.id)
+
+                                        var tab_table_detail = '<tr id=detail' + duan.id + '>' +
+                                            '<td>' + duan.id + '</td>' +
+                                            '<td>' + duan.idKhuChuyennganh.idKhuKinhte.ten + '</td>' +
+                                            '<td>' + duan.idKhuChuyennganh.ten + '</td>' +
+                                            '<td>' + duan.idDoanhnghiep.ten + '</td>' +
+                                            '<td>' + duan.ten + '</td>';
+
+
+                                        if (myArrayquyenxem.includes(duan.id.toString())) {
+
+
+                                            tab_table_detail += '<td><input type="checkbox" id="quyenxem' + duan.id + '"" checked></td>'
+                                        } else {
+                                            tab_table_detail += '<td><input type="checkbox" id="quyenxem' + duan.id + '"" ></td>'
+                                        }
+
+                                        if (myArrayquyenchinh.includes(duan.id.toString())) {
+                                            tab_table_detail += '<td><input type="checkbox" id="quyenchinh' + duan.id + '"" checked></td>'
+                                        } else {
+                                            tab_table_detail += '<td><input type="checkbox" id="quyenchinh' + duan.id + '"" ></td>'
+                                        }
+
+                                        tab_table_detail += '</tr>';
+                                        tab_table += tab_table_detail;
+                                        // console.log(tab_table);
+
+                                        // console.log(tab_table_detail)
+
+
+                                    }
+
+                                });
+                            }
+                        })
+
+
+                        tab_table += ' </tbody></table>';
+
+                        // console.log(tab_table);
+                        tab += tab_table;
+                        tab += '</div>';
+
+
+                        var detail = document.getElementById("detail");
+                        // console.log(tab)
+                        detail.innerHTML += tab;
+
+
+                    });
+
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+
+
+        });
+
+        $(document).ready(function () {
+            $('#overview1').click(function (e) {
+                if (bLayerExpanded == true)
+                    bLayerExpanded = false;
+                else
+                    bLayerExpanded = true;
+                if (bLayerExpanded) {
+                    $('#overview2').show();
+                } else {
+                    $('#overview2').hide();
+                }
+            });
+            $('#chugiai').click(function (e) {
+                if (bChugiaiExpanded == true)
+                    bChugiaiExpanded = false;
+                else
+                    bChugiaiExpanded = true;
+                if (bChugiaiExpanded) {
+                    $('#bangchugiai').show();
+                } else {
+                    $('#bangchugiai').hide();
+                }
+            });
+
+            $('#lopdulieu').click(function (e) {
+                if (bChugiaiExpanded == true)
+                    bChugiaiExpanded = false;
+                else
+                    bChugiaiExpanded = true;
+                if (bChugiaiExpanded) {
+                    $('#bangchugiai').show();
+                } else {
+                    $('#bangchugiai').hide();
+                }
+            });
+
+            var clickChangeColor = function (html5) {
+                alert("Handler for .change() called.");
+                var c, cObj;
+                if (html5 && html5 == 5) {
+                    c = document.getElementById("colorLayer").value;
+                } else {
+                    return;
+                }
+                cObj = w3color(c);
+                if (!cObj.valid) {
+                    return;
+                }
+                document.getElementById("colorLayer").value = cObj.toHexString();
+            }
+
+
+
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+        $(function () {
+            $(document).on("click", '.tab_link', function () {
+
+                var tab_id = $(this).attr('data-tab');
+                // console.log("tab_id" + tab_id)
+
+                $('.tab_link').removeClass('current');
+                $('.tab-content').removeClass('current');
+
+                $(this).addClass('current');
+                $("#" + tab_id).addClass('current');
+            });
+
+
+            $(document).on("click", '.tab_update', function () {
+
+                var tab_id = $(this).attr('data-tab');
+                var id_nguoidung = tab_id.substring(4, tab_id.length)
+                // console.log("tab_id" + tab_id)
+
+
+
+                var xem = '';
+                var sua = '';
+                $("#" + tab_id).find(':checkbox').each(function () {
+
+                    if (this.checked) {
+
+                        if (this.id.substring(0, 8) === 'quyenxem') {
+
+                            xem += this.id.substring(8, this.id.length) + ',';
+
+                        }
+                        if (this.id.substring(0, 10) === 'quyenchinh') {
+                            console.log(this.id.substring(10, this.id.length))
+                            sua += this.id.substring(10, this.id.length) + ',';
+                        }
+
+
+
+                    }
+
+
+                });
+
+                var obj = {};
+
+                obj["quyenxemthsx"] = xem.substring(0, xem.length - 1);
+                obj["quyensoanthaothsx"] = sua.substring(0, sua.length - 1);
+
+                console.log(obj)
+
+
+
+                jQuery.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: 'PUT',
+                    async: false,
+                    url: "http://localhost:8086/dmnguoidung/dmnguoidungquyen/" + id_nguoidung,
+                    data: JSON.stringify(obj),
+                    dataType: 'json'
+                }).done(function (data) {
+
+                });
+            });
+        });
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

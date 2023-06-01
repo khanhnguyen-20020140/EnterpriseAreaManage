@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://unpkg.com/htmlincludejs"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+        <script>
+            var expandWindow_duandautusanxuat
+        </script>
+    </head>
+    <body>
+        <div class="doanhnghiep_title">
+            <h3>Dự án đầu tư sản xuất</h3>
+            <div class="doanhnghiep_button">
+                <button onclick="expandWindow_duandautusanxuat()"><svg class="svg-inline--fa fa-arrows-maximize fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="arrows-maximize" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M416 224C433.688 224 448 209.688 448 192V64C448 59.836 447.152 55.688 445.537 51.781C442.295 43.941 436.059 37.703 428.217 34.461C424.311 32.848 420.162 32 416 32H288C270.312 32 256 46.312 256 64S270.312 96 288 96H338.75L224 210.75L109.25 96H160C177.688 96 192 81.688 192 64S177.688 32 160 32H32C27.838 32 23.689 32.848 19.783 34.461C11.941 37.703 5.705 43.941 2.463 51.781C0.848 55.688 0 59.836 0 64V192C0 209.688 14.312 224 32 224S64 209.688 64 192V141.25L178.75 256L64 370.75V320C64 302.312 49.688 288 32 288S0 302.312 0 320V448C0 452.164 0.848 456.312 2.461 460.219C5.703 468.059 11.941 474.297 19.781 477.539C23.688 479.152 27.836 480 32 480H160C177.688 480 192 465.688 192 448S177.688 416 160 416H109.25L224 301.25L338.75 416H288C270.312 416 256 430.312 256 448S270.312 480 288 480H416C420.164 480 424.312 479.152 428.219 477.539C436.059 474.297 442.297 468.059 445.539 460.219C447.152 456.312 448 452.164 448 448V320C448 302.312 433.688 288 416 288S384 302.312 384 320V370.75L269.25 256L384 141.25V192C384 209.688 398.312 224 416 224Z"></path></svg></button><a class="doanhnghiep_close"  href="#"><span class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+            </div> 
+        </div>  
+
+        <div class="plus radius" id="radius" onclick="add_DADTSX()">
+        </div>
+
+        <div class="element_DADTSX" id="small_DADTSX">
+
+        </div>
+        <div class="smalladd_DADTSX" id="smalladd_DADTSX">
+            <div class="table-responsive resultsList__mobile">
+                <form class="resultsList__form" id="form_register" action="">
+                    <div class="form-group">
+                        <label for="ten">Tên dự án:</label>
+                        <input type="text" class="form-control" id="DADTSX-tda" placeholder="Tên dự án" name="ten">
+                        <span class="resultsList__error" id="tenduan_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tpDADTSX-mucdautu">Doanh nghiệp:</label>
+                        <select name="tpDADTSX-mucdautu" id="DADTSX-dn" class="custom-select">
+                            <option value="-1">Chọn doanh nghiệp</option>
+                        </select>
+                        <span class="resultsList__error" id="dn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="giamdoc">Số quyết định cho phép:</label>
+                        <input type="text" class="form-control" id="DADTSX-sqdcp" placeholder="Số quyết định cho phép"
+                               name="giamdoc">
+                        <span class="resultsList__error" id="soquyetdinhchophep_null"></span>
+                        <span class="resultsList__error" id="soquyetdinhchophep_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="giamdoc">Vốn đầu tư đăng ký:</label>
+                        <input type="text" class="form-control" id="DADTSX-vdtdk" placeholder="Vốn đầu tư đăng ký"
+                               name="giamdoc">
+                        <span class="resultsList__error" id="vondangkydautu_null"></span>
+                        <span class="resultsList__error" id="vondangkydautu_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tpDADTSX-tennhom">Nguồn vốn:</label>
+                        <select name="tpDADTSX-tennhom" id="DADTSX-nv" class="custom-select">
+                            <option value="-1">Chọn nguồn vốn</option>
+                        </select>
+
+                        <span class="resultsList__error" id="nv_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tpDADTSX-tenduan">Khu chuyên ngành:</label>
+                        <select name="tpDADTSX-tenduan" id="DADTSX-kcn" class="custom-select">
+                            <option value="-1">Chọn khu chuyên ngành</option>
+                        </select>
+                        <span class="resultsList__error" id="kcn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Nội dung sản xuất kinh doanh:</label>
+                        <input type="text" class="form-control" id="DADTSX-ndsxkd"
+                               placeholder="Nội dung sản xuất kinh doanh" name="diachi">
+                        <span class="resultsList__error" id="noidungsanxuatkinhdoanh_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tpDADTSX-mucdautu">Lĩnh vực sản xuất kinh doanh:</label>
+                        <select name="tpDADTSX-mucdautu" id="DADTSX-lvsxkd" class="custom-select">
+                            <option value="-1">Chọn lĩnh vực sản xuất kinh doanh</option>
+                        </select>
+                        <span class="resultsList__error" id="lvsxkd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Mã số dự án:</label>
+                        <input type="text" class="form-control" id="DADTSX-msda"
+                               placeholder="Mã số dự án" name="diachi">
+                        <span class="resultsList__error" id="msda_null"></span>
+                        <span class="resultsList__error" id="msda_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Ngày quyết định cấp phép:</label>
+                        <input type="date" class="form-control" id="DADTSX-nqdcp"
+                               placeholder="Ngày quyết định cấp phép" name="diachi">
+                        <span class="resultsList__error" id="nqdcp_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Vốn tương đương USD:</label>
+                        <input type="text" class="form-control" id="DADTSX-vtdusd"
+                               placeholder="Vốn tương đương USD" name="diachi">
+                        <span class="resultsList__error" id="vtdusd_null"></span>
+                        <span class="resultsList__error" id="vtdusd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Quy mô/công suất:</label>
+                        <input type="text" class="form-control" id="DADTSX-qmcs"
+                               placeholder="Quy mô/công suất" name="diachi">
+                        <span class="resultsList__error" id="qmcs_error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diachi">Ngày hết phép hoạt động:</label>
+                        <input type="date" class="form-control" id="DADTSX-nhphd"
+                               placeholder="Ngày hết phép hoạt động" name="diachi">
+                        <span class="resultsList__error" id="nhphd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tpDADTSX-tenduan">Trạng thái dự án:</label>
+                        <select name="tpDADTSX-tenduan" id="DADTSX-ttda" class="custom-select">
+                            <option value="-1">Chọn trạng thái dự án</option>
+                        </select>
+                        <span class="resultsList__error" id="ttda_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="diachi">Loại hình dự án:</label>
+
+                        <select name="tpDADTSX-tenduan" id="DADTSX-lhda" class="custom-select">
+                            <option value="-1">Chọn loại hình dự án</option>
+                        </select>
+                        <span class="resultsList__error" id="lhda_error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diachi">Tổng mức đầu tư:</label>
+                        <input type="text" class="form-control" id="DADTSX-tmdt"
+                               placeholder="Tổng mức đầu tư" name="diachi">
+                        <span class="resultsList__error" id="tmdt_null"></span>
+                        <span class="resultsList__error" id="tmdt_error"></span>
+                    </div>
+
+                    <div class="resultsList__twobutton">
+                        <button type="submit" class="btn btn-primary" id="myBtnDADTSX"><i class="fa-floppy-o fa fa-floppy-disk"></i></button>
+                        <button type="submit" class="btn btn-primary DADTSXback" onclick="DADTSXback()"><i class="fa-solid fa fa-rotate-left"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>       
+
+        <script>
+
+//                            document.getElementById("window_duandautusanxuat").innerHTML = '';
+
+            $(document).ready(function () {
+                $('.doanhnghiep_close').click(function () {
+                    var addfont = document.getElementById("radius");
+                    $('.doanhnghiep_close').addClass('active');
+                    if ($('.doanhnghiep_close').hasClass("active")) {
+                        $(".mob-min").css("width", "0%");
+                        $(".mob-max").css("width", "100%");
+                        $(".doanhnghiep_open").css("display", "flex");
+                        addfont.style.display = 'none';
+                    } else {
+                        $(".doanhnghiep_open").css("display", "none");
+                        addfont.style.display = 'block';
+                    }
+                });
+                expandWindow_duandautusanxuat = function () {
+                    var mapView = document.getElementById("mapView");
+                    var content = document.getElementById("content");
+                    var button = document.getElementById("change-button");
+
+                    var x = windowWidth - $("#leftSide").width();
+                    mapView.style.width = '0%';
+                    content.style.width = x + 'px';
+                    content.style.display = 'block';
+                    //   $('#window_duandautusanxuat').load("duandautusanxuat.html");
+                    //fixxx
+                    loadHtml('window_duandautusanxuat', 'duandautusanxuat.html');
+                }
+
+                loadDuanDTSX();
+
+                // Get value on button click and show alertad
+                $("#myBtnDADTSX").click(function () {
+                    if (idEditData !== -1) {
+                        updateDADTSX(idEditData);
+
+                    } else {
+
+                        // BƯỚC 2: Validate dữ liệu
+                        // Biến cờ hiệu
+                        var flag = true;
+
+                        console.log("???")
+
+
+                        var str_tda = $("#DADTSX-tda").val();
+                        var str_vdtdk = $("#DADTSX-vdtdk").val();
+                        var str_sqdcp = $("#DADTSX-sqdcp").val();
+                        var str_ndsxkd = $("#DADTSX-ndsxkd").val();
+                        var str_msda = $("#DADTSX-msda").val();
+                        var str_nqdcp = $("#DADTSX-nqdcp").val();
+                        var str_vtdusd = $("#DADTSX-vtdusd").val();
+                        var str_qmcs = $("#DADTSX-qmcs").val();
+                        var str_nhphd = $("#DADTSX-nhphd").val();
+                        var str_tmdt = $("#DADTSX-tmdt").val();
+
+
+                        var m_id_dn = $("#DADTSX-dn").val();
+                        var m_id_nv = $("#DADTSX-nv").val();
+                        var m_id_kcn = $("#DADTSX-kcn").val();
+
+                        var m_id_lvsxkd = $("#DADTSX-lvsxkd").val();
+                        var m_id_ttda = $("#DADTSX-ttda").val();
+                        var m_id_lhda = $("#DADTSX-lhda").val();
+
+                        console.log(str_sqdcp);
+
+                        if (str_sqdcp == '') {
+                            $('#soquyetdinhchophep_null').text('Chưa nhập số quyết định cho phép');
+                            flag = false;
+                        } else {
+                            $('#soquyetdinhchophep_null').text('');
+                        }
+
+                        if (str_sqdcp !== '') {
+                            str_sqdcp = parseInt(str_sqdcp, 10);
+                        }
+
+                        if (Object.is(str_sqdcp, NaN)) {
+                            $('#soquyetdinhchophep_error').text('Số quyết định cho phép phải để số');
+                            flag = false;
+
+                        } else {
+                            $('#soquyetdinhchophep_error').text('');
+                        }
+
+
+                        if (str_tmdt == '') {
+                            $('#tmdt_null').text('Chưa nhập tổng vốn đầu tư');
+                            flag = false;
+                        } else {
+                            $('#tmdt_null').text('');
+                        }
+
+                        if (str_tmdt !== '') {
+                            str_tmdt = parseFloat(str_tmdt, 10);
+                        }
+
+                        if (Object.is(str_tmdt, NaN)) {
+                            $('#tmdt_error').text('Tổng vốn đầu tư cho phép phải để số');
+                            flag = false;
+
+                        } else {
+                            $('#tmdt_error').text('');
+                        }
+
+
+
+
+                        if (str_vdtdk == '') {
+                            $('#vondangkydautu_null').text('Chưa nhập vốn đầu tư đăng ký');
+                            flag = false;
+                        } else {
+                            $('#vondangkydautu_null').text('');
+                        }
+
+                        if (str_vdtdk !== '') {
+                            str_vdtdk = parseFloat(str_vdtdk, 10);
+                        }
+
+                        if (Object.is(str_vdtdk, NaN)) {
+                            $('#vondangkydautu_error').text('Vốn đầu tư đăng ký phải để số');
+                            flag = false;
+
+                        } else {
+                            $('#vondangkydautu_error').text('');
+                        }
+
+
+
+
+                        if (str_msda == '') {
+                            $('#msda_null').text('Chưa nhập mã số dự án');
+                            flag = false;
+                        } else {
+                            $('#msda_null').text('');
+                        }
+
+                        if (str_msda !== '') {
+                            str_msda = parseInt(str_msda, 10);
+                        }
+
+                        if (Object.is(str_msda, NaN)) {
+                            $('#msda_error').text('Mã số dự án phải để số');
+                            flag = false;
+
+                        } else {
+                            $('#msda_error').text('');
+                        }
+
+
+
+
+
+                        if (m_id_dn === '-1') {
+                            $('#dn_error').text('Bạn chưa chọn Doanh nghiệp *');
+                            flag = false;
+
+                        } else {
+                            $('#dn_error').text('');
+                        }
+
+
+                        if (m_id_lvsxkd === '-1') {
+                            $('#lvsxkd_error').text('Bạn chưa chọn Lĩnh vực sản xuất *');
+                            flag = false;
+
+                        } else {
+                            $('#lvsxkd_error').text('');
+                        }
+
+
+
+
+                        if (m_id_kcn === '-1') {
+                            $('#kcn_error').text('Bạn chưa chọn khu chuyên ngành *');
+                            flag = false;
+                        } else {
+                            $('#kcn_error').text('');
+                        }
+
+
+
+                        if (m_id_nv === '-1') {
+                            $('#nv_error').text('Bạn chưa chọn Nguồn vốn *');
+                            flag = false;
+                        } else {
+                            $('#nv_error').text('');
+                        }
+
+
+
+
+                        if (m_id_ttda === '-1') {
+                            $('#ttda_error').text('Bạn chưa chọn Trạng thái dự án *');
+                            flag = false;
+                        } else {
+                            $('#ttda_error').text('');
+                        }
+
+                        if (m_id_lhda === '-1') {
+                            $('#lhda_error').text('Bạn chưa chọn Loại hình dự án *');
+                            flag = false;
+                        } else {
+                            $('#lhda_error').text('');
+                        }
+
+
+
+
+                        if (str_tda == '') {
+                            $('#tenduan_error').text('Chưa nhập tên dự án');
+                            flag = false;
+                        } else {
+                            $('#tenduan_error').text('');
+                        }
+
+
+                        if (str_qmcs == '') {
+                            $('#qmcs_error').text('Chưa nhập quy mô/công suất');
+                            flag = false;
+                        } else {
+                            $('#qmcs_error').text('');
+                        }
+
+
+
+                        if (str_vtdusd == '') {
+                            $('#vtdusd_null').text('Chưa nhập vốn tương đương USD');
+                            flag = false;
+                        } else {
+                            $('#vtdusd_null').text('');
+
+                        }
+
+                        if (str_vtdusd !== '') {
+                            str_vtdusd = parseFloat(str_vtdusd, 10);
+                        }
+
+                        if (Object.is(str_vtdusd, NaN)) {
+                            $('#vtdusd_error').text('Mã số dự án phải để số');
+                            flag = false;
+
+                        } else {
+                            $('#msda_error').text('');
+                        }
+
+
+
+                        const dateFormat_nqdcp = str_nqdcp.split("T");
+                        str_nqdcp = dateFormat_nqdcp[0];
+
+                        const dateFormat_nhphd = str_nhphd.split("T");
+                        str_nhphd = dateFormat_nhphd[0];
+
+
+
+                        var obj = {};
+                        obj["ten"] = str_tda;
+                        obj["soquyetdinhCapphep"] = str_sqdcp;
+                        obj["vondautuDangky"] = str_vdtdk;
+                        obj["noidungSanxuatKinhdoanh"] = str_ndsxkd;
+                        obj["masoDuan"] = str_msda;
+                        obj["ngayQuyetdinhCapphep"] = str_nqdcp;
+                        obj["vontuongduongUSD"] = str_vtdusd;
+                        obj["quymoCongsuat"] = str_qmcs;
+                        obj["ngayHetphepHoatdong"] = str_nhphd;
+                        obj["tongmucDautu"] = str_tmdt;
+
+                        if (m_id_nv !== -1)
+                            obj["idNguonvon"] = m_id_nv;
+                        if (m_id_dn !== -1)
+                            obj["idDoanhnghiep"] = m_id_dn;
+                        if (m_id_lvsxkd !== -1)
+                            obj["idLinhvucSanxuatkinhdoanh"] = m_id_lvsxkd;
+
+                        if (m_id_ttda !== -1)
+                            obj["idTrangthaiDuan"] = m_id_ttda;
+                        if (m_id_lhda !== -1)
+                            obj["idLoaihinhDuan"] = m_id_lhda;
+                        if (m_id_kcn !== -1)
+                            obj["idKhuChuyennganh"] = m_id_kcn;
+
+
+                        if (flag === true) {
+
+                            var addfont = document.getElementById("radius");
+                            addfont.style.display = 'block';
+
+                            $('#soquyetdinhchophep_null').text('');
+                            $('#soquyetdinhchophep_error').text('');
+                            $('#vondangkydautu_null').text('');
+                            $('#vondangkydautu_error').text('');
+                            $('#msda_null').text('');
+                            $('#msda_error').text('');
+                            $('#dn_error').text('');
+                            $('#lvsxkd_error').text('');
+                            $('#kcn_error').text('');
+                            $('#nv_error').text('');
+                            $('#ttda_error').text('');
+                            $('#lhda_error').text('');
+                            $('#tenduan_error').text('');
+                            $('#qmcs_error').text('');
+                            $('#vtdusd_error').text('');
+                            $('#vtdusd_null').text('');
+                            $('#tmdt_error').text('');
+                            $('#tmdt_null').text('');
+
+
+
+                            jQuery.ajax({
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                'type': 'POST',
+                                'url': "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/",
+                                'data': JSON.stringify(obj),
+                                'dataType': 'json',
+                            }).done(function (response) {
+
+
+
+                                postduandautusanxuat = "";
+
+                                postduandautusanxuat += '<div class="element_DADTSX__row" id="element_DADTSX__row__' + response.id + '">';
+
+                                // 1
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div id='ten' class='tendu${response.id}'>Tên dự án:</div></div>`;
+                                if (response.ten === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" id='ten' style="text-indent: 0px;">${response.ten}</div>`;
+                                postduandautusanxuat += `</div>`;
+
+                                // 2                            
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='dn${response.id}'>Doanh nghiệp:</div></div>`;
+                                if (response.idDoanhnghiep === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">` + $('#DADTSX-dn option:selected').text() + `</div>`;
+
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 3
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='sqdcp${response.id}'>Số quyết định cho phép:</div></div>`;
+                                if (response.soquyetdinhCapphep === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.soquyetdinhCapphep}</div>`;
+                                postduandautusanxuat += `</div>`;
+
+                                // 4
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='vdtdk${response.id}'>Vốn đầu tư đăng ký:</div></div>`;
+                                if (response.vondautuDangky === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else {
+                                    var x = response.vondautuDangky.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                                }
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 5
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='nv${response.id}'>Nguồn vốn:</div></div>`;
+                                if (response.idNguonvon === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">` + $('#DADTSX-nv option:selected').text() + `</div>`;
+
+
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 6
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='kcn${response.id}'>Khu chuyên ngành:</div></div>`;
+                                if (response.idKhuChuyennganh === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">` + $('#DADTSX-kcn option:selected').text() + `</div>`;
+
+
+
+                                postduandautusanxuat += `</div>`;
+
+
+
+                                // 7
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='ndsxkd${response.id}'>Nội dung sản xuất kinh doanh:</div></div>`;
+                                if (response.noidungSanxuatKinhdoanh === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.noidungSanxuatKinhdoanh}</div>`;
+                                postduandautusanxuat += `</div>`;
+
+
+
+
+                                // 8
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='lvsxkd${response.id}'>Lĩnh vực sản xuất kinh doanh:</div></div>`;
+                                if (response.idLinhvucSanxuatkinhdoanh === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">` + $('#DADTSX-lvsxkd option:selected').text() + `</div>`;
+
+
+                                postduandautusanxuat += `</div>`;
+
+
+
+                                // 9
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='msda${response.id}'>Mã số dự án:</div></div>`;
+                                if (response.masoDuan === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.masoDuan}</div>`;
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 10
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='nqdcp${response.id}'>Ngày quyết định cấp phép:</div></div>`;
+                                if (response.ngayQuyetdinhCapphep === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else {
+                                    var dateFormat = response.ngayQuyetdinhCapphep.split("T");
+                                    response.ngayQuyetdinhCapphep = dateFormat[0];
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.ngayQuyetdinhCapphep}</div>`;
+
+                                }
+                                postduandautusanxuat += `</div>`;
+
+
+
+                                // 11
+
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='vtdusd${response.id}'>Vốn tương đương USD:</div></div>`;
+                                if (response.vontuongduongUSD === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else {
+                                    var x = response.vontuongduongUSD.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                                }
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 12
+
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='qmcs${response.id}'>Quy mô/Công suất:</div></div>`;
+                                if (response.quymoCongsuat === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.quymoCongsuat}</div>`;
+                                postduandautusanxuat += `</div>`;
+
+
+
+                                // 13
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='nhphd${response.id}'>Ngày hết phép hoạt động:</div></div>`;
+                                if (response.ngayHetphepHoatdong === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else {
+                                    var dateFormat = response.ngayHetphepHoatdong.split("T");
+                                    response.ngayHetphepHoatdong = dateFormat[0];
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.ngayHetphepHoatdong}</div>`;
+
+                                }
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 14
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='ttda${response.id}'>Trạng thái dự án:</div></div>`;
+                                if (response.idTrangthaiDuan === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">` + $('#DADTSX-ttda option:selected').text() + `</div>`;
+
+
+                                postduandautusanxuat += `</div>`;
+
+
+                                // 15
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='lhdu${response.id}'>Loại hình dự án:</div></div>`;
+                                if (response.idLoaihinhDuan === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">` + $('#DADTSX-lhda option:selected').text() + `</div>`;
+
+
+                                postduandautusanxuat += `</div>`;
+
+
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += `<div class="col-xs-6"><div class='tmdt${response.id}'>Tổng mức đầu tư:</div></div>`;
+                                if (response.tongmucDautu === null)
+                                    postduandautusanxuat += `<div class="col-xs-6"></div>`;
+                                else
+                                    postduandautusanxuat += `<div class="col-xs-6" style="text-indent: 0px;">${response.tongmucDautu}</div>`;
+
+
+                                postduandautusanxuat += `</div>`;
+
+
+                                var choice = '<div class="element_DADTSX__button"><a href="#"><button onclick=editDADTSX(';
+                                choice += response.id;
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleteDADTSX(';
+                                choice += response.id;
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                postduandautusanxuat += `<div class="row">`;
+                                postduandautusanxuat += choice;
+                                postduandautusanxuat += `</div>`;
+
+
+
+                                $.ajax({
+                                    url: "http://" + hostname + ":" + port + "/duandautusanxuat/preduandautusanxuat/" + response.id,
+                                    type: 'GET',
+                                    success: function (preId) {
+                                        console.log(preId);
+                                        //THÊM TRONG MINI
+                                        // trong trường hợp tg mình thêm vào là tg đầu tiên
+                                        if (preId === -1) {
+                                            $(postduandautusanxuat).insertAfter("#element_DADTSX__row__0");
+                                            //chu y khi post xong muon back thi dung DADTSXpostback() khi put xong muon back thi dung DADTSXback()
+                                            DADTSXpostback();
+                                            console.log(response.id)
+                                            var myElement = document.getElementById('element_DADTSX__row__' + response.id);
+                                            myElement.scrollIntoView();
+
+
+                                            if (typeof hotdadtsx !== 'undefined') {
+                                                console.log("???")
+                                                for (var i = 0; i < hotdadtsx.getData().length; i++) {
+                                                    if (hotdadtsx.getData()[i][0] === preId) {
+                                                        hotdadtsx.alter('insert_row', 0);
+                                                        hotdadtsx.setDataAtCell(0, 0, response.id);
+                                                        // chu y k nen de response.idDuanSanxuatkinhdoanh.ten vi no se null
+                                                        //k lay dc response.idDuanSanxuatkinhdoanh.ten vi no null nen de $('#DADTSX-tda option:selected').text()
+                                                        // if (response.idDuanSanxuatkinhdoanh !== null)
+                                                        //     hotdadtsx.setDataAtCell(0, 1, $('#DADTSX-tda option:selected').text());
+
+                                                        if (response.ten !== null)
+                                                            hotdadtsx.setDataAtCell(0, 1, response.ten);
+
+                                                        if (response.soquyetdinhCapphep !== null)
+                                                            hotdadtsx.setDataAtCell(0, 2, response.soquyetdinhCapphep);
+
+                                                        if (response.vondautuDangky !== null)
+                                                            hotdadtsx.setDataAtCell(0, 3, response.vondautuDangky);
+
+                                                        if (response.noidungSanxuatKinhdoanh !== null)
+                                                            hotdadtsx.setDataAtCell(0, 4, response.noidungSanxuatKinhdoanh);
+
+                                                        if (response.masoDuan !== null)
+                                                            hotdadtsx.setDataAtCell(0, 5, response.masoDuan);
+
+                                                        if (response.ngayQuyetdinhCapphep !== null) {
+                                                            const dateFormat = response.ngayQuyetdinhCapphep.split("T");
+                                                            response.ngayQuyetdinhCapphep = dateFormat[0];
+                                                            const myArray = response.ngayQuyetdinhCapphep.split("-");
+                                                            var newDate = "";
+                                                            newDate = newDate.concat(myArray[2]);
+                                                            newDate = newDate.concat("/");
+                                                            newDate = newDate.concat(myArray[1]);
+                                                            newDate = newDate.concat("/");
+
+                                                            newDate = newDate.concat(myArray[0]);
+                                                            response.ngayQuyetdinhCapphep = newDate;
+                                                            hotdadtsx.setDataAtCell(0, 6, response.ngayQuyetdinhCapphep);
+
+                                                        }
+
+                                                        if (response.vontuongduongUSD !== null)
+                                                            hotdadtsx.setDataAtCell(0, 7, response.vontuongduongUSD);
+
+                                                        if (response.quymoCongsuat !== null) {
+                                                            hotdadtsx.setDataAtCell(0, 8, response.quymoCongsuat);
+                                                        }
+
+                                                        if (response.ngayHetphepHoatdong !== null) {
+                                                            const dateFormat = response.ngayHetphepHoatdong.split("T");
+                                                            response.ngayHetphepHoatdong = dateFormat[0];
+                                                            const myArray = response.ngayHetphepHoatdong.split("-");
+                                                            var newDate = "";
+                                                            newDate = newDate.concat(myArray[2]);
+                                                            newDate = newDate.concat("/");
+                                                            newDate = newDate.concat(myArray[1]);
+                                                            newDate = newDate.concat("/");
+
+                                                            newDate = newDate.concat(myArray[0]);
+                                                            response.ngayHetphepHoatdong = newDate;
+                                                            hotdadtsx.setDataAtCell(0, 9, response.ngayHetphepHoatdong);
+
+                                                        }
+
+
+
+
+                                                        if (response.idLoaihinhDuan !== null) {
+                                                            hotdadtsx.setDataAtCell(0, 10, $('#DADTSX-lhda option:selected').text());
+                                                        }
+
+
+                                                        if (response.idDoanhnghiep !== null) {
+                                                            hotdadtsx.setDataAtCell(0, 11, $('#DADTSX-dn option:selected').text());
+                                                        }
+
+
+                                                        if (response.idNguonvon !== null)
+                                                            hotdadtsx.setDataAtCell(0, 12, $('#DADTSX-nv option:selected').text());
+
+                                                        if (response.idKhuChuyennganh !== null)
+                                                            hotdadtsx.setDataAtCell(0, 13, $('#DADTSX-kcn option:selected').text());
+
+
+                                                        if (response.idLinhvucSanxuatkinhdoanh !== null)
+                                                            hotdadtsx.setDataAtCell(0, 14, $('#DADTSX-lvsxkd option:selected').text());
+
+
+                                                        if (response.idTrangthaiDuan !== null)
+                                                            hotdadtsx.setDataAtCell(0, 15, $('#DADTSX-ttda option:selected').text());
+
+
+
+                                                        if (response.tongmucDautu !== null)
+                                                            hotdadtsx.setDataAtCell(0, 16, response.tongmucDautu);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            // thêm vào phía sau tg vừa get đc
+                                            $(postduandautusanxuat).insertAfter("#element_DADTSX__row__" + preId);
+                                            //chu y khi post xong muon back thi dung DADTSXpostback() khi put xong muon back thi dung DADTSXback()
+                                            DADTSXpostback();
+
+                                            console.log(preId);
+                                            var myElement = document.getElementById('element_DADTSX__row__' + preId);
+                                            myElement.scrollIntoView();
+                                            console.log("nani")
+                                            // THÊM TROG GRID
+                                            if (typeof hotdadtsx !== 'undefined') {
+                                                console.log("???")
+                                                console.log($('#DADTSX-tda option:selected').text())
+                                                for (var i = 0; i < hotdadtsx.getData().length; i++) {
+                                                    if (hotdadtsx.getData()[i][0] === preId) {
+                                                        //TẠO THÊM 1 Dòng MỚI
+                                                        hotdadtsx.alter('insert_row', (i + 1));
+
+                                                        hotdadtsx.setDataAtCell((i + 1), 0, response.id);
+                                                        // chu y k nen de response.idDuanSanxuatkinhdoanh.ten vi no se null
+                                                        //k lay dc response.idDuanSanxuatkinhdoanh.ten vi no null nen de $('#DADTSX-tda option:selected').text()
+
+
+
+                                                        if (response.ten !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 1, response.ten);
+
+                                                        if (response.soquyetdinhCapphep !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 2, response.soquyetdinhCapphep);
+
+                                                        if (response.vondautuDangky !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 3, response.vondautuDangky);
+
+                                                        if (response.noidungSanxuatKinhdoanh !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 4, response.noidungSanxuatKinhdoanh);
+
+                                                        if (response.masoDuan !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 5, response.masoDuan);
+
+                                                        if (response.ngayQuyetdinhCapphep !== null) {
+                                                            const dateFormat = response.ngayQuyetdinhCapphep.split("T");
+                                                            response.ngayQuyetdinhCapphep = dateFormat[0];
+                                                            const myArray = response.ngayQuyetdinhCapphep.split("-");
+                                                            var newDate = "";
+                                                            newDate = newDate.concat(myArray[2]);
+                                                            newDate = newDate.concat("/");
+                                                            newDate = newDate.concat(myArray[1]);
+                                                            newDate = newDate.concat("/");
+
+                                                            newDate = newDate.concat(myArray[0]);
+                                                            response.ngayQuyetdinhCapphep = newDate;
+                                                            hotdadtsx.setDataAtCell((i + 1), 6, response.ngayQuyetdinhCapphep);
+
+                                                        }
+
+                                                        if (response.vontuongduongUSD !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 7, response.vontuongduongUSD);
+
+                                                        if (response.quymoCongsuat !== null) {
+                                                            hotdadtsx.setDataAtCell((i + 1), 8, response.quymoCongsuat);
+                                                        }
+
+                                                        if (response.ngayHetphepHoatdong !== null) {
+                                                            const dateFormat = response.ngayHetphepHoatdong.split("T");
+                                                            response.ngayHetphepHoatdong = dateFormat[0];
+                                                            const myArray = response.ngayHetphepHoatdong.split("-");
+                                                            var newDate = "";
+                                                            newDate = newDate.concat(myArray[2]);
+                                                            newDate = newDate.concat("/");
+                                                            newDate = newDate.concat(myArray[1]);
+                                                            newDate = newDate.concat("/");
+
+                                                            newDate = newDate.concat(myArray[0]);
+                                                            response.ngayHetphepHoatdong = newDate;
+                                                            hotdadtsx.setDataAtCell((i + 1), 9, response.ngayHetphepHoatdong);
+
+                                                        }
+
+                                                        if (response.idLoaihinhDuan !== null) {
+                                                            hotdadtsx.setDataAtCell((i + 1), 10, $('#DADTSX-lhda option:selected').text());
+                                                        }
+
+
+                                                        if (response.idDoanhnghiep !== null) {
+                                                            hotdadtsx.setDataAtCell((i + 1), 11, $('#DADTSX-dn option:selected').text());
+                                                        }
+
+                                                        if (response.idNguonvon !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 12, $('#DADTSX-nv option:selected').text());
+
+                                                        if (response.idKhuChuyennganh !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 13, $('#DADTSX-kcn option:selected').text());
+
+
+                                                        if (response.idLinhvucSanxuatkinhdoanh !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 14, $('#DADTSX-lvsxkd option:selected').text());
+
+
+                                                        if (response.idTrangthaiDuan !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 15, $('#DADTSX-ttda option:selected').text());
+
+
+                                                        if (response.tongmucDautu !== null)
+                                                            hotdadtsx.setDataAtCell((i + 1), 16, response.tongmucDautu);
+
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+
+
+
+
+
+                            });
+                        }
+                    }
+
+                });
+
+
+
+
+                $(".resultsList__mobile").submit(function (e) {
+                    e.preventDefault();
+                    var name = $("input[name='name']").val();
+                    var email = $("input[name='email']").val();
+                    $(".data-table tbody").append("<tr data-name='" + name + "' data-email='" + email + "'><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+                    $("input[name='']").val("");
+                });
+            });
+
+
+            let topscroll_xdht = 0; //lưu vị trí của thanh cuộn dọc của div content
+
+            function add_DADTSX() {
+                idEditData = -1;
+                console.log("add")
+                var put = document.getElementById("small_DADTSX");
+                put.style.display = 'none';
+                var add = document.getElementById("smalladd_DADTSX");
+                add.style.display = 'block';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'none';
+
+                $("#DADTSX-tda").val("");
+                $("#DADTSX-ndsxkd").val("");
+                $("#DADTSX-sqdcp").val("");
+                $("#DADTSX-vdtdk").val("");
+                $("#DADTSX-msda").val("");
+                $("#DADTSX-nqdcp").val("");
+                $("#DADTSX-vtdusd").val("");
+                $("#DADTSX-qmcs").val("");
+                $("#DADTSX-nhphd").val("");
+                $("#DADTSX-tmdt").val("");
+                loadCbHtml('DADTSX-lhda', 'http://' + hostname + ':' + port + '/dmloaihinhduan/dmloaihinhduans/', -1);
+                loadCbHtml('DADTSX-ttda', 'http://' + hostname + ':' + port + '/dmtrangthai/dmtrangthais/', -1);
+                loadCbHtml('DADTSX-lvsxkd', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', -1);
+                loadCbHtml('DADTSX-kcn', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+                loadCbHtml('DADTSX-nv', 'http://' + hostname + ':' + port + '/nguonvondautu/nguonvondautus/', -1);
+                loadCbHtml('DADTSX-dn', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+
+                $("#DADTSX-lhda").val(-1);
+                $("#DADTSX-ttda").val(-1);
+                $("#DADTSX-lvsxkd").val(-1);
+                $("#DADTSX-kcn").val(-1);
+                $("#DADTSX-nv").val(-1);
+                $("#DADTSX-dn").val(-1);
+            }
+
+
+            function editDADTSX(id) {
+                console.log("edit")
+                idEditData = id;
+                topscroll_xdht = $("#content").scrollTop();
+                var put = document.getElementById("small_DADTSX")
+                put.style.display = 'none';
+                var add = document.getElementById("smalladd_DADTSX");
+                add.style.display = 'block';
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'none';
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/" + id,
+                    type: 'GET',
+
+                    success: function (response) {
+                        console.log(response)
+
+                        if (response.soquyetdinhCapphep !== null)
+                            $("#DADTSX-sqdcp").val(response.soquyetdinhCapphep);
+                        else
+                            $("#DADTSX-sqdcp").val("");
+
+                        if (response.noidungSanxuatKinhdoanh !== null)
+                            $("#DADTSX-ndsxkd").val(response.noidungSanxuatKinhdoanh);
+                        if (response.idLinhvucSanxuatkinhdoanh !== null) {
+                            loadCbHtml('DADTSX-lvsxkd', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', response.idLinhvucSanxuatkinhdoanh.idLinhvucSanxuatkinhdoanh);
+                        } else {
+                            loadCbHtml('DADTSX-lvsxkd', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', -1);
+
+                        }
+                        if (response.ten !== null)
+                            $("#DADTSX-tda").val(response.ten);
+                        else
+                            $("#DADTSX-tda").val("");
+
+                        if (response.idDoanhnghiep !== null) {
+                            console.log("dn not null")
+                            loadCbHtml('DADTSX-dn', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', response.idDoanhnghiep.id);
+                        } else {
+                            console.log("dn  null")
+                            loadCbHtml('DADTSX-dn', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+
+                        }
+
+                        if (response.vondautuDangky !== null)
+                            $("#DADTSX-vdtdk").val(response.vondautuDangky);
+                        else
+                            $("#DADTSX-vdtdk").val(response.vondautuDangky);
+                        if (response.idNguonvon !== null) {
+                            loadCbHtml('DADTSX-nv', 'http://' + hostname + ':' + port + '/nguonvondautu/nguonvondautus/', response.idNguonvon.id);
+                        } else {
+                            loadCbHtml('DADTSX-nv', 'http://' + hostname + ':' + port + '/nguonvondautu/nguonvondautus/', -1);
+
+                        }
+                        if (response.idKhuChuyennganh !== null) {
+                            loadCbHtml('DADTSX-kcn', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', response.idKhuChuyennganh.id);
+                        } else {
+                            loadCbHtml('DADTSX-kcn', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+
+                        }
+
+
+                        if (response.masoDuan !== null)
+                            $("#DADTSX-msda").val(response.masoDuan);
+                        else
+                            $("#DADTSX-msda").val("");
+
+                        if (response.ngayQuyetdinhCapphep !== null)
+                            $("#DADTSX-nqdcp").val(response.ngayQuyetdinhCapphep);
+                        else
+                            $("#DADTSX-nqdcp").val("");
+                        if (response.vontuongduongUSD !== null)
+                            $("#DADTSX-vtdusd").val(response.vontuongduongUSD);
+                        else
+                            $("#DADTSX-vtdusd").val("");
+                        if (response.quymoCongsuat !== null)
+                            $("#DADTSX-qmcs").val(response.quymoCongsuat);
+                        else
+                            $("#DADTSX-qmcs").val("");
+                        if (response.ngayHetphepHoatdong !== null)
+                            $("#DADTSX-nhphd").val(response.ngayHetphepHoatdong);
+                        else
+                            $("#DADTSX-nhphd").val("");
+
+                        if (response.tongmucDautu !== null)
+                            $("#DADTSX-tmdt").val(response.tongmucDautu);
+                        else
+                            $("#DADTSX-tmdt").val("");
+
+                        if (response.idTrangthaiDuan !== null) {
+                            loadCbHtml('DADTSX-ttda', 'http://' + hostname + ':' + port + '/dmtrangthai/dmtrangthais/', response.idTrangthaiDuan.id);
+                        } else {
+                            loadCbHtml('DADTSX-ttda', 'http://' + hostname + ':' + port + '/dmtrangthai/dmtrangthais/', -1);
+
+                        }
+                        if (response.idLoaihinhDuan !== null) {
+                            loadCbHtml('DADTSX-lhda', 'http://' + hostname + ':' + port + '/dmloaihinhduan/dmloaihinhduans/', response.idLoaihinhDuan.id);
+                        } else {
+                            loadCbHtml('DADTSX-lhda', 'http://' + hostname + ':' + port + '/dmloaihinhduan/dmloaihinhduans/', -1);
+                        }
+                    }
+                });
+            }
+
+
+
+
+            function DADTSXback() {
+                $('#soquyetdinhchophep_null').text('');
+                $('#soquyetdinhchophep_error').text('');
+                $('#vondangkydautu_null').text('');
+                $('#vondangkydautu_error').text('');
+                $('#msda_null').text('');
+                $('#msda_error').text('');
+                $('#dn_error').text('');
+                $('#lvsxkd_error').text('');
+                $('#kcn_error').text('');
+                $('#nv_error').text('');
+                $('#ttda_error').text('');
+                $('#lhda_error').text('');
+                $('#tenduan_error').text('');
+                $('#qmcs_error').text('');
+                $('#vtdusd_error').text('');
+                $('#vtdusd_null').text('');
+                $('#tmdt_error').text('');
+                $('#tmdt_null').text('');
+                idEditData = -1;
+                var put = document.getElementById("small_DADTSX")
+                put.style.display = 'block';
+                var add = document.getElementById("smalladd_DADTSX");
+                add.style.display = 'none'
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'block';
+                $("#content").scrollTop(topscroll_xdht);
+            }
+
+
+            function DADTSXpostback() {
+                idEditData = -1;
+                var put = document.getElementById("small_DADTSX")
+                put.style.display = 'block';
+                var add = document.getElementById("smalladd_DADTSX");
+                add.style.display = 'none'
+                var addfont = document.getElementById("radius");
+                addfont.style.display = 'block';
+            }
+
+
+
+
+
+
+            function updateDADTSX(id) {
+                // whereDADTSX-tda
+
+                var str_tda = $("#DADTSX-tda").val();
+                var str_vdtdk = $("#DADTSX-vdtdk").val();
+                var str_sqdcp = $("#DADTSX-sqdcp").val();
+                var str_ndsxkd = $("#DADTSX-ndsxkd").val();
+                var str_msda = $("#DADTSX-msda").val();
+                var str_nqdcp = $("#DADTSX-nqdcp").val();
+                var str_vtdusd = $("#DADTSX-vtdusd").val();
+                var str_qmcs = $("#DADTSX-qmcs").val();
+                var str_nhphd = $("#DADTSX-nhphd").val();
+                var str_tmdt = $("#DADTSX-tmdt").val();
+
+
+                var m_id_dn = $("#DADTSX-dn").val();
+                var m_id_nv = $("#DADTSX-nv").val();
+                var m_id_kcn = $("#DADTSX-kcn").val();
+
+                var m_id_lvsxkd = $("#DADTSX-lvsxkd").val();
+                var m_id_ttda = $("#DADTSX-ttda").val();
+                var m_id_lhda = $("#DADTSX-lhda").val();
+
+
+
+                var obj = {};
+                obj["ten"] = str_tda;
+                obj["soquyetdinhCapphep"] = str_sqdcp;
+                obj["vondautuDangky"] = str_vdtdk;
+                obj["noidungSanxuatKinhdoanh"] = str_ndsxkd;
+                obj["masoDuan"] = str_msda;
+                obj["ngayQuyetdinhCapphep"] = str_nqdcp;
+                obj["vontuongduongUSD"] = str_vtdusd;
+                obj["quymoCongsuat"] = str_qmcs;
+                obj["tongmucDautu"] = str_tmdt;
+
+                obj["ngayHetphepHoatdong"] = str_nhphd;
+
+
+
+                if (m_id_nv !== -1) {
+                    obj["idNguonvon"] = m_id_nv;
+                }
+
+                if (m_id_dn !== -1) {
+                    obj["idDoanhnghiep"] = m_id_dn;
+                    console.log(m_id_dn)
+                }
+
+                if (m_id_lvsxkd !== -1) {
+                    obj["idLinhvucSanxuatkinhdoanh"] = m_id_lvsxkd;
+                    console.log(m_id_lvsxkd)
+                }
+
+
+                if (m_id_ttda !== -1) {
+                    obj["idTrangthaiDuan"] = m_id_ttda;
+                    console.log(m_id_ttda)
+                }
+
+                if (m_id_lhda !== -1) {
+                    obj["idLoaihinhDuan"] = m_id_lhda;
+                    console.log(m_id_lhda)
+                }
+
+                if (m_id_kcn !== -1) {
+                    obj["idKhuChuyennganh"] = m_id_kcn;
+                    console.log(m_id_kcn)
+                }
+
+
+
+                console.log(m_id_dn + "  " + m_id_ttda)
+                console.log(obj)
+                var flag = true;
+
+
+                if (str_sqdcp == '') {
+                    $('#soquyetdinhchophep_null').text('Chưa nhập số quyết định cho phép');
+                    flag = false;
+                } else {
+                    $('#soquyetdinhchophep_null').text('');
+                }
+
+                if (str_sqdcp !== '') {
+                    str_sqdcp = parseInt(str_sqdcp, 10);
+                }
+
+                if (Object.is(str_sqdcp, NaN)) {
+                    $('#soquyetdinhchophep_error').text('Số quyết định cho phép phải để số');
+                    flag = false;
+
+                } else {
+                    $('#soquyetdinhchophep_error').text('');
+                }
+
+
+                if (str_tmdt == '') {
+                    $('#tmdt_null').text('Chưa nhập tổng vốn đầu tư');
+                    flag = false;
+                } else {
+                    $('#tmdt_null').text('');
+                }
+
+                if (str_tmdt !== '') {
+                    str_tmdt = parseFloat(str_tmdt, 10);
+                }
+
+                if (Object.is(str_tmdt, NaN)) {
+                    $('#tmdt_error').text('Tổng vốn đầu tư cho phép phải để số');
+                    flag = false;
+
+                } else {
+                    $('#tmdt_error').text('');
+
+                }
+
+
+
+
+                if (str_vdtdk == '') {
+                    $('#vondangkydautu_null').text('Chưa nhập vốn đầu tư đăng ký');
+                    flag = false;
+                } else {
+                    $('#vondangkydautu_null').text('');
+                }
+
+                if (str_vdtdk !== '') {
+                    str_vdtdk = parseFloat(str_vdtdk, 10);
+                }
+
+                if (Object.is(str_vdtdk, NaN)) {
+                    $('#vondangkydautu_error').text('Vốn đầu tư đăng ký phải để số');
+                    flag = false;
+
+                } else {
+                    $('#vondangkydautu_error').text('');
+                }
+
+
+
+
+                if (str_msda == '') {
+                    $('#msda_null').text('Chưa nhập mã số dự án');
+                    flag = false;
+                } else {
+                    $('#msda_null').text('');
+                }
+
+                if (str_msda !== '') {
+                    str_msda = parseInt(str_msda, 10);
+                }
+
+                if (Object.is(str_msda, NaN)) {
+                    $('#msda_error').text('Mã số dự án phải để số');
+                    flag = false;
+
+                } else {
+                    $('#msda_error').text('');
+                }
+
+
+
+
+
+                if (m_id_dn === '-1') {
+                    $('#dn_error').text('Bạn chưa chọn Doanh nghiệp *');
+                    flag = false;
+
+                } else {
+                    $('#dn_error').text('');
+                }
+
+
+                if (m_id_lvsxkd === '-1') {
+                    $('#lvsxkd_error').text('Bạn chưa chọn Lĩnh vực sản xuất *');
+                    flag = false;
+
+                } else {
+                    $('#lvsxkd_error').text('');
+                }
+
+
+
+
+                if (m_id_kcn === '-1') {
+                    $('#kcn_error').text('Bạn chưa chọn khu chuyên ngành *');
+                    flag = false;
+                } else {
+                    $('#kcn_error').text('');
+                }
+
+
+
+                if (m_id_nv === '-1') {
+                    $('#nv_error').text('Bạn chưa chọn Nguồn vốn *');
+                    flag = false;
+                } else {
+                    $('#nv_error').text('');
+                }
+
+
+
+
+                if (m_id_ttda === '-1') {
+                    $('#ttda_error').text('Bạn chưa chọn Trạng thái dự án *');
+                    flag = false;
+                } else {
+                    $('#ttda_error').text('');
+                }
+
+                if (m_id_lhda === '-1') {
+                    $('#lhda_error').text('Bạn chưa chọn Loại hình dự án *');
+                    flag = false;
+                } else {
+                    $('#lhda_error').text('');
+                }
+
+
+
+
+                if (str_tda == '') {
+                    $('#tenduan_error').text('Chưa nhập tên dự án');
+                    flag = false;
+                } else {
+                    $('#tenduan_error').text('');
+                }
+
+
+                if (str_qmcs == '') {
+                    $('#qmcs_error').text('Chưa nhập quy mô/công suất');
+                    flag = false;
+                } else {
+                    $('#qmcs_error').text('');
+                }
+
+
+
+                if (str_vtdusd == '') {
+                    $('#vtdusd_null').text('Chưa nhập vốn tương đương USD');
+                    flag = false;
+                } else {
+                    $('#vtdusd_null').text('');
+
+                }
+
+                if (str_vtdusd !== '') {
+                    str_vtdusd = parseFloat(str_vtdusd, 10);
+                }
+
+                if (Object.is(str_vtdusd, NaN)) {
+                    $('#vtdusd_error').text('Mã số dự án phải để số');
+                    flag = false;
+
+                } else {
+                    $('#msda_error').text('');
+                }
+
+
+
+                if (flag === true) {
+                    $('#soquyetdinhchophep_null').text('');
+                    $('#soquyetdinhchophep_error').text('');
+                    $('#vondangkydautu_null').text('');
+                    $('#vondangkydautu_error').text('');
+                    $('#msda_null').text('');
+                    $('#msda_error').text('');
+                    $('#dn_error').text('');
+                    $('#lvsxkd_error').text('');
+                    $('#kcn_error').text('');
+                    $('#nv_error').text('');
+                    $('#ttda_error').text('');
+                    $('#lhda_error').text('');
+                    $('#tenduan_error').text('');
+                    $('#qmcs_error').text('');
+                    $('#vtdusd_error').text('');
+                    $('#vtdusd_null').text('');
+                    $('#tmdt_error').text('');
+                    $('#tmdt_null').text('');
+
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        'type': 'PUT',
+                        'url': "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/" + id,
+                        'data': JSON.stringify(obj),
+                        'dataType': 'json',
+
+                    }).done(function () {
+
+
+                        $.ajax({
+                            // lấy thẻ cũ
+                            url: "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/" + id,
+                            type: 'GET',
+                            success: function (response) {
+
+                                console.log("fixedđ")
+
+                                var duandautusanxuat_changed = document.getElementById("element_DADTSX__row__" + id);
+                                duandautusanxuat_changed.innerHTML = "";
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div id='ten' class='tendu${response.id}'>Tên dự án:</div></div>`;
+                                if (response.ten === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" id='ten' style="text-indent: 0px;">${response.ten}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='dn${response.id}'>Doanh nghiệp:</div></div>`;
+                                if (response.idDoanhnghiep === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.idDoanhnghiep.ten}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='sqdcp${response.id}'>Số quyết định cho phép:</div></div>`;
+                                if (response.soquyetdinhCapphep === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.soquyetdinhCapphep}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='vdtdk${response.id}'>Vốn đầu tư đăng ký:</div></div>`;
+                                if (response.vondautuDangky === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else {
+                                    var x = response.vondautuDangky.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                                }
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='nv${response.id}'>Nguồn vốn:</div></div>`;
+                                if (response.idNguonvon === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.idNguonvon.nguonvon}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='kcn${response.id}'>Khu chuyên ngành:</div></div>`;
+                                if (response.idKhuChuyennganh === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.idKhuChuyennganh.ten}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='ndsxkd${response.id}'>Nội dung sản xuất kinh doanh:</div></div>`;
+                                if (response.noidungSanxuatKinhdoanh === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.noidungSanxuatKinhdoanh}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='lvsxkd${response.id}'>Lĩnh vực sản xuất kinh doanh:</div></div>`;
+                                if (response.idLinhvucSanxuatkinhdoanh === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='msda${response.id}'>Mã số dự án:</div></div>`;
+                                if (response.masoDuan === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.masoDuan}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='nqdcp${response.id}'>Ngày quyết định cấp phép:</div></div>`;
+                                if (response.ngayQuyetdinhCapphep === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.ngayQuyetdinhCapphep}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+                                //
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='vtdusd${response.id}'>Vốn tương đương USD:</div></div>`;
+                                if (response.vontuongduongUSD === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else {
+                                    var x = response.vontuongduongUSD.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                                }
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+                                //
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='qmcs${response.id}'>Quy mô/Công suất:</div></div>`;
+                                if (response.quymoCongsuat === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.quymoCongsuat}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+                                //
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='nhphd${response.id}'>Ngày hết phép hoạt động:</div></div>`;
+                                if (response.ngayHetphepHoatdong === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.ngayHetphepHoatdong}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='ttda${response.id}'>Trạng thái dự án:</div></div>`;
+                                if (response.idTrangthaiDuan === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.idTrangthaiDuan.trangthai}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='lhdu${response.id}'>Loại hình dự án:</div></div>`;
+                                if (response.idLoaihinhDuan === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.idLoaihinhDuan.loaihinhDuan}</div>`;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"><div class='tmdt${response.id}'>Tổng mức đầu tư:</div></div>`;
+                                if (response.tongmucDautu === null)
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6"></div>`;
+                                else {
+
+                                    duandautusanxuat_changed.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${response.tongmucDautu}</div>`;
+                                }
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+
+
+                                //chu y cho edit vs delete nay la editDADTSX vs deleteDADTSX
+                                var choice = '<div class="element_DADTSX__button"><a href="#"><button onclick=editDADTSX(';
+                                choice += (id);
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleteDADTSX(';
+                                choice += (id);
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                duandautusanxuat_changed.innerHTML += `<div class="row">`;
+                                duandautusanxuat_changed.innerHTML += choice;
+                                duandautusanxuat_changed.innerHTML += `</div>`;
+
+                                // sửa trong grid
+
+                                for (var i = 0; i < hotdadtsx.getData().length; i++) {
+                                    console.log("??")
+                                    console.log(hotdadtsx.getData()[i][0])
+                                    console.log(response.id)
+
+                                    if (hotdadtsx.getData()[i][0] === response.id) {
+
+                                        if (response.ten !== null) {
+                                            hotdadtsx.setDataAtCell(i, 1, response.ten);
+                                            console.log(response.ten)
+
+                                        }
+
+                                        if (response.soquyetdinhCapphep !== null)
+                                            hotdadtsx.setDataAtCell(i, 2, response.soquyetdinhCapphep);
+
+                                        if (response.vondautuDangky !== null)
+                                            hotdadtsx.setDataAtCell(i, 3, response.vondautuDangky);
+
+
+                                        if (response.noidungSanxuatKinhdoanh !== null)
+                                            hotdadtsx.setDataAtCell(i, 4, response.noidungSanxuatKinhdoanh);
+
+                                        if (response.masoDuan !== null)
+                                            hotdadtsx.setDataAtCell(i, 5, response.masoDuan);
+
+
+                                        if (response.ngayQuyetdinhCapphep !== null) {
+                                            const myArray = response.ngayQuyetdinhCapphep.split("-");
+                                            var newDate = "";
+                                            newDate = newDate.concat(myArray[2]);
+                                            newDate = newDate.concat("/");
+                                            newDate = newDate.concat(myArray[1]);
+                                            newDate = newDate.concat("/");
+
+                                            newDate = newDate.concat(myArray[0]);
+                                            response.ngayQuyetdinhCapphep = newDate;
+                                            hotdadtsx.setDataAtCell(i, 6, response.ngayQuyetdinhCapphep);
+                                        }
+
+
+                                        if (response.vontuongduongUSD !== null)
+                                            hotdadtsx.setDataAtCell(i, 7, response.vontuongduongUSD);
+
+
+                                        if (response.quymoCongsuat !== null) {
+                                            hotdadtsx.setDataAtCell(i, 8, response.quymoCongsuat);
+                                        }
+
+
+
+                                        if (response.ngayHetphepHoatdong !== null) {
+                                            const myArray = response.ngayHetphepHoatdong.split("-");
+                                            var newDate = "";
+                                            newDate = newDate.concat(myArray[2]);
+                                            newDate = newDate.concat("/");
+                                            newDate = newDate.concat(myArray[1]);
+                                            newDate = newDate.concat("/");
+
+                                            newDate = newDate.concat(myArray[0]);
+                                            response.ngayHetphepHoatdong = newDate;
+                                            hotdadtsx.setDataAtCell(i, 9, response.ngayHetphepHoatdong);
+                                        }
+
+                                        if (response.idLoaihinhDuan !== null) {
+                                            hotdadtsx.setDataAtCell(i, 10, response.idLoaihinhDuan.loaihinhDuan);
+                                        }
+
+                                        if (response.idDoanhnghiep !== null) {
+                                            hotdadtsx.setDataAtCell(i, 11, response.idDoanhnghiep.ten);
+                                        }
+
+                                        if (response.idNguonvon !== null) {
+                                            hotdadtsx.setDataAtCell(i, 12, response.idNguonvon.nguonvon);
+                                        }
+
+                                        if (response.idKhuChuyennganh !== null) {
+                                            hotdadtsx.setDataAtCell(i, 13, response.idKhuChuyennganh.ten);
+                                        }
+
+                                        if (response.idLinhvucSanxuatkinhdoanh !== null) {
+                                            hotdadtsx.setDataAtCell(i, 14, response.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh);
+                                        }
+
+                                        if (response.idTrangthaiDuan !== null) {
+                                            hotdadtsx.setDataAtCell(i, 15, response.idTrangthaiDuan.trangthai);
+                                        }
+
+
+                                        if (response.tongmucDautu !== null) {
+                                            hotdadtsx.setDataAtCell(i, 16, response.tongmucDautu);
+                                        }
+
+
+
+                                        break;
+                                    }
+                                }
+
+
+                            }
+                        })
+
+
+
+
+
+                        DADTSXback();
+                    });
+                }
+            }
+
+
+
+
+            function deleteDADTSX(id) {
+                $('<div></div>').appendTo('body')
+                        .html('<div><h6>Bạn chắc chắn muốn xóa dữ liệu này?</h6></div>')
+                        .dialog({
+                            modal: true,
+                            title: 'Xác nhận xóa dữ liệu',
+                            zIndex: 10000,
+                            autoOpen: true,
+                            width: 'auto',
+                            resizable: false,
+                            buttons: {
+                                Yes: function () {
+                                    //bước 1. Xóa các hạng mục xây dựng kỹ thuật có liên quan đến dự án
+                                    var arrId_Xoa = [];
+                                    try {
+                                        dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpoint/duandautusanxuat/' + id);
+                                        if (!jQuery.isEmptyObject(dataResponse)) {
+                                            Object.keys(dataResponse).forEach(function (key) {
+                                                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                                                arrId_Xoa.push(element.gid);
+                                            });
+                                        }
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                    if (arrId_Xoa.length > 0) {
+                                        jQuery.ajax({
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            type: 'PUT',
+                                            async: false,
+                                            url: "http://" + hostname + ":" + port + "/hatangkythuatpoint/hatangkythuatpointsDTSX/-1",
+                                            data: arrId_Xoa.join()
+                                        }).done(function () {});
+                                    }
+                                    arrId_Xoa = [];
+                                    try {
+                                        dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatline/duandautusanxuat/' + id);
+                                        if (!jQuery.isEmptyObject(dataResponse)) {
+                                            Object.keys(dataResponse).forEach(function (key) {
+                                                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                                                arrId_Xoa.push(element.gid);
+                                            });
+                                        }
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                    if (arrId_Xoa.length > 0) {
+                                        jQuery.ajax({
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            type: 'PUT',
+                                            async: false,
+                                            url: "http://" + hostname + ":" + port + "/hatangkythuatline/hatangkythuatlinesDTSX/-1",
+                                            data: arrId_Xoa.join()
+                                        }).done(function () {});
+                                    }
+                                    arrId_Xoa = [];
+                                    try {
+                                        dynamicSQL('http://' + hostname + ':' + port + '/hatangkythuatpolygon/duandautusanxuat/' + id);
+                                        if (!jQuery.isEmptyObject(dataResponse)) {
+                                            Object.keys(dataResponse).forEach(function (key) {
+                                                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                                                arrId_Xoa.push(element.gid);
+                                            });
+                                        }
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                    console.log(arrId_Xoa)
+                                    if (arrId_Xoa.length > 0) {
+                                        jQuery.ajax({
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            type: 'PUT',
+                                            async: false,
+                                            url: "http://" + hostname + ":" + port + "/hatangkythuatpolygon/hatangkythuatpolygonsDTSX/-1",
+                                            data: arrId_Xoa.join()
+                                        }).done(function () {});
+                                    }
+
+                                    arrId_Xoa = [];
+                                    try {
+                                        dynamicSQL('http://' + hostname + ':' + port + '/quyhoachpolygon/duandautusanxuat/' + id);
+                                        if (!jQuery.isEmptyObject(dataResponse)) {
+                                            Object.keys(dataResponse).forEach(function (key) {
+                                                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                                                arrId_Xoa.push(element.gid);
+                                            });
+                                        }
+                                    } catch (e) {
+                                        console.log(e);
+                                    }
+                                    console.log(arrId_Xoa)
+                                    if (arrId_Xoa.length > 0) {
+                                        jQuery.ajax({
+                                            headers: {
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            type: 'PUT',
+                                            async: false,
+                                            url: "http://" + hostname + ":" + port + "/quyhoachpolygon/quyhoachpolygonsDTSX/-1",
+                                            data: arrId_Xoa.join()
+                                        }).done(function () {});
+                                    }
+
+
+
+                                    //bước 2. Xóa dự án xây dựng hạ tầng kỹ thuật
+                                    $.ajax({
+                                        url: "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuat/" + id,
+                                        type: 'DELETE',
+                                        success: function (result) {
+
+
+
+                                            //xóa trong mini doanh nghiệp
+                                            var duandautusanxuat_deleted = document.getElementById("element_DADTSX__row__" + id);
+
+                                            duandautusanxuat_deleted.remove();
+
+                                            // xóa trong grid doanh nghiệp
+                                            hotdadtsx.deselectCell();
+                                            for (var i = 0; i < hotdadtsx.getData().length; i++) {
+                                                console.log("??")
+                                                if (hotdadtsx.getData()[i][0] === id) {
+                                                    console.log("finded")
+
+                                                    hotdadtsx.alter('remove_row', i, 1);
+                                                    break;
+                                                }
+                                            }
+
+
+
+
+                                        }
+                                    });
+                                    $(this).dialog("close");
+                                },
+                                No: function () {
+                                    $(this).dialog("close");
+                                }
+                            },
+                            close: function (event, ui) {
+                                $(this).remove();
+                            }
+                        });
+            }
+
+
+            function cancelDADTSX(id) {
+
+
+                var idmall = "element_DADTSX__row__" + id;
+                divput = document.getElementById(idmall);
+                divput.style.display = "block";
+                idmall = "smallputDADTSX__" + id;
+                var divput = document.getElementById(idmall);
+                divput.style.display = "none";
+                var btndelete = "btn-deleteDADTSX" + id;
+                var nutxoa = document.getElementById(btndelete);
+                nutxoa.style.display = 'flex'
+
+                var btnupdate = "myBtnputDADTSX_" + id;
+                var btncancel = "myBtncancelDADTSX_" + id;
+
+                var nutupdate = document.getElementById(btnupdate);
+                var nuthuy = document.getElementById(btncancel);
+
+                nutupdate.style.display = "none";
+                nuthuy.style.display = "none";
+            }
+
+
+            function chitietDADTSX(id) {
+                idDuanHTKTSelected = id;
+                if ($('#window_thanhphanxaydunghatang_chitiet').text().length > 0) {
+                    $('#' + activedHtml).hide();
+                    activedHtml = 'window_thanhphanxaydunghatang_chitiet';
+                    reloadHtml('window_thanhphanxaydunghatang_chitiet', 'duandautusanxuat-chitiet.html');
+                    $('#window_thanhphanxaydunghatang_chitiet').show();
+                } else {
+                    loadHtml('window_thanhphanxaydunghatang_chitiet', 'duandautusanxuat-chitiet.html');
+                }
+                //onload_chitietDADTSX();
+            }
+
+            function loadDuanDTSX() {
+                $.ajax({
+                    url: "http://" + hostname + ":" + port + "/duandautusanxuat/duandautusanxuats/",
+                    type: 'GET',
+                    success: function (response) {
+
+                        let row;
+
+                        let fragment = new DocumentFragment();
+
+                        document.querySelector('#small_DADTSX').innerHTML = '<div class="element_DADTSX__row" id="element_DADTSX__row__0" style="display: none"></div>';
+
+                        Object.keys(response).forEach(function (key) {
+                            //console.log(key, response[key]); 
+                            let str = JSON.stringify(response[key]);
+                            var jsonData = JSON.parse(str);
+                            //console.log('id:' + jsonData.id + ', ten: ' + jsonData.ten);
+
+                            /*Create new row and class*/
+
+
+                            row = document.createElement("div");
+                            row.classList.add("element_DADTSX__row");
+                            var idd = "element_DADTSX__row__" + jsonData.id;
+                            row.setAttribute("id", idd);
+                            divele = document.createElement("div");
+                            /*Append the row to the fragment*/
+                            fragment.appendChild(row);
+                            fragment.appendChild(divele);
+
+                            var iddelete = jsonData.id;
+
+
+
+                            var string1 = '<div class="element_DADTSX__button"><a href="#"><button onclick=editDADTSX(';
+                            string1 += (iddelete);
+                            string1 += ')><i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleteDADTSX(';
+                            string1 += (iddelete);
+                            string1 += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div id='ten' class='tendu${jsonData.id}'>Tên dự án:</div></div>`;
+                            if (jsonData.ten === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" id='ten' style="text-indent: 0px;">${jsonData.ten}</div>`;
+                            row.innerHTML += `</div>`;
+
+
+
+
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='dn${jsonData.id}'>Doanh nghiệp:</div></div>`;
+                            if (jsonData.idDoanhnghiep === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idDoanhnghiep.ten}</div>`;
+                            row.innerHTML += `</div>`;
+
+
+
+
+
+
+
+
+
+
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='sqdcp${jsonData.id}'>Số quyết định cho phép:</div></div>`;
+                            if (jsonData.soquyetdinhCapphep === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.soquyetdinhCapphep}</div>`;
+                            row.innerHTML += `</div>`;
+
+
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='vdtdk${jsonData.id}'>Vốn đầu tư đăng ký:</div></div>`;
+                            if (jsonData.vondautuDangky === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else {
+                                var x = jsonData.vondautuDangky.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                            }
+                            row.innerHTML += `</div>`;
+
+
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='nv${jsonData.id}'>Nguồn vốn:</div></div>`;
+                            if (jsonData.idNguonvon === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idNguonvon.nguonvon}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            //   row.innerHTML += `<div class='nv${user[0]}'>Nguồn vốn: ${user[5]} </div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='kcn${jsonData.id}'>Khu chuyên ngành:</div></div>`;
+                            if (jsonData.idKhuChuyennganh === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idKhuChuyennganh.ten}</div>`;
+                            row.innerHTML += `</div>`;
+
+
+                            // row.innerHTML += `<div class='kcn${user[0]}'>Khu chuyên ngành: ${user[6]} </div>`;
+
+
+
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='ndsxkd${jsonData.id}'>Nội dung sản xuất kinh doanh:</div></div>`;
+                            if (jsonData.noidungSanxuatKinhdoanh === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.noidungSanxuatKinhdoanh}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            // row.innerHTML += `<div class='ndsxkd${user[0]}'>: ${user[7]} </div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='lvsxkd${jsonData.id}'>Lĩnh vực sản xuất kinh doanh:</div></div>`;
+                            if (jsonData.idLinhvucSanxuatkinhdoanh === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            //row.innerHTML += `<div class='lvsxkd${user[0]}'>: ${user[8]} </div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='msda${jsonData.id}'>Mã số dự án:</div></div>`;
+                            if (jsonData.masoDuan === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.masoDuan}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            //row.innerHTML += `<div class='msda${user[0]}'>Mã số dự án: ${user[9]} </div>`;
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='nqdcp${jsonData.id}'>Ngày quyết định cấp phép:</div></div>`;
+                            if (jsonData.ngayQuyetdinhCapphep === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.ngayQuyetdinhCapphep}</div>`;
+                            row.innerHTML += `</div>`;
+
+
+
+                            //
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='vtdusd${jsonData.id}'>Vốn tương đương USD:</div></div>`;
+                            if (jsonData.vontuongduongUSD === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else {
+                                var x = jsonData.vontuongduongUSD.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${x}</div>`;
+                            }
+                            row.innerHTML += `</div>`;
+
+
+                            //
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='qmcs${jsonData.id}'>Quy mô/Công suất:</div></div>`;
+                            if (jsonData.quymoCongsuat === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.quymoCongsuat}</div>`;
+                            row.innerHTML += `</div>`;
+                            //
+
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='nhphd${jsonData.id}'>Ngày hết phép hoạt động:</div></div>`;
+                            if (jsonData.ngayHetphepHoatdong === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.ngayHetphepHoatdong}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            //                                        row.innerHTML += `<div class='nhphd${user[0]}'>Ngày hết phép hoạt động: ${user[13]} </div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='ttda${jsonData.id}'>Trạng thái dự án:</div></div>`;
+                            if (jsonData.idTrangthaiDuan === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idTrangthaiDuan.trangthai}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            //                                    row.innerHTML += `<div class='ttda${user[0]}'>Trạng thái dự án: ${user[14]} </div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='lhdu${jsonData.id}'>Loại hình dự án:</div></div>`;
+                            if (jsonData.idLoaihinhDuan === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.idLoaihinhDuan.loaihinhDuan}</div>`;
+                            row.innerHTML += `</div>`;
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += `<div class="col-xs-6"><div class='tmdt${jsonData.id}'>Tổng mức đầu tư:</div></div>`;
+                            if (jsonData.tongmucDautu === null)
+                                row.innerHTML += `<div class="col-xs-6"></div>`;
+                            else
+                                row.innerHTML += `<div class="col-xs-6" style="text-indent: 0px;">${jsonData.tongmucDautu}</div>`;
+                            row.innerHTML += `</div>`;
+
+
+                            row.innerHTML += `<div class="row">`;
+                            row.innerHTML += string1;
+                            row.innerHTML += `</div>`;
+                        });
+                        document.getElementById("small_DADTSX").appendChild(fragment)
+
+
+
+
+                    }
+                });
+            }
+        </script>
+
+
+
+    </body>
+</html>

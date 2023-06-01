@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            #DADTSX-element{
+                display:block;
+                margin-top:20px;
+            }
+            #small_render_DADTSX{
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="smalladd_DADTSX_CREATE" id="smalladd_DADTSX_CREATE">
+            <div class="table-responsive resultsList__mobile">
+                <form class="resultsList__form" id="form_register" action="" onsubmit="return false">
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-tda">Tên dự án:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-tda" placeholder="Tên dự án" name="DADTSX_CREATE-tda">
+                        <span class="resultsList__error" id="create_tenduan_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-msda">Mã số dự án:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-msda"
+                               placeholder="Mã số dự án" name="DADTSX_CREATE-msda">
+                        <span class="resultsList__error" id="create_msda_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-lhda">Loại hình dự án:</label>                        
+                        <select name="DADTSX_CREATE-lhda" id="DADTSX_CREATE-lhda" class="custom-select">
+                            <option value="-1">Chọn loại hình dự án</option>
+                        </select>                        
+                        <span class="resultsList__error" id="create_lhda_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-dn">Doanh nghiệp thực hiện:</label>
+                        <select name="DADTSX_CREATE-dn" id="DADTSX_CREATE-dn" class="custom-select">
+                            <option value="-1">Chọn doanh nghiệp</option>
+                        </select>
+                        <span class="resultsList__error" id="create_dn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-sqdcp">Số quyết định cho phép:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-sqdcp" placeholder="Số quyết định cho phép"
+                               name="DADTSX_CREATE-sqdcp">
+                        <span class="resultsList__error" id="create_soquyetdinhchophep_null"></span>
+                        <span class="resultsList__error" id="create_soquyetdinhchophep_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-nqdcp">Ngày quyết định cấp phép:</label>
+                        <input type="date" class="form-control" id="DADTSX_CREATE-nqdcp"
+                               placeholder="Ngày quyết định cấp phép" name="DADTSX_CREATE-nqdcp">
+                        <span class="resultsList__error" id="create_nqdcp_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-nv">Nguồn vốn:</label>
+                        <select name="DADTSX_CREATE-nv" id="DADTSX_CREATE-nv" class="custom-select">
+                            <option value="-1">Chọn nguồn vốn</option>
+                        </select>
+                        <span class="resultsList__error" id="create_nv_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-vdtdk">Vốn đầu tư đăng ký:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-vdtdk" placeholder="Vốn đầu tư đăng ký"
+                               name="DADTSX_CREATE-vdtdk">
+                        <span class="resultsList__error" id="create_vondangkydautu_null"></span>
+                        <span class="resultsList__error" id="create_vondangkydautu_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-vtdusd">Vốn tương đương USD:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-vtdusd"
+                               placeholder="Vốn tương đương USD" name="DADTSX_CREATE-vtdusd">
+                        <span class="resultsList__error" id="create_vctdusd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-kcn">Khu chuyên ngành:</label>
+                        <select name="DADTSX_CREATE-kcn" id="DADTSX_CREATE-kcn" class="custom-select">
+                            <option value="-1">Chọn khu chuyên ngành</option>
+                        </select>
+                        <span class="resultsList__error" id="create_kcn_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-ndsxkd">Nội dung sản xuất kinh doanh:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-ndsxkd"
+                               placeholder="Nội dung sản xuất kinh doanh" name="DADTSX_CREATE-ndsxkd">
+
+                        <span class="resultsList__error" id="create_noidungsanxuatkinhdoanh_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-lvsxkd">Lĩnh vực sản xuất kinh doanh:</label>
+                        <select name="DADTSX_CREATE-lvsxkd" id="DADTSX_CREATE-lvsxkd" class="custom-select">
+                            <option value="-1">Chọn lĩnh vực sản xuất kinh doanh</option>
+                        </select>
+                        <span class="resultsList__error" id="create_lvsxkd_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-qmcs">Quy mô/công suất:</label>
+                        <input type="text" class="form-control" id="DADTSX_CREATE-qmcs"
+                               placeholder="Quy mô/công suất" name="DADTSX_CREATE-qmcs">
+                        <span class="resultsList__error" id="create_qmcs_error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-nhphd">Ngày hết phép hoạt động:</label>
+                        <input type="date" class="form-control" id="DADTSX_CREATE-nhphd"
+                               placeholder="Ngày hết phép hoạt động" name="DADTSX_CREATE-nhphd">
+                        <span class="resultsList__error" id="create_nhphd_error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DADTSX_CREATE-ttda">Trạng thái dự án:</label>
+                        <select name="DADTSX_CREATE-ttda" id="DADTSX_CREATE-ttda" class="custom-select">
+                            <option value="-1">Chọn trạng thái dự án</option>
+                        </select>
+                        <span class="resultsList__error" id="create_ttda_error"></span>
+                    </div>
+                    <div class="resultsList__twobutton">
+                        <button type="submit" class="btn btn-primary" id="myBtnDADTSX_CREATE" onclick='taolapduandautusanxuat()'><i class="fa-floppy-o fa fa-floppy-disk"></i></button>
+                        <button type="submit" class="btn btn-primary DADTSX_CREATEback" onclick="DADTSX_CREATEback()"><i class="fa-solid fa fa-rotate-left"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="small element_DADTSX" id="small_render_DADTSX"></div>
+        <div class="DADTSX-element" id="DADTSX-element"></div>       
+            <script>
+                loadCbHtml('DADTSX_CREATE-lhda', 'http://' + hostname + ':' + port + '/dmloaihinhduan/dmloaihinhduans/', -1);
+                loadCbHtml('DADTSX_CREATE-ttda', 'http://' + hostname + ':' + port + '/dmtrangthai/dmtrangthais/', -1);
+                loadCbHtml('DADTSX_CREATE-lvsxkd', 'http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/', -1);
+                loadCbHtml('DADTSX_CREATE-kcn', 'http://' + hostname + ':' + port + '/khuchuyennganh/khuchuyennganhs/', -1);
+                loadCbHtml('DADTSX_CREATE-nv', 'http://' + hostname + ':' + port + '/nguonvondautu/nguonvondautus/', -1);
+                loadCbHtml('DADTSX_CREATE-dn', 'http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/', -1);
+                $('#DADTSX-element').load("duandautusanxuat-select.html");
+            </script>
+    </body>
+</html>

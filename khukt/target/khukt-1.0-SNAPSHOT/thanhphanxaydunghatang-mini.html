@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        var expandWindow_thanhphanxaydunghatang
+    </script>
+</head>
+
+<body>
+
+    <div class="doanhnghiep_title">
+        <h3>Thành phần xây dựng hạ tầng</h3>
+        <div class="doanhnghiep_button">
+            <button onclick="expandWindow_thanhphanxaydunghatang()"><svg
+                    class="svg-inline--fa fa-arrows-maximize fa-w-14" aria-hidden="true" focusable="false"
+                    data-prefix="fa" data-icon="arrows-maximize" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512" data-fa-i2svg="">
+                    <path fill="currentColor"
+                        d="M416 224C433.688 224 448 209.688 448 192V64C448 59.836 447.152 55.688 445.537 51.781C442.295 43.941 436.059 37.703 428.217 34.461C424.311 32.848 420.162 32 416 32H288C270.312 32 256 46.312 256 64S270.312 96 288 96H338.75L224 210.75L109.25 96H160C177.688 96 192 81.688 192 64S177.688 32 160 32H32C27.838 32 23.689 32.848 19.783 34.461C11.941 37.703 5.705 43.941 2.463 51.781C0.848 55.688 0 59.836 0 64V192C0 209.688 14.312 224 32 224S64 209.688 64 192V141.25L178.75 256L64 370.75V320C64 302.312 49.688 288 32 288S0 302.312 0 320V448C0 452.164 0.848 456.312 2.461 460.219C5.703 468.059 11.941 474.297 19.781 477.539C23.688 479.152 27.836 480 32 480H160C177.688 480 192 465.688 192 448S177.688 416 160 416H109.25L224 301.25L338.75 416H288C270.312 416 256 430.312 256 448S270.312 480 288 480H416C420.164 480 424.312 479.152 428.219 477.539C436.059 474.297 442.297 468.059 445.539 460.219C447.152 456.312 448 452.164 448 448V320C448 302.312 433.688 288 416 288S384 302.312 384 320V370.75L269.25 256L384 141.25V192C384 209.688 398.312 224 416 224Z">
+                    </path>
+                </svg></button><a class="doanhnghiep_close" href="#"><span
+                    class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+        </div>
+    </div>
+
+
+
+    <div class="plus radius" id="radius" onclick="add_thanhphanXDHT()">
+    </div>
+    <form class="resultsList__form" id="form_register" action="" onsubmit="return false" style="border-bottom: 1px solid black;">
+        <div id="select_thanhphanXDHT_mini" class="select_thanhphanXDHT_element_mini">
+            <select name="hot_thanhphanXDHT_select_mini" id="hot_thanhphanXDHT_select_mini"
+                onchange="selectXDHT_mini(this)">
+                <option value="-1">Chọn dự án</option>
+            </select>
+        </div>
+
+        <div class="element_tiendoXDHTChitiet__button">
+            <button onclick="loadthanhphanXDHT()" class="btn btn-primary"><i class="fa fa-search"
+                    aria-hidden="true"></i>Tìm kiếm
+            </button>
+        </div>
+    </form>
+
+
+
+
+    <div class="element_thanhphanXDHT" id="small_thanhphanXDHT">
+
+    </div>
+
+    <div class="smalladd_thanhphanXDHT" id="smalladd_thanhphanXDHT">
+        <div class="table-responsive resultsList__mobile">
+            <form class="resultsList__form" id="form_register" action="">
+
+                <!-- <div class="form-group">
+                    <label>Tên dự án:</label>
+                    <select id="thanhphanXDHT-tda" class="custom-select" onchange="getComboA(this)">
+                        <option value="-1">Chọn dự án</option>
+                    </select>
+                    <span class="resultsList__error" id="thanhphanXDHT_tenduan__error"></span>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="">Tên thành phần:</label>
+                    <select id="thanhphanXDHT-tenthanhphan" class="custom-select">
+                        <option>Chọn tên thành phần</option>
+                    </select>
+                    <span class="resultsList__error" id="tenthanhphan_error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="">Nhóm danh mục:</label>
+
+                    <select id="thanhphanXDHT-nhomdm" class="custom-select">
+                        <option value="-1">Chọn nhóm danh mục</option>
+                    </select>
+                    <span class="resultsList__error" id="nhomdm_error"></span>
+
+                </div>
+                <div class="form-group">
+                    <label for="">Khối lượng:</label>
+                    <input type="text" class="form-control" id="thanhphanXDHT-khoiluong" placeholder="Khối lượng">
+                    <span class="resultsList__error" id="khoiluong_error"></span>
+                    <span class="resultsList__error" id="khoiluong_null"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Đơn vị tính:</label>
+                    <input type="text" class="form-control" id="thanhphanXDHT-donvitinh" placeholder="Đơn vị tính">
+                    <span class="resultsList__error" id="donvitinh_error"></span>
+                    <span class="resultsList__error" id="donvitinh_null"></span>
+
+                </div>
+                <div class="form-group">
+                    <label for="">Mức đầu tư:</label>
+                    <input type="text" class="form-control" id="thanhphanXDHT-mucdautu" placeholder="Mức đầu tư">
+                    <span class="resultsList__error" id="mucdautu_error"></span>
+                    <span class="resultsList__error" id="mucdautu_null"></span>
+
+                </div>
+
+
+
+                <div class="resultsList__twobutton">
+
+                    <button type="submit" class="btn btn-primary" id="myBtnthanhphanXDHT"><i
+                            class="fa-floppy-o fa fa-floppy-disk"></i></button>
+                    <button type="submit" class="btn btn-primary thanhphanXDHTback" onclick="thanhphanXDHTback()"><i
+                            class="fa-solid fa fa-rotate-left"></i>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        var idprj_thanhphan = 0;
+        function selectXDHT_mini(selectObject) {
+            var value = selectObject.value;
+            idprj_thanhphan =value;
+            console.log(value);
+            document.getElementById('thanhphanXDHT-tenthanhphan').options.length = 0;
+            // document.getElementById("thanhphanXDHT-tenthanhphan").innerHTML="";
+            
+        }
+
+
+
+
+        $(document).ready(function () {
+
+            loadCbHtml('hot_thanhphanXDHT_select_mini', 'http://' + hostname + ':' + port + '/duanXaydunghatang/duanXaydunghatangs/', -1);
+
+
+            $('.doanhnghiep_close').click(function () {
+                var addfont = document.getElementById("radius");
+                $('.doanhnghiep_close').addClass('active');
+                if ($('.doanhnghiep_close').hasClass("active")) {
+                    $(".mob-min").css("width", "0%");
+                    $(".mob-max").css("width", "100%");
+                    $(".doanhnghiep_open").css("display", "flex");
+                    addfont.style.display = 'none';
+                } else {
+                    $(".doanhnghiep_open").css("display", "none");
+                    addfont.style.display = 'block';
+                }
+            });
+
+            expandWindow_thanhphanxaydunghatang = function () {
+                var mapView = document.getElementById("mapView");
+                var content = document.getElementById("content");
+                var button = document.getElementById("change-button");
+
+                var x = windowWidth - $("#leftSide").width();
+                mapView.style.width = '0%';
+                content.style.width = x + 'px';
+                content.style.display = 'block';
+
+
+                loadHtml('window_thanhphanxaydunghatang', 'thanhphanxaydunghatang.html');
+            }
+
+
+
+
+            // Get value on button click and show alert
+            $("#myBtnthanhphanXDHT").click(function () {
+                if (idEditData !== -1) {
+                    console.log("put")
+
+                    updatethanhphanXDHT(idEditData);
+                    //                        
+                } else {
+
+                    console.log("add")
+
+                    var flag = true;
+
+                    var m_id_nhomdm = $("#thanhphanXDHT-nhomdm").val();
+
+
+                    var m_id_tenthanhphan = $("#thanhphanXDHT-tenthanhphan").val();
+                    var str_tenthanhphan = $("#thanhphanXDHT-tenthanhphan option:selected").text();
+
+                    var str_khoiluong = $("#thanhphanXDHT-khoiluong").val();
+
+                    var str_donvitinh = $("#thanhphanXDHT-donvitinh").val();
+                    var str_mucdautu = $("#thanhphanXDHT-mucdautu").val();
+
+
+                    // var m_id_tda = $("#thanhphanXDHT-tda").val();
+                    var m_id_tda = idprj_thanhphan
+
+
+                    //here
+
+                    // if (m_id_tda === '-1') {
+                    //     $('#thanhphanXDHT_tenduan__error').text('Chưa chọn tên dự án *');
+                    //     flag = false;
+                    // } else {
+                    //     $('#thanhphanXDHT_tenduan__error').text('');
+                    // }
+
+                    if (m_id_tenthanhphan === 'Chọn tên thành phần') {
+                        $('#tenthanhphan_error').text('Chưa chọn tên thành phần *');
+                        flag = false;
+                    } else {
+                        $('#tenthanhphan_error').text('');
+                    }
+
+
+                    if (m_id_nhomdm === '-1') {
+                        $('#nhomdm_error').text('Chưa nhập nhóm danh mục *');
+                        flag = false;
+                    } else {
+                        $('#nhomdm_error').text('');
+                    }
+
+
+
+                    if (str_donvitinh == '') {
+                        $('#donvitinh_error').text('Chưa nhập Đơn vị tính');
+                        flag = false;
+                    } else {
+                        $('#donvitinh_error').text('');
+                    }
+
+
+
+                    if (str_mucdautu == '') {
+                        $('#mucdautu_error').text('Chưa nhập Mức đầu tư');
+                        flag = false;
+                    } else {
+                        $('#mucdautu_error').text('');
+                    }
+                    if (str_mucdautu !== '') {
+                        str_mucdautu = parseInt(str_mucdautu, 10);
+                    }
+
+                    if (Object.is(str_mucdautu, NaN)) {
+                        $('#mucdautu_null').text('Mức đầu tư phải để số');
+                        flag = false;
+
+                    } else {
+                        $('#mucdautu_null').text('');
+                    }
+
+
+
+
+                    if (str_khoiluong == '') {
+                        $('#khoiluong_error').text('Chưa nhập ngân sách tính từ đầu năm');
+                        flag = false;
+                    } else {
+                        $('#khoiluong_error').text('');
+                    }
+
+                    if (str_khoiluong !== '') {
+                        str_khoiluong = parseFloat(str_khoiluong, 10);
+                    }
+
+                    if (Object.is(str_khoiluong, NaN)) {
+                        $('#khoiluong_null').text('Khối lượng phải để số');
+                        flag = false;
+
+                    } else {
+                        $('#khoiluong_null').text('');
+                    }
+
+
+
+                    var obj = {};
+
+                    obj["idDuanXdht"] = m_id_tda;
+                    obj["nhomdmId"] = m_id_nhomdm;
+                    obj["khoiluong"] = str_khoiluong;
+
+                    obj["donvitinh"] = str_donvitinh;
+                    obj["mucdautu"] = str_mucdautu;
+                    obj["ten"] = str_tenthanhphan;
+
+
+
+
+                    // BƯỚC 2: Validate dữ liệu
+                    // Biến cờ hiệu
+                    // var flag = true;
+
+                    if (flag === true) {
+
+                        var addfont = document.getElementById("radius");
+                        addfont.style.display = 'block';
+
+
+                        $('#thanhphanXDHT_tenduan__error').text('');
+                        $('#tenthanhphan_error').text('');
+                        $('#nhomdm_error').text('');
+                        $('#nhomdm_null').text('');
+                        $('#khoiluong_error').text('');
+                        $('#khoiluong_null').text('');
+
+                        $('#donvitinh_error').text('');
+                        $('#donvitinh_null').text('');
+                        $('#mucdautu_error').text('');
+                        $('#mucdautu_null').text('');
+
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            'type': 'POST',
+                            'url': "http://" + hostname + ":" + port + "/thanhphanXDHT/thanhphanXDHT/",
+
+                            'data': JSON.stringify(obj),
+                            'dataType': 'json',
+
+                        }).done(function (response) {
+                            console.log(response.id)
+
+
+                            postthanhphanXDHT = "";
+
+                            postthanhphanXDHT += '<div class="element_thanhphanXDHT__row" id="element_thanhphanXDHT__row__' + response.id + '">';
+                            postthanhphanXDHT += `<div class="row">`;
+                            // postthanhphanXDHT += `<div class="col-xs-7"><div id='ten' class='ten${response.id}'>Tên dự án:</div></div>`;
+
+                            // // chu y k nen de response.idDuanXdht.ten vi no se null
+                            // //k lay dc response.idDuanXdht.ten vi no null nen de $('#thanhphanXDHT-tda option:selected').text()
+                            // if (response.idDuanXdht === null)
+                            //     postthanhphanXDHT += `<div class="col-xs-5"></div>`;
+                            // else
+                            //     postthanhphanXDHT += `<div class="col-xs-5" style="text-indent: 0px;">` + $('#thanhphanXDHT-tda option:selected').text() + `</div>`;
+                            // postthanhphanXDHT += `</div>`;
+
+                            postthanhphanXDHT += `<div class="row">`;
+                            postthanhphanXDHT += `<div class="col-xs-7"><div class='tenthanhphan${response.id}'>Tên thành phần:</div></div>`;
+                            if (response.ten === null)
+                                postthanhphanXDHT += `<div class="col-xs-5"></div>`;
+                            else {
+
+                                postthanhphanXDHT += `<div class="col-xs-5" style="text-indent: 0px;">` + $('#thanhphanXDHT-tenthanhphan option:selected').text() + `</div>`;
+                            }
+
+                            postthanhphanXDHT += `</div>`;
+
+
+                            postthanhphanXDHT += `<div class="row">`;
+                            postthanhphanXDHT += `<div class="col-xs-7"><div class='nhomdm${response.id}'>Nhóm danh mục:</div></div>`;
+                            if (response.nhomdmId === null)
+                                postthanhphanXDHT += `<div class="col-xs-5"></div>`;
+                            else
+                                postthanhphanXDHT += `<div class="col-xs-5" style="text-indent: 0px;">` + $('#thanhphanXDHT-nhomdm option:selected').text() + `</div>`;
+                            postthanhphanXDHT += `</div>`;
+
+
+                            postthanhphanXDHT += `<div class="row">`;
+                            postthanhphanXDHT += `<div class="col-xs-7"><div class='khoiluong${response.id}'>Khối lượng:</div></div>`;
+                            if (response.khoiluong === null)
+                                postthanhphanXDHT += `<div class="col-xs-5"></div>`;
+                            else
+                                postthanhphanXDHT += `<div class="col-xs-5" style="text-indent: 0px;">${response.khoiluong}</div>`;
+                            postthanhphanXDHT += `</div>`;
+
+
+
+
+
+                            postthanhphanXDHT += `<div class="row">`;
+                            postthanhphanXDHT += `<div class="col-xs-7"><div class='donvitinh${response.id}'>Đơn vị tính:</div></div>`;
+                            if (response.donvitinh === null)
+                                postthanhphanXDHT += `<div class="col-xs-5"></div>`;
+                            else
+                                postthanhphanXDHT += `<div class="col-xs-5" style="text-indent: 0px;">${response.donvitinh}</div>`;
+                            postthanhphanXDHT += `</div>`;
+
+
+
+
+                            postthanhphanXDHT += `<div class="row">`;
+                            postthanhphanXDHT += `<div class="col-xs-7"><div class='mucdautu${response.id}'>Mức đầu tư:</div></div>`;
+                            if (response.mucdautu === null)
+                                postthanhphanXDHT += `<div class="col-xs-5"></div>`;
+                            else
+                                postthanhphanXDHT += `<div class="col-xs-5" style="text-indent: 0px;">${response.mucdautu}</div>`;
+                            postthanhphanXDHT += `</div>`;
+
+
+
+                            var choice = '<div class="enterprise__button"><a href="#"><button onclick=editthanhphanXDHT(';
+                            choice += response.id;
+                            choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deletethanhphanXDHT(';
+                            choice += response.id;
+                            choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                            postthanhphanXDHT += `<div class="row">`;
+                            postthanhphanXDHT += choice;
+                            postthanhphanXDHT += `</div>`;
+
+
+                            $.ajax({
+                                url: "http://" + hostname + ":" + port + "/thanhphanXDHT/prethanhphanXDHT/" + response.id,
+                                type: 'GET',
+                                success: function (preId) {
+                                    console.log(preId);
+                                    //THÊM TRONG MINI
+                                    // trong trường hợp tg mình thêm vào là tg đầu tiên
+                                    if (preId === -1) {
+                                        $(postthanhphanXDHT).insertAfter("#element_thanhphanXDHT__row__0");
+                                        //chu y khi post xong muon back thi dung thanhphanXDHTpostback() khi put xong muon back thi dung thanhphanXDHTback()
+                                        thanhphanXDHTpostback();
+                                        console.log(response.id)
+                                        var myElement = document.getElementById('element_thanhphanXDHT__row__' + response.id);
+                                        myElement.scrollIntoView();
+
+
+
+                                    } else {
+                                        // thêm vào phía sau tg vừa get đc
+                                        $(postthanhphanXDHT).insertAfter("#element_thanhphanXDHT__row__" + preId);
+                                        //chu y khi post xong muon back thi dung thanhphanXDHTpostback() khi put xong muon back thi dung thanhphanXDHTback()
+                                        thanhphanXDHTpostback();
+
+                                        console.log(preId);
+                                        var myElement = document.getElementById('element_thanhphanXDHT__row__' + preId);
+                                        myElement.scrollIntoView();
+                                        console.log("nani")
+                                       
+
+
+                                    }
+                                }
+                            })
+
+
+                        });
+
+                    }
+
+                }
+
+
+            });
+
+
+
+
+            $(".resultsList__mobile").submit(function (e) {
+                e.preventDefault();
+                var name = $("input[name='name']").val();
+                var email = $("input[name='email']").val();
+                $(".data-table tbody").append("<tr data-name='" + name + "' data-email='" + email + "'><td>" + name + "</td><td>" + email + "</td><td><button class='btn btn-danger btn-lg btn-delete mr-3' type='button'>Delete</button><button class='btn btn-info btn-lg btn-edit' type='button'>Edit</button></td></tr>");
+                $("input[name='']").val("");
+            });
+
+        });
+
+        let topscroll_dn = 0; //lưu vị trí của thanh cuộn dọc của div content
+
+        function add_thanhphanXDHT() {
+
+            idEditData = -1;
+            var put = document.getElementById("small_thanhphanXDHT")
+            put.style.display = 'none';
+            var add = document.getElementById("smalladd_thanhphanXDHT");
+            add.style.display = 'block';
+            var addfont = document.getElementById("radius");
+            addfont.style.display = 'none';
+
+            $("#thanhphanXDHT-khoiluong").val("");
+            $("#thanhphanXDHT-donvitinh").val("");
+            $("#thanhphanXDHT-mucdautu").val("");
+
+
+            document.getElementById('thanhphanXDHT-tenthanhphan').innerHTML = "<option>Chọn tên thành phần</option>";
+            loadCbthanphanXDHTHtml('thanhphanXDHT-tenthanhphan', idprj_thanhphan, "Chọn tên thành phần");
+            loadCbHtml('thanhphanXDHT-nhomdm', 'http://' + hostname + ':' + port + '/nhomdmXdht/nhomdmXdhts/', -1);
+            loadCbHtml('thanhphanXDHT-tda', 'http://' + hostname + ':' + port + '/duanXaydunghatang/duanXaydunghatangs/', -1);
+
+        }
+
+        function getComboA(selectObject) {
+            var value = selectObject.value;
+            console.log(value);
+            loadCbthanphanXDHTHtmlOnChange('thanhphanXDHT-tenthanhphan', value);
+        }
+
+
+
+        function editthanhphanXDHT(id) {
+            idEditData = id;
+            topscroll_dn = $("#content").scrollTop();
+            var put = document.getElementById("small_thanhphanXDHT")
+            put.style.display = 'none';
+            var add = document.getElementById("smalladd_thanhphanXDHT");
+            add.style.display = 'block';
+            var addfont = document.getElementById("radius");
+            addfont.style.display = 'none';
+            $.ajax({
+                url: "http://" + hostname + ":" + port + "/thanhphanXDHT/thanhphanXDHT/" + id,
+                type: 'GET',
+
+                success: function (response) {
+                    console.log(response)
+
+                    if (response.idDuanXdht !== null) {
+                        loadCbHtml('thanhphanXDHT-tda', 'http://' + hostname + ':' + port + '/duanXaydunghatang/duanXaydunghatangs/', response.idDuanXdht.id);
+                    }
+
+                    if (response.idDuanXdht !== null) {
+                        loadCbHtml('thanhphanXDHT-nhomdm', 'http://' + hostname + ':' + port + '/nhomdmXdht/nhomdmXdhts/', response.nhomdmId.id);
+                    }
+
+                    if (response.ten !== null) {
+                        loadCbthanphanXDHTHtml('thanhphanXDHT-tenthanhphan', response.idDuanXdht.id, response.ten);
+                    }
+                    // else
+                    //     $("#thanhphanXDHT-tenthanhphan").val("");
+
+                    if (response.khoiluong !== null)
+                        $("#thanhphanXDHT-khoiluong").val(response.khoiluong);
+                    else
+                        $("#thanhphanXDHT-khoiluong").val("");
+
+
+                    if (response.donvitinh !== null)
+                        $("#thanhphanXDHT-donvitinh").val(response.donvitinh);
+                    else
+                        $("#thanhphanXDHT-donvitinh").val("");
+
+                    if (response.mucdautu !== null)
+                        $("#thanhphanXDHT-mucdautu").val(response.mucdautu);
+                    else
+                        $("#thanhphanXDHT-mucdautu").val("");
+
+
+                }
+            });
+        }
+
+
+        function thanhphanXDHTback() {
+            $('#thanhphanXDHT_tenduan__error').text('');
+            $('#tenthanhphan_error').text('');
+            $('#nhomdm_error').text('');
+            $('#nhomdm_null').text('');
+            $('#khoiluong_error').text('');
+            $('#khoiluong_null').text('');
+
+            $('#donvitinh_error').text('');
+            $('#donvitinh_null').text('');
+            $('#mucdautu_error').text('');
+            $('#mucdautu_null').text('');
+
+            idEditData = -1;
+            var put = document.getElementById("small_thanhphanXDHT")
+            put.style.display = 'block';
+            var add = document.getElementById("smalladd_thanhphanXDHT");
+            add.style.display = 'none'
+            var addfont = document.getElementById("radius");
+            addfont.style.display = 'block';
+            $("#content").scrollTop(topscroll_dn);
+        }
+
+        function thanhphanXDHTpostback() {
+            idEditData = -1;
+            var put = document.getElementById("small_thanhphanXDHT")
+            put.style.display = 'block';
+            var add = document.getElementById("smalladd_thanhphanXDHT");
+            add.style.display = 'none'
+            var addfont = document.getElementById("radius");
+            addfont.style.display = 'block';
+        }
+
+        function updatethanhphanXDHT(id) {
+
+            var m_id_nhomdm = $("#thanhphanXDHT-nhomdm").val();
+
+
+            var m_id_tenthanhphan = $("#thanhphanXDHT-tenthanhphan").val();
+            var str_tenthanhphan = $("#thanhphanXDHT-tenthanhphan option:selected").text();
+
+            var str_khoiluong = $("#thanhphanXDHT-khoiluong").val();
+
+            var str_donvitinh = $("#thanhphanXDHT-donvitinh").val();
+            var str_mucdautu = $("#thanhphanXDHT-mucdautu").val();
+
+
+            var m_id_tda = idprj_thanhphan;
+
+            var flag = true;
+
+            if (m_id_tda === '-1') {
+                $('#thanhphanXDHT_tenduan__error').text('Chưa chọn tên dự án *');
+                flag = false;
+            } else {
+                $('#thanhphanXDHT_tenduan__error').text('');
+            }
+
+            if (m_id_tenthanhphan === 'Chọn tên thành phần') {
+                $('#tenthanhphan_error').text('Chưa chọn tên thành phần *');
+                flag = false;
+            } else {
+                $('#tenthanhphan_error').text('');
+            }
+
+
+            if (m_id_nhomdm === '-1') {
+                $('#nhomdm_error').text('Chưa nhập nhóm danh mục *');
+                flag = false;
+            } else {
+                $('#nhomdm_error').text('');
+            }
+
+
+
+            if (str_donvitinh == '') {
+                $('#donvitinh_error').text('Chưa nhập Đơn vị tính');
+                flag = false;
+            } else {
+                $('#donvitinh_error').text('');
+            }
+
+
+
+            if (str_mucdautu == '') {
+                $('#mucdautu_error').text('Chưa nhập Mức đầu tư');
+                flag = false;
+            } else {
+                $('#mucdautu_error').text('');
+            }
+            if (str_mucdautu !== '') {
+                str_mucdautu = parseInt(str_mucdautu, 10);
+            }
+
+            if (Object.is(str_mucdautu, NaN)) {
+                $('#mucdautu_null').text('Mức đầu tư phải để số');
+                flag = false;
+
+            } else {
+                $('#mucdautu_null').text('');
+            }
+
+
+
+
+            if (str_khoiluong == '') {
+                $('#khoiluong_error').text('Chưa nhập ngân sách tính từ đầu năm');
+                flag = false;
+            } else {
+                $('#khoiluong_error').text('');
+            }
+
+            if (str_khoiluong !== '') {
+                str_khoiluong = parseFloat(str_khoiluong, 10);
+            }
+
+            if (Object.is(str_khoiluong, NaN)) {
+                $('#khoiluong_null').text('Khối lượng phải để số');
+                flag = false;
+
+            } else {
+                $('#khoiluong_null').text('');
+            }
+
+
+
+            var obj = {};
+
+            obj["idDuanXdht"] = m_id_tda;
+            obj["nhomdmId"] = m_id_nhomdm;
+            obj["khoiluong"] = str_khoiluong;
+
+            obj["donvitinh"] = str_donvitinh;
+            obj["mucdautu"] = str_mucdautu;
+            obj["ten"] = str_tenthanhphan;
+
+
+
+            console.log(flag);
+
+            
+
+            if (flag === true) {
+                $('#thanhphanXDHT_tenduan__error').text('');
+                $('#tenthanhphan_error').text('');
+                $('#nhomdm_error').text('');
+                $('#nhomdm_null').text('');
+                $('#khoiluong_error').text('');
+                $('#khoiluong_null').text('');
+
+                $('#donvitinh_error').text('');
+                $('#donvitinh_null').text('');
+                $('#mucdautu_error').text('');
+                $('#mucdautu_null').text('');
+
+
+
+
+
+                jQuery.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    'type': 'PUT',
+                    'url': "http://" + hostname + ":" + port + "/thanhphanXDHT/thanhphanXDHT/" + id,
+                    'data': JSON.stringify(obj),
+                    'dataType': 'json',
+
+                }).done(function () {
+
+
+                    $.ajax({
+                        // lấy thẻ cũ
+                        url: "http://" + hostname + ":" + port + "/thanhphanXDHT/thanhphanXDHT/" + id,
+                        type: 'GET',
+                        success: function (response) {
+
+                            var thanhphanXDHT_changed = document.getElementById("element_thanhphanXDHT__row__" + id);
+                            thanhphanXDHT_changed.innerHTML = "";
+
+                            // thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            // thanhphanXDHT_changed.innerHTML += `<div class="col-xs-7"><div id='ten' class='tendu${response.id}'>Tên dự án:</div></div>`;
+                            // if (response.idDuanXdht === null)
+                            //     thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                            // else
+                            //     thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">` + $('#thanhphanXDHT-tda option:selected').text() + `</div>`;
+                            // thanhphanXDHT_changed.innerHTML += `</div>`;
+
+                            thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            thanhphanXDHT_changed.innerHTML += `<div class="col-xs-7"><div class='tenthanhphan${response.id}'>Tên thành phần:</div></div>`;
+                            if (response.ten === null)
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                            else {
+
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">` + $('#thanhphanXDHT-tenthanhphan option:selected').text() + `</div>`;
+                            }
+
+                            thanhphanXDHT_changed.innerHTML += `</div>`;
+
+
+                            thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            thanhphanXDHT_changed.innerHTML += `<div class="col-xs-7"><div class='nhomdm${response.id}'>Nhóm danh mục:</div></div>`;
+                            if (response.nhomdmId === null)
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                            else
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">` + $('#thanhphanXDHT-nhomdm option:selected').text() + `</div>`;
+                            thanhphanXDHT_changed.innerHTML += `</div>`;
+
+
+                            thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            thanhphanXDHT_changed.innerHTML += `<div class="col-xs-7"><div class='khoiluong${response.id}'>Khối lượng:</div></div>`;
+                            if (response.khoiluong === null)
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                            else
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.khoiluong}</div>`;
+                            thanhphanXDHT_changed.innerHTML += `</div>`;
+
+
+
+                            thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            thanhphanXDHT_changed.innerHTML += `<div class="col-xs-7"><div class='donvitinh${response.id}'>Đơn vị tính:</div></div>`;
+                            if (response.donvitinh === null)
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                            else
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.donvitinh}</div>`;
+                            thanhphanXDHT_changed.innerHTML += `</div>`;
+
+
+
+
+                            thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            thanhphanXDHT_changed.innerHTML += `<div class="col-xs-7"><div class='mucdautu${response.id}'>Mức đầu tư:</div></div>`;
+                            if (response.mucdautu === null)
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5"></div>`;
+                            else
+                                thanhphanXDHT_changed.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${response.mucdautu}</div>`;
+                            thanhphanXDHT_changed.innerHTML += `</div>`;
+
+
+                            
+                            var choice = '<div class="enterprise__button"><a href="#"><button onclick=editthanhphanXDHT(';
+                            choice += (id);
+                            choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deletethanhphanXDHT(';
+                            choice += (id);
+                            choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                            thanhphanXDHT_changed.innerHTML += `<div class="row">`;
+                            thanhphanXDHT_changed.innerHTML += choice;
+                            thanhphanXDHT_changed.innerHTML += `</div>`;
+
+                            
+
+
+                        }
+                    })
+
+
+                    thanhphanXDHTback();
+
+
+
+                });
+            }
+
+
+            
+        }
+
+
+        function deletethanhphanXDHT(id) {
+
+
+            $('<div></div>').appendTo('body')
+                .html('<div><h6>Bạn chắc chắn muốn xóa dữ liệu này?</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Xác nhận xóa dữ liệu',
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    resizable: false,
+                    buttons: {
+                        Yes: function () {
+                            $.ajax({
+                                url: "http://" + hostname + ":" + port + "/thanhphanXDHT/thanhphanXDHT/" + id,
+                                type: 'DELETE',
+                                // nếu thành công thì chạy hàm này
+                                success: function (result) {
+
+
+                                    //xóa trong mini doanh nghiệp
+                                    var thanhphanXDHT_deleted = document.getElementById("element_thanhphanXDHT__row__" + id);
+
+                                    thanhphanXDHT_deleted.remove();
+
+                                    // xóa trong grid doanh nghiệp
+                                    // hotthanhphanXDHT.deselectCell();
+                                    // for (var i = 0; i < hotthanhphanXDHT.getData().length; i++) {
+                                    //     console.log("??")
+                                    //     if (hotthanhphanXDHT.getData()[i][0] === id) {
+                                    //         console.log("finded")
+
+                                    //         hotthanhphanXDHT.alter('remove_row', i, 1);
+                                    //         break;
+                                    //     }
+                                    // }
+
+                                }
+                            });
+                            $(this).dialog("close");
+                        },
+                        No: function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                    close: function (event, ui) {
+                        $(this).remove();
+                    }
+                });
+
+
+
+        }
+
+        function cancelthanhphanXDHT(id) {
+
+
+            var idmall = "element_thanhphanXDHT__row__" + id;
+            divput = document.getElementById(idmall);
+            divput.style.display = "block";
+            idmall = "smallputthanhphanXDHT__" + id;
+            var divput = document.getElementById(idmall);
+            divput.style.display = "none";
+            var btndelete = "btn-deletethanhphanXDHT" + id;
+            var nutxoa = document.getElementById(btndelete);
+            nutxoa.style.display = 'flex'
+
+            var btnupdate = "myBtnputthanhphanXDHT_" + id;
+            var btncancel = "myBtncancelthanhphanXDHT_" + id;
+
+            var nutupdate = document.getElementById(btnupdate);
+            var nuthuy = document.getElementById(btncancel);
+
+            nutupdate.style.display = "none";
+            nuthuy.style.display = "none";
+        }
+
+        function loadthanhphanXDHT() {
+
+            var put = document.getElementById("small_thanhphanXDHT")
+            put.style.display = 'block';
+            var add = document.getElementById("smalladd_thanhphanXDHT");
+            add.style.display = '';
+            var addfont = document.getElementById("radius");
+            addfont.style.display = 'block';
+            
+
+            
+            $.ajax({
+                url: "http://" + hostname + ":" + port + "/thanhphanXDHT/thanhphanXDHTbyDuan/"+idprj_thanhphan,
+
+                type: 'GET',
+                success: function (response) {
+
+                    let row;
+
+                    let fragment = new DocumentFragment();
+
+                    document.querySelector('#small_thanhphanXDHT').innerHTML = '';
+
+                    Object.keys(response).forEach(function (key) {
+                        //console.log(key, response[key]); 
+                        let str = JSON.stringify(response[key]);
+                        var jsonData = JSON.parse(str);
+
+
+                        /*Create new row and class*/
+                        //chu y cho nay la div chu k phai tr
+                        row = document.createElement("div");
+                        row.classList.add("element_thanhphanXDHT__row");
+                        var idd = "element_thanhphanXDHT__row__" + jsonData.id;
+                        row.setAttribute("id", idd);
+                        divele = document.createElement("div");
+                        /*Append the row to the fragment*/
+                        fragment.appendChild(row);
+                        fragment.appendChild(divele);
+
+
+
+                        var iddelete = jsonData.id;
+
+
+                        var string1 = '<div class="element_thanhphanXDHT__button"><a href="#"><button  onclick=editthanhphanXDHT(';
+                        string1 += (iddelete);
+
+                        string1 += ')><i class="fa fa-edit"></i> Sửa</button></a><a href="#"><button  onclick=deletethanhphanXDHT(';
+                        string1 += (iddelete);
+                        string1 += ')><i class="fa fa-trash"></i> Xóa</button></a></div>';
+
+
+
+                        // row.innerHTML += `<div class="row">`;
+                        // row.innerHTML += `<div class="col-xs-7"><div id='ten' class='ten${jsonData.id}'>Tên dự án:</div></div>`;
+                        // if (jsonData.idDuanXdht === null)
+                        //     row.innerHTML += `<div class="col-xs-5"></div>`;
+                        // else
+                        //     row.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.idDuanXdht.ten}</div>`;
+                        // row.innerHTML += `</div>`;
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-7"><div class='tenthanhphan${jsonData.id}'>Tên thành phần:</div></div>`;
+                        if (jsonData.ten === null)
+                            row.innerHTML += `<div class="col-xs-5"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.ten}</div>`;
+                        row.innerHTML += `</div>`;
+
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-7"><div class='nhomdm${jsonData.id}'>Nhóm danh mục:</div></div>`;
+                        if (jsonData.nhomdmId === null)
+                            row.innerHTML += `<div class="col-xs-5"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.nhomdmId.tennhom}</div>`;
+                        row.innerHTML += `</div>`;
+
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-7"><div class='khoiluong${jsonData.id}'>Khối lượng:</div></div>`;
+                        if (jsonData.khoiluong === null)
+                            row.innerHTML += `<div class="col-xs-5"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.khoiluong}</div>`;
+                        row.innerHTML += `</div>`;
+
+
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-7"><div class='donvitinh${jsonData.id}'>Đơn vị tính:</div></div>`;
+                        if (jsonData.donvitinh === null)
+                            row.innerHTML += `<div class="col-xs-5"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.donvitinh}</div>`;
+                        row.innerHTML += `</div>`;
+
+
+
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += `<div class="col-xs-7"><div class='mucdautu${jsonData.id}'>Mức đầu tư:</div></div>`;
+                        if (jsonData.mucdautu === null)
+                            row.innerHTML += `<div class="col-xs-5"></div>`;
+                        else
+                            row.innerHTML += `<div class="col-xs-5" style="text-indent: 0px;">${jsonData.mucdautu}</div>`;
+                        row.innerHTML += `</div>`;
+
+
+
+
+
+
+                        row.innerHTML += `<div class="row">`;
+                        row.innerHTML += string1;
+                        row.innerHTML += `</div>`;
+
+
+
+                    });
+
+
+                    document.getElementById("small_thanhphanXDHT").appendChild(fragment)
+
+
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

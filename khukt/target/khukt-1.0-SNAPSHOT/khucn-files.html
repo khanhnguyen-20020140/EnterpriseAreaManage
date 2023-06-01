@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" charset="utf-8">
+            // Documentation for client options:
+            // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+            $(document).ready(function() {
+                $('#elfinder').elfinder({
+                    url : 'elfinder-servlet/connector',
+                    lang: 'vi',                    // language (OPTIONAL)
+                    uploadMaxSize: '50M',
+                    height: $("#content").height() - 100
+                });
+                xx=1;
+                $('.doanhnghiep_close').click(function () {
+                    $('.doanhnghiep_close').addClass('active');
+                    if ($('.doanhnghiep_close').hasClass("active")) {
+                        $("#window_khucn_files").hide();
+                        $('#mapView').css("width", "70%");
+                        $('#content').css("width", "30%");
+                        loadHtml('window_khucn_mini', 'khucn-mini.html');
+                    } else {
+                        $(".doanhnghiep_open").css("display", "none");                        
+                    }
+                });
+            });                       
+        </script>
+    </head>
+    <body>
+        <div class="doanhnghiep_title">
+            <h1>VĂN BẢN PHÁP LÝ KHU CÔNG NGHIỆP</h1>
+            <div class="doanhnghiep_button">
+                <a class="doanhnghiep_close"  href="#"><span class="fa fa-angle-right arrowRight"></span><span class="fa fa-angle-right arrowRight"></span></a>
+            </div> 
+        </div>  
+        <div id="elfinder"></div>
+    </body>
+</html>

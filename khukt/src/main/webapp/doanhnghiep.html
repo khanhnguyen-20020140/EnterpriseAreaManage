@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            color: black;
+        }
+    </style>
+    <script>
+        var changeinnerWidth;
+    </script>
+</head>
+
+<body>
+    <div class="filter">
+        <div class="filter__around">
+            <h1>Doanh nghiệp </h1>
+            <div class="filter__click">
+                <button onclick="changeinnerWidth()"><span class="glyphicon glyphicon-resize-small"></span></button>
+                <a href="#" class="handleFilter doanhnghiep_closegrid"><span
+                        class="fa fa-angle-right arrowRight"></span><span
+                        class="fa fa-angle-right arrowRight"></span></a>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <form class="filterForm">
+        </form>
+    </div>
+
+    <div class="alert alert-success" id="doanhnghiep-success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong> <i class="fa fa-check" aria-hidden="true"></i>Bạn đã cập nhật dữ liệu thành công! </strong>
+    </div>
+
+    <div class="resultsList" id="resultsList_dn">
+        
+        <div class="row" id="row">
+            <div class="mapView__table col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="resultsList__button">
+                    <button id="button" class="button-3"></button>
+                    <div id="download-dn"></div>
+
+
+                </div>
+                <div id="example">
+                    <div id="hot_doanhnghiep"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="doanhnghiep-report" id="doanhnghiep-report" width="100%" height="600px">
+
+
+    </div>
+
+    <script>
+
+        
+        $("#doanhnghiep-success-alert").hide();
+        var loadeddoanhnghiep = 0;
+        
+        button = document.getElementById("button");
+        button.innerHTML = "<i class='fa-floppy-o fa fa-floppy-disk'></i>";
+
+        var foo = [];
+        var i = 0;
+        var input_download = document.getElementById("download-dn");
+
+
+        function getbaocao_doanhnghiep() {
+
+            $.ajax({
+                url: "http://localhost:8080/khukt/doanhnghiepreport",
+                type: 'GET',
+
+            });
+
+            setTimeout(() => {
+                $('#dn-report').load('doanhnghiep-report.html');
+            }
+                , 3000);
+
+            setTimeout(() => {
+                document.getElementById("resultsList_dn").style.display = 'none';
+
+                document.getElementById("dn-report").style.display = 'block';
+
+            }
+                , 3000);
+
+
+        }
+
+
+        //bước 1. lấy danh sách lĩnh vực sản xuất kinh doanh
+        let str_linhvucsanxuatkinhdoanhs = [];
+        let id_linhvucsanxuatkinhdoanhs = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/dmlinhvucsanxuatkinhdoanh/dmlinhvucsanxuatkinhdoanhs/');
+            //console.log('objs: ' + JSON.stringify(dataResponse));
+            Object.keys(dataResponse).forEach(function (key) {
+                let json = JSON.parse(JSON.stringify(dataResponse[key]));
+                str_linhvucsanxuatkinhdoanhs.push(json.linhvucSanxuatkinhdoanh);
+                id_linhvucsanxuatkinhdoanhs.push(json.idLinhvucSanxuatkinhdoanh);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+        //bước 2. lấy danh sách loại doanh nghiệp
+        let str_loaidoanhnghieps = [];
+        let id_loaidoanhnghieps = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/dmloaidoanhnghiep/dmloaidoanhnghieps/');
+            Object.keys(dataResponse).forEach(function (key) {
+                let json = JSON.parse(JSON.stringify(dataResponse[key]));
+                str_loaidoanhnghieps.push(json.loaiDoanhnghiep);
+                id_loaidoanhnghieps.push(json.idLoaiDoanhnghiep);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+        //bước 3. lấy danh sách doanh nghiệp
+        let data_doanhnghiep = [];
+        try {
+            dynamicSQL('http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/');
+            Object.keys(dataResponse).forEach(function (key) {
+                var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                var res = {};
+                res.id = element.id;
+                if (element.ten === null)
+                    res.ten = "";//ten doanh nghiep
+                else
+                    res.ten = element.ten;
+                if (element.giamdoc === null)
+                    res.giamdoc = "";//giam doc
+                else
+                    res.giamdoc = element.giamdoc;
+                if (element.diachi === null)
+                    res.diachi = "";//dia chi                    
+                else
+                    res.diachi = element.diachi;
+                if (element.quocgia === null)
+                    res.quocgia = "";//quoc gia
+                else
+                    res.quocgia = element.quocgia;
+                if (element.maDangky === null)
+                    res.maDangky = "";//ma dang ky                    
+                else
+                    res.maDangky = element.maDangky;
+                if (element.ngayThanhlap === null) {
+                    res.ngayThanhlap = "";//ngay dang ky  
+                } else {
+                    const myArray = element.ngayThanhlap.split("-");
+                    var newDate = "";
+                    newDate = newDate.concat(myArray[2]);
+                    newDate = newDate.concat("/");
+                    newDate = newDate.concat(myArray[1]);
+                    newDate = newDate.concat("/");
+
+                    newDate = newDate.concat(myArray[0]);
+                    res.ngayThanhlap = newDate;
+                }
+                if (element.masothue === null)
+                    res.masothue = "";//ma so thue    
+                else
+                    res.masothue = element.masothue;
+                if (element.linhvucKinhdoanh === null)
+                    res.linhvucKinhdoanh = "";//linh vuc kinh doanh
+                else
+                    res.linhvucKinhdoanh = element.linhvucKinhdoanh;
+                if (element.idLinhvucSanxuatkinhdoanh === null)
+                    res.loaiLinhvucSanxuatkinhdoanh = "";
+                else
+                    res.loaiLinhvucSanxuatkinhdoanh = element.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh;
+                if (element.idLoaiDoanhnghiep === null)
+                    res.loaiDoanhnghiep = "";
+                else
+                    res.loaiDoanhnghiep = element.idLoaiDoanhnghiep.loaiDoanhnghiep;
+                data_doanhnghiep.push(res);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+
+
+        //khởi tạo grid
+        var hotElementDN = document.querySelector('#hot_doanhnghiep');
+        var hotSettingsDN = {
+            data: data_doanhnghiep,
+            columns: [
+                {
+                    data: 'id',
+                    type: 'text',
+                    width: 40
+                },
+                {
+                    data: 'ten',
+                    type: 'text'
+                },
+                {
+                    data: 'giamdoc',
+                    type: 'text'
+                },
+                {
+                    data: 'diachi',
+                    type: 'text'
+                },
+                {
+                    data: 'quocgia',
+                    type: 'text'
+                },
+                {
+                    data: 'maDangky',
+                    type: 'text'
+                },
+                {
+                    data: 'ngayThanhlap',
+                    type: 'date',
+                    dateFormat: 'DD/MM/YYYY'
+                },
+                {
+                    data: 'masothue',
+                    type: 'text'
+                },
+                {
+                    data: 'linhvucKinhdoanh',
+                    type: 'text'
+                },
+                {
+                    data: 'loaiLinhvucSanxuatkinhdoanh',
+                    type: 'dropdown',
+                    source: str_linhvucsanxuatkinhdoanhs
+                },
+                {
+                    data: 'loaiDoanhnghiep',
+                    type: 'dropdown',
+                    source: str_loaidoanhnghieps
+                }
+            ],
+            stretchH: 'all',
+            width: $('#content').width() - 20,
+            autoWrapRow: true,
+            height: $('#content').height() - 150,
+            manualRowResize: true,
+            manualColumnResize: true,
+            rowHeaders: true,
+            colHeaders: [
+                'ID',
+                'Tên doanh nghiệp',
+                'Giám đốc',
+                'Địa chỉ',
+                'Quốc gia',
+                'Mã đăng ký',
+                'Ngày thành lập',
+                'Mã số thuế',
+                'Lĩnh vực kinh doanh',
+                'Loại lĩnh vực SXKD',
+                'Loại doanh nghiệp'
+            ],
+
+            afterGetColHeader: function (col, TH) {
+                var TR = TH.parentNode;
+                var THEAD = TR.parentNode;
+                var headerLevel = (-1) * THEAD.childNodes.length + Array.prototype.indexOf.call(THEAD.childNodes, TR);
+
+                function applyClass(elem, className) {
+                    if (!Handsontable.dom.hasClass(elem, className)) {
+                        Handsontable.dom.addClass(elem, className);
+                    }
+                }
+
+                if (col < 0) {
+                    TH.innerHTML = 'STT'
+                }
+
+
+            },
+
+            manualRowMove: true,
+            manualColumnMove: true,
+            contextMenu: true,
+            filters: true,
+            dropdownMenu: true,
+            hiddenColumns: {
+                columns: [0],
+                indicators: true
+            },
+
+        };
+        hotdn = new Handsontable(hotElementDN, hotSettingsDN);
+        hotdn.updateSettings({
+            filters: true,
+            dropdownMenu: ['filter_by_value', 'filter_action_bar'],
+            contextMenu: {
+                items: {
+
+                    "row_above": {
+                        name: 'Chèn thêm dòng vào phía trên',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "row_below": {
+                        name: 'Chèn thêm dòng vào phía dưới',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "remove_row": {
+                        name: 'Xóa dòng',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "undo": {
+                        name: 'Lùi lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "redo": {
+                        name: 'Lặp lại một thao tác',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "copy": {
+                        name: 'Sao chép',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                    "cut": {
+                        name: 'Xóa',
+                        disabled: function () {
+                            //if first row, disable this option
+                            return (hotdn.getSelected() && hotdn.getSelected()[0] === 0)
+                        }
+                    },
+
+                }
+            },
+
+        });
+
+        // tat ca cac id da thay doi null bi trung
+        var arrID_Change = [];
+        var arrRow_Change = [];
+
+
+        hotdn.addHook('afterChange', (changes) => {
+            changes.forEach(([row, prop, oldValue, newValue]) => {
+                var id_check = hotdn.getData()[row][0];
+                if (!arrID_Change.includes(id_check) && id_check !== null) {
+                    arrID_Change.push(id_check);
+                    arrRow_Change.push(row);
+                }
+            });
+        });
+
+        var arrID_Delete = [];
+        var index;
+
+
+
+
+
+
+        hotdn.addHook('beforeRemoveRow', (index, amount) => {
+            console.log(index)
+            console.log(amount)
+            for (var i = 0; i < amount; i++) {
+                arrID_Delete.push(hotdn.getData()[index + i][0]);
+                console.log(hotdn.getData()[index + i][1])
+            }
+
+        });
+
+
+        //               
+        button.addEventListener("click", function () {
+            var dulieu = hotdn.getData();
+
+            var changed = 0;
+            var checkDelete = 1;
+            var checkUpdate = 1;
+            var checkAdd = 1;
+
+            //bước 1. xóa dữ liệu
+            if (arrID_Delete.length > 0) {
+                //console.log('delete:' + arrID_Delete.toString());
+                for (i = 0; i < arrID_Delete.length; i++) {
+                    $.ajax({
+                        url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + arrID_Delete[i],
+                        type: 'DELETE',
+                        async: false,
+                        success: function (result) {
+                            changed = 1;
+                            var doanhnghiep_deleted = document.getElementById("enterprise__row__" + arrID_Delete[i]);
+                            doanhnghiep_deleted.remove();
+
+                        }
+                        ,
+                        error: function () {
+                            checkDelete = 0;
+                        }
+                    });
+                }
+                arrID_Delete = [];
+            }
+            //bước 2. thêm dữ liệu mới
+            for (i = 0; i < dulieu.length; i++) {
+                if (dulieu[i][0] === null) {
+                    var obj = {};
+                    if (dulieu[i][1] !== '' && dulieu[i][1] !== null)
+                        obj["ten"] = dulieu[i][1];
+                    if (dulieu[i][2] !== '' && dulieu[i][2] !== null)
+                        obj["giamdoc"] = dulieu[i][2];
+                    if (dulieu[i][3] !== '' && dulieu[i][3] !== null)
+                        obj["diachi"] = dulieu[i][3];
+                    if (dulieu[i][4] !== '' && dulieu[i][4] !== null)
+                        obj["quocgia"] = dulieu[i][4];
+                    if (dulieu[i][5] !== '' && dulieu[i][5] !== null)
+                        obj["maDangky"] = dulieu[i][5];
+                    if (dulieu[i][6] !== '' && dulieu[i][6] !== null) {
+                        const myArray = dulieu[i][6].split("/");
+                        var newDate = "";
+                        newDate = newDate.concat(myArray[2]);
+                        newDate = newDate.concat("-");
+                        newDate = newDate.concat(myArray[1]);
+                        newDate = newDate.concat("-");
+                        newDate = newDate.concat(myArray[0]);
+
+
+                        obj["ngayThanhlap"] = newDate;
+                    }
+
+                    if (dulieu[i][7] !== '' && dulieu[i][7] !== null)
+                        obj["masothue"] = dulieu[i][7];
+                    if (dulieu[i][8] !== '' && dulieu[i][8] !== null)
+                        obj["linhvucKinhdoanh"] = dulieu[i][8];
+                    if (dulieu[i][9] !== '' && dulieu[i][9] !== null) {
+                        for (var j = 0; j < str_linhvucsanxuatkinhdoanhs.length; j++) {
+                            if (str_linhvucsanxuatkinhdoanhs[j] === dulieu[i][9]) {
+                                obj["idLinhvucSanxuatkinhdoanh"] = id_linhvucsanxuatkinhdoanhs[j];
+                                break;
+                            }
+                        }
+                    }
+                    if (dulieu[i][10] !== '' && dulieu[i][10] !== null) {
+                        for (var j = 0; j < str_loaidoanhnghieps.length; j++) {
+                            if (str_loaidoanhnghieps[j] === dulieu[i][10]) {
+                                obj["idLoaiDoanhnghiep"] = id_loaidoanhnghieps[j];
+                                break;
+                            }
+                        }
+                    }
+                    // Biến cờ hiệu
+                    var flag = true;
+                    if (dulieu[i][1] === '' || dulieu[i][1] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập tên doanh nghiệp');
+                        flag = false;
+                    }
+
+                    if (dulieu[i][5] === '' || dulieu[i][5] === null) {
+                        alert('Dòng ' + (i + 1) + ' chưa nhập mã đăng ký');
+                        flag = false;
+                    }
+
+
+                    if (flag === true) {
+                        changed = 1;
+                        jQuery.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            type: 'POST',
+                            async: false,
+                            url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/",
+                            data: JSON.stringify(obj),
+                            dataType: 'json',
+                        }).done(function (data) {
+                            var jsonData = JSON.parse(JSON.stringify(data));
+                            var res = {};
+                            res.id = jsonData.id;
+                            if (jsonData.ten === null)
+                                res.ten = "";//ten doanh nghiep
+                            else
+                                res.ten = jsonData.ten;
+                            if (jsonData.giamdoc === null)
+                                res.giamdoc = "";//giam doc
+                            else
+                                res.giamdoc = jsonData.giamdoc;
+                            if (jsonData.diachi === null)
+                                res.diachi = "";//dia chi                    
+                            else
+                                res.diachi = jsonData.diachi;
+                            if (jsonData.quocgia === null)
+                                res.quocgia = "";//quoc gia
+                            else
+                                res.quocgia = jsonData.quocgia;
+                            if (jsonData.maDangky === null)
+                                res.maDangky = "";//ma dang ky                    
+                            else
+                                res.maDangky = jsonData.maDangky;
+                            if (jsonData.ngayThanhlap === null)
+                                res.ngayThanhlap = "";//ngay dang ky  
+                            else {
+                                res.ngayThanhlap = jsonData.ngayThanhlap;
+                                const dateFormat = res.ngayThanhlap.split("T");
+                                res.ngayThanhlap = dateFormat[0];
+                                const myArray = res.ngayThanhlap.split("-");
+                                var newDate = "";
+                                newDate = newDate.concat(myArray[2]);
+                                newDate = newDate.concat("/");
+                                newDate = newDate.concat(myArray[1]);
+                                newDate = newDate.concat("/");
+
+                                newDate = newDate.concat(myArray[0]);
+                                res.ngayThanhlap = newDate
+                            }
+
+                            if (jsonData.masothue === null)
+                                res.masothue = "";//ma so thue    
+                            else
+                                res.masothue = jsonData.masothue;
+                            if (jsonData.linhvucKinhdoanh === null)
+                                res.linhvucKinhdoanh = "";//linh vuc kinh doanh
+                            else
+                                res.linhvucKinhdoanh = jsonData.linhvucKinhdoanh;
+                            if (jsonData.idLinhvucSanxuatkinhdoanh === null)
+                                res.loaiLinhvucSanxuatkinhdoanh = "";
+                            else
+                                res.loaiLinhvucSanxuatkinhdoanh = dulieu[i][9];
+                            if (jsonData.idLoaiDoanhnghiep === null)
+                                res.loaiDoanhnghiep = "";
+                            else
+                                res.loaiDoanhnghiep = dulieu[i][10];
+
+                            var changes = [
+                                [i, 'id', res.id],
+                                [i, 'ten', res.ten],
+                                [i, 'giamdoc', res.giamdoc],
+                                [i, 'diachi', res.diachi],
+                                [i, 'quocgia', res.quocgia],
+                                [i, 'maDangky', res.maDangky],
+                                [i, 'ngayThanhlap', res.ngayThanhlap],
+                                [i, 'masothue', res.masothue],
+                                [i, 'linhvucKinhdoanh', res.linhvucKinhdoanh],
+                                [i, 'loaiLinhvucSanxuatkinhdoanh', res.loaiLinhvucSanxuatkinhdoanh],
+                                [i, 'loaiDoanhnghiep', res.loaiDoanhnghiep]
+                            ];
+                            hotdn.setDataAtRowProp(changes);
+
+                            var postDoanhnghiep = '';
+                            postDoanhnghiep += '<div class="enterprise__row" id="enterprise__row__' + jsonData.id + '">';
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div id='ten' class='ten${jsonData.id}'>Tên doanh nghiệp:</div></div>`;
+                            if (jsonData.ten === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" id='ten'>${jsonData.ten}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='giamdoc${jsonData.id}'>Giám đốc:</div></div>`;
+                            if (jsonData.giamdoc === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.giamdoc}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='diachi${jsonData.id}'>Địa chỉ:</div></div>`;
+                            if (jsonData.diachi === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.diachi}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='linhvuc${jsonData.id}'>Lĩnh vực:</div></div>`;
+                            if (jsonData.linhvucKinhdoanh === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.linhvucKinhdoanh}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='mdk${jsonData.id}'>Mã đăng ký:</div></div>`;
+                            if (jsonData.maDangky === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.maDangky}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='mst${jsonData.id}'>Mã số thuế:</div></div>`;
+                            if (jsonData.masothue === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.masothue}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='mdk${jsonData.id}'>Ngày thành lập:</div></div>`;
+                            if (jsonData.ngayThanhlap === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else {
+                                const dateFormat = jsonData.ngayThanhlap.split("T");
+                                jsonData.ngayThanhlap = dateFormat[0];
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.ngayThanhlap}</div>`;
+
+                            }
+
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='ldn${jsonData.id}'>Loại doanh nghiệp:</div></div>`;
+                            if (jsonData.idLoaiDoanhnghiep === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">` + dulieu[i][10] + `</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='lvsx${jsonData.id}'>Lĩnh vực sản xuất:</div></div>`;
+                            if (jsonData.idLinhvucSanxuatkinhdoanh === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">` + dulieu[i][9] + `</div>`;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += `<div class="col-xs-5"><div class='mst${jsonData.quocgia}'>Quốc gia:</div></div>`;
+                            if (jsonData.quocgia === null)
+                                postDoanhnghiep += `<div class="col-xs-7"></div>`;
+                            else
+                                postDoanhnghiep += `<div class="col-xs-7" style="text-indent: 0px;">${jsonData.quocgia}</div>`;
+                            postDoanhnghiep += `</div>`;
+
+
+                            var choice = '<div class="enterprise__button"><a href="#"><button onclick=edit(';
+                            choice += jsonData.id;
+                            choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleterow(';
+                            choice += jsonData.id;
+                            choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                            postDoanhnghiep += `<div class="row">`;
+                            postDoanhnghiep += choice;
+                            postDoanhnghiep += `</div>`;
+
+                            postDoanhnghiep += `</div>`;
+
+
+                            //                                postDiv.innerHtml = postDoanhnghiep;
+
+
+                            console.log(jsonData.id)
+                            $.ajax({
+                                url: "http://" + hostname + ":" + port + "/doanhnghiep/preDoanhnghiep/" + jsonData.id,
+                                type: 'GET',
+                                success: function (preId) {
+                                    if (preId === -1) {
+                                        $(postDoanhnghiep).insertAfter("#enterprise__row__0");
+                                    } else {
+                                        $(postDoanhnghiep).insertAfter("#enterprise__row__" + preId);
+                                    }
+                                }
+                            })
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            checkAdd = 0;
+                        });
+                    }
+                    else {
+                        checkAdd = 0;
+                    }
+                }
+            }
+            //bước 3. sửa dữ liệu
+            //console.log('changes:' + arrID_Change.toString());
+            for (i = 0; i < arrRow_Change.length; i++) {
+                var obj = {};
+                if (dulieu[arrRow_Change[i]][1] !== '' && dulieu[arrRow_Change[i]][1] !== null)
+                    obj["ten"] = dulieu[arrRow_Change[i]][1];
+                if (dulieu[arrRow_Change[i]][2] !== '' && dulieu[arrRow_Change[i]][2] !== null)
+                    obj["giamdoc"] = dulieu[arrRow_Change[i]][2];
+                if (dulieu[arrRow_Change[i]][3] !== '' && dulieu[arrRow_Change[i]][3] !== null)
+                    obj["diachi"] = dulieu[arrRow_Change[i]][3];
+                if (dulieu[arrRow_Change[i]][4] !== '' && dulieu[arrRow_Change[i]][4] !== null)
+                    obj["quocgia"] = dulieu[arrRow_Change[i]][4];
+                if (dulieu[arrRow_Change[i]][5] !== '' && dulieu[arrRow_Change[i]][5] !== null)
+                    obj["maDangky"] = dulieu[arrRow_Change[i]][5];
+                if (dulieu[arrRow_Change[i]][6] !== '' && dulieu[arrRow_Change[i]][6] !== null) {
+                    const myArray = dulieu[arrRow_Change[i]][6].split("/");
+                    var newDate = "";
+                    newDate = newDate.concat(myArray[2]);
+                    newDate = newDate.concat("-");
+                    newDate = newDate.concat(myArray[1]);
+                    newDate = newDate.concat("-");
+                    newDate = newDate.concat(myArray[0]);
+                    obj["ngayThanhlap"] = newDate;
+                }
+
+                if (dulieu[arrRow_Change[i]][7] !== '' && dulieu[arrRow_Change[i]][7] !== null)
+                    obj["masothue"] = dulieu[arrRow_Change[i]][7];
+                if (dulieu[arrRow_Change[i]][8] !== '' && dulieu[arrRow_Change[i]][8] !== null)
+                    obj["linhvucKinhdoanh"] = dulieu[arrRow_Change[i]][8];
+                if (dulieu[arrRow_Change[i]][9] !== '' && dulieu[arrRow_Change[i]][9] !== null) {
+                    for (var j = 0; j < str_linhvucsanxuatkinhdoanhs.length; j++) {
+                        if (str_linhvucsanxuatkinhdoanhs[j] === dulieu[arrRow_Change[i]][9]) {
+                            obj["idLinhvucSanxuatkinhdoanh"] = id_linhvucsanxuatkinhdoanhs[j];
+                            break;
+                        }
+                    }
+                }
+                if (dulieu[arrRow_Change[i]][10] !== '' && dulieu[arrRow_Change[i]][10] !== null) {
+                    for (var j = 0; j < str_loaidoanhnghieps.length; j++) {
+                        if (str_loaidoanhnghieps[j] === dulieu[arrRow_Change[i]][10]) {
+                            obj["idLoaiDoanhnghiep"] = id_loaidoanhnghieps[j];
+                            break;
+                        }
+                    }
+                }
+                // Biến cờ hiệu
+                var flag = true;
+                if (dulieu[arrRow_Change[i]][1] === '') {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập tên doanh nghiệp');
+                    flag = false;
+                }
+
+                if (dulieu[arrRow_Change[i]][5] === '') {
+                    alert('Dòng ' + (arrRow_Change[i] + 1) + ' chưa nhập mã đăng ký');
+                    flag = false;
+                }
+                if (flag === true) {
+                    changed = 1;
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: 'PUT',
+                        async: false,
+                        url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + arrID_Change[i],
+                        data: JSON.stringify(obj),
+                        dataType: 'json'
+                    }).done(function (data) {
+                        console.log(arrID_Change[i])
+
+                        $.ajax({
+                            url: "http://" + hostname + ":" + port + "/doanhnghiep/doanhnghiep/" + arrID_Change[i],
+                            type: 'GET',
+                            success: function (response) {
+
+                                var doanhnghiep_changed = document.getElementById("enterprise__row__" + response.id);
+                                doanhnghiep_changed.innerHTML = "";
+
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div id='ten' class='ten${response.id}'>Tên doanh nghiệp:</div></div>`;
+                                if (response.ten === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" id="ten" >${response.ten}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='giamdoc${response.id}'>Giám đốc:</div></div>`;
+                                if (response.giamdoc === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.giamdoc}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='diachi${response.id}'>Địa chỉ:</div></div>`;
+                                if (response.diachi === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.diachi}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='linhvuc${response.id}'>Lĩnh vực:</div></div>`;
+                                if (response.linhvucKinhdoanh === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.linhvucKinhdoanh}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mdk${response.id}'>Mã đăng ký:</div></div>`;
+                                if (response.maDangky === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.maDangky}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mst${response.id}'>Mã số thuế:</div></div>`;
+                                if (response.masothue === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.masothue}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mdk${response.id}'>Ngày thành lập:</div></div>`;
+                                if (response.ngayThanhlap === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.ngayThanhlap}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='ldn${response.id}'>Loại doanh nghiệp:</div></div>`;
+                                if (response.idLoaiDoanhnghiep === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.idLoaiDoanhnghiep.loaiDoanhnghiep}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='lvsx${response.id}'>Lĩnh vực sản xuất:</div></div>`;
+                                if (response.idLinhvucSanxuatkinhdoanh === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += `<div class="col-xs-5"><div class='mst${response.quocgia}'>Quốc gia:</div></div>`;
+                                if (response.quocgia === null)
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7"></div>`;
+                                else
+                                    doanhnghiep_changed.innerHTML += `<div class="col-xs-7" style="text-indent: 0px;">${response.quocgia}</div>`;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+
+
+                                var choice = '<div class="enterprise__button"><a href="#"><button onclick=edit(';
+                                choice += response.id;
+                                choice += ')> <i class="fa fa-edit"></i> Sửa </button></a><a href="#"><button onclick=deleterow(';
+                                choice += response.id;
+                                choice += ')><i class="fa fa-trash"></i> Xóa </button></a></div>';
+                                doanhnghiep_changed.innerHTML += `<div class="row">`;
+                                doanhnghiep_changed.innerHTML += choice;
+                                doanhnghiep_changed.innerHTML += `</div>`;
+
+
+                            }
+                        })
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                            checkUpdate = 0;
+                        });
+                }
+                else {
+                    checkUpdate = 0;
+                }
+            }
+            arrID_Change = [];
+            arrRow_Change = [];
+
+            if (changed === 1 && checkAdd === 1 && checkDelete === 1 && checkUpdate === 1) {
+                
+                $("#doanhnghiep-success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#doanhnghiep-success-alert").slideUp(500);
+                });
+            }
+            //                        loadDoanhnghiep();
+        });
+
+        $(document).ready(function () {
+            changeinnerWidth = function () {
+                $('#mapView').css("width", "70%");
+                $('#content').css("width", "30%");
+                loadHtml('window_doanhnghiep_mini', 'doanhnghiep-mini.html');
+            }
+        });
+
+        $('.doanhnghiep_closegrid').click(function () {
+            event.preventDefault();
+            $('.doanhnghiep_closegrid').addClass('active');
+
+            if ($('.doanhnghiep_closegrid').hasClass("active")) {
+                $(".mob-min").css("width", "0%");
+                $(".mob-max").css("width", "100%");
+                $(".doanhnghiep_open").css("display", "flex");
+            } else {
+                $(".doanhnghiep_open").css("display", "none");
+            }
+        });
+        function loadGridDoanhnghiep() {
+            data_doanhnghiep = [];
+            try {
+                dynamicSQL('http://' + hostname + ':' + port + '/doanhnghiep/doanhnghieps/');
+                Object.keys(dataResponse).forEach(function (key) {
+                    var element = JSON.parse(JSON.stringify(dataResponse[key]));
+                    console.log(element.ten);
+                    var res = {};
+                    res.id = element.id;
+                    if (element.ten === null)
+                        res.ten = "";//ten doanh nghiep
+                    else
+                        res.ten = element.ten;
+                    if (element.giamdoc === null)
+                        res.giamdoc = "";//giam doc
+                    else
+                        res.giamdoc = element.giamdoc;
+                    if (element.diachi === null)
+                        res.diachi = "";//dia chi                    
+                    else
+                        res.diachi = element.diachi;
+                    if (element.quocgia === null)
+                        res.quocgia = "";//quoc gia
+                    else
+                        res.quocgia = element.quocgia;
+                    if (element.maDangky === null)
+                        res.maDangky = "";//ma dang ky                    
+                    else
+                        res.maDangky = element.maDangky;
+                    if (element.ngayThanhlap === null) {
+                        res.ngayThanhlap = "";//ngay dang ky  
+                    } else {
+                        const myArray = element.ngayThanhlap.split("-");
+                        var newDate = "";
+                        newDate = newDate.concat(myArray[2]);
+                        newDate = newDate.concat("/");
+                        newDate = newDate.concat(myArray[1]);
+                        newDate = newDate.concat("/");
+
+                        newDate = newDate.concat(myArray[0]);
+                        res.ngayThanhlap = newDate;
+                    }
+
+
+                    if (element.masothue === null)
+                        res.masothue = "";//ma so thue    
+                    else
+                        res.masothue = element.masothue;
+                    if (element.linhvucKinhdoanh === null)
+                        res.linhvucKinhdoanh = "";//linh vuc kinh doanh
+                    else
+                        res.linhvucKinhdoanh = element.linhvucKinhdoanh;
+                    if (element.idLinhvucSanxuatkinhdoanh === null)
+                        res.loaiLinhvucSanxuatkinhdoanh = "";
+                    else
+                        res.loaiLinhvucSanxuatkinhdoanh = element.idLinhvucSanxuatkinhdoanh.linhvucSanxuatkinhdoanh;
+                    if (element.idLoaiDoanhnghiep === null)
+                        res.loaiDoanhnghiep = "";
+                    else
+                        res.loaiDoanhnghiep = element.idLoaiDoanhnghiep.loaiDoanhnghiep;
+                    data_doanhnghiep.push(res);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+
+            hotdn.updateSettings({
+                data: data_doanhnghiep
+            });
+        }
+        ;
+    </script>
+</body>
+
+</html>
